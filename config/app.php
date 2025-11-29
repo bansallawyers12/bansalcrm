@@ -147,9 +147,9 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-		Collective\Html\HtmlServiceProvider::class,	
-	    Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
-		// Tzsk\Payu\Provider\PayuServiceProvider::class,
+		// Collective\Html\HtmlServiceProvider::class, // Removed - not compatible with Laravel 12
+	    // Kyslik\ColumnSortable\ColumnSortableServiceProvider::class, // Removed - not compatible with Laravel 12
+		// Tzsk\Payu\Provider\PayuServiceProvider::class, // Removed - not compatible with Laravel 12
 		Barryvdh\DomPDF\ServiceProvider::class,
        
         App\Providers\AppServiceProvider::class,
@@ -209,9 +209,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		'Form' => Collective\Html\FormFacade::class,
-		'Html' => Collective\Html\HtmlFacade::class,
-		'Payment' => Tzsk\Payu\Facade\Payment::class,
+		// 'Form' => Collective\Html\FormFacade::class, // Removed - not compatible with Laravel 12
+		// 'Html' => Collective\Html\HtmlFacade::class, // Removed - not compatible with Laravel 12
+		// 'Payment' => Tzsk\Payu\Facade\Payment::class, // Removed - not compatible with Laravel 12
 		'PDF' => Barryvdh\DomPDF\Facade::class,
 		'Excel' =>  Maatwebsite\Excel\Facades\Excel::class,
 		'Settings' => App\Helpers\Settings::class,
