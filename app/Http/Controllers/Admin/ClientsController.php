@@ -1125,9 +1125,22 @@ class ClientsController extends Controller
 			{
 				$encodeId = $id;
 				$id = $this->decodeString($id); //dd($id);
+				
+				// Check if decodeString returned false (invalid encoded string)
+				if($id === false || empty($id))
+				{
+					return Redirect::to('/admin/clients')->with('error', 'Invalid Client ID');
+				}
+				
 				if(Admin::where('id', '=', $id)->where('role', '=', '7')->exists())
 				{
 					$fetchedData = Admin::find($id);
+					
+					// Double check that fetchedData exists
+					if(empty($fetchedData))
+					{
+						return Redirect::to('/admin/clients')->with('error', 'Client data not found');
+					}
                   
                     if(!empty($fetchedData) && $fetchedData->dob != ""){
                         $calculate_age  = $this->calculateAge($fetchedData->dob); //dd($age);

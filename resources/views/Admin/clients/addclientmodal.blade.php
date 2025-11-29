@@ -338,19 +338,7 @@
                         <div class="col-12 col-md-12 col-lg-12 services_row" id="services" style="display: none;">
 							<div class="form-group">
 								<label for="service_id">Services <span class="span_req">*</span></label>
-                                @foreach(\App\BookService::where('status',1)->get() as $bookservices)
-                                    <div class="services_item_header" id="serviceval_{{$bookservices->id}}">
-                                        <div class="services_item_title">
-                                            <input type="radio" class="services_item" name="radioGroup"  value="{{$bookservices->id}}">
-                                            <div class="services_item_img" style="display:inline-block;margin-left: 10px;">
-                                                <img class="" style="width: 80px;height:80px;" src="{{asset('public/img/service_img')}}/{{$bookservices->image}}">
-                                            </div>
-                                            <span class="services_item_title_span">{{$bookservices->title}} <br/>{{$bookservices->duration}} minutes</span>
-                                            <span class="services_item_price"> {{$bookservices->price}}</span>
-                                            <span class="services_item_description">{{$bookservices->description}}</span>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                {{-- BookService model removed - service selection disabled --}}
                                 <input type="hidden"  id="service_id" name="service_id" value="">
                             </div>
 						</div>
@@ -475,28 +463,30 @@
 
                                                     <div class="slotTimeOverwriteDivCls" style="display: none;">
                                                         <?php
-                                                        function generateTimeDropdown($interval = 15) {
-                                                            $start = new DateTime('00:00');
-                                                            $end = new DateTime('23:45'); // Set the end time to 11:45 PM
+                                                        if (!function_exists('generateTimeDropdown')) {
+                                                            function generateTimeDropdown($interval = 15) {
+                                                                $start = new DateTime('00:00');
+                                                                $end = new DateTime('23:45'); // Set the end time to 11:45 PM
 
-                                                            $intervalDuration = new DateInterval('PT' . $interval . 'M');
-                                                            $times = new DatePeriod($start, $intervalDuration, $end);
+                                                                $intervalDuration = new DateInterval('PT' . $interval . 'M');
+                                                                $times = new DatePeriod($start, $intervalDuration, $end);
 
-                                                            echo '<select class="slot_overwrite_time_dropdown" style="margin-left: 50px;margin-top: 50px;">';
-                                                            echo '<option value="">Select Time</option>';
-                                                            foreach ($times as $time) {
-                                                                // Calculate the end time for each option
-                                                                $endTime = clone $time;
-                                                                $endTime->add($intervalDuration);
+                                                                echo '<select class="slot_overwrite_time_dropdown" style="margin-left: 50px;margin-top: 50px;">';
+                                                                echo '<option value="">Select Time</option>';
+                                                                foreach ($times as $time) {
+                                                                    // Calculate the end time for each option
+                                                                    $endTime = clone $time;
+                                                                    $endTime->add($intervalDuration);
 
-                                                                // Format both start and end times for display
-                                                                echo '<option value="' . $time->format('g:i A') . ' - ' . $endTime->format('g:i A') . '">';
-                                                                echo $time->format('g:i A') . ' - ' . $endTime->format('g:i A');
-                                                                echo '</option>';
+                                                                    // Format both start and end times for display
+                                                                    echo '<option value="' . $time->format('g:i A') . ' - ' . $endTime->format('g:i A') . '">';
+                                                                    echo $time->format('g:i A') . ' - ' . $endTime->format('g:i A');
+                                                                    echo '</option>';
 
-                                                                //echo '<option value="' . $time->format('g:i A') . '">' . $time->format('g:i A') . '</option>';
+                                                                    //echo '<option value="' . $time->format('g:i A') . '">' . $time->format('g:i A') . '</option>';
+                                                                }
+                                                                echo '</select>';
                                                             }
-                                                            echo '</select>';
                                                         }
 
                                                         generateTimeDropdown(15); // 15-minute interval

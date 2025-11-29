@@ -29,11 +29,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register custom facade aliases
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-        $loader->alias('Form', App\Helpers\Form::class);
-        $loader->alias('PDF', Barryvdh\DomPDF\Facade::class);
-        $loader->alias('Excel', Maatwebsite\Excel\Facades\Excel::class);
-        $loader->alias('Settings', App\Helpers\Settings::class);
-        $loader->alias('Helper', App\Helpers\Helper::class);
-        $loader->alias('DataTables', Yajra\DataTables\Facades\DataTables::class);
+        $loader->alias('Form', \App\Helpers\Form::class);
+        $loader->alias('PDF', \Barryvdh\DomPDF\Facade::class);
+        $loader->alias('Excel', \Maatwebsite\Excel\Facades\Excel::class);
+        $loader->alias('Settings', \App\Helpers\Settings::class);
+        $loader->alias('Helper', \App\Helpers\Helper::class);
+        $loader->alias('DataTables', \Yajra\DataTables\Facades\DataTables::class);
     }
 }

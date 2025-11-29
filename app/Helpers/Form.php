@@ -106,6 +106,26 @@ class Form
     }
     
     /**
+     * Create a button element
+     */
+    public static function button($value = null, $options = [])
+    {
+        $attributes = is_array($options) ? $options : [];
+        
+        if ($value === null) {
+            $value = 'Button';
+        }
+        
+        $button = Html::button($value);
+        
+        if (!empty($attributes)) {
+            $button->attributes($attributes);
+        }
+        
+        return $button->toHtml();
+    }
+    
+    /**
      * Create a textarea field
      */
     public static function textarea($name, $value = null, $options = [])
