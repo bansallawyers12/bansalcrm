@@ -12,10 +12,8 @@
 		<title>Tour Planner | Exception</title>
     
 		<!-- Icons-->
-			<link rel="stylesheet" type="text/css" href="{{asset('icons/@coreui/icons/css/coreui-icons.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('icons/flag-icon-css/css/flag-icon.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('icons/font-awesome/css/font-awesome.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('icons/simple-line-icons/css/simple-line-icons.css')}}" />
+			<!-- Removed broken references: @coreui/icons, flag-icon-css, simple-line-icons (not installed) -->
+			<link rel="stylesheet" type="text/css" href="{{asset('icons/font-awesome/css/all.min.css')}}" />
 		
 		<!-- Main styles for this application-->
 			<link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}" />
@@ -69,7 +67,7 @@
 			<script src="{{asset('js/bootstarp/js/bootstrap.min.js')}}"></script>
 			<script src="{{asset('js/pace-progress/js/pace.min.js')}}"></script>
 			<script src="{{asset('js/perfect-scrollbar/js/perfect-scrollbar.min.js')}}"></script>
-			<script src="{{asset('icons/@coreui/coreui-pro/js/coreui.min.js')}}"></script>
+			<!-- Removed broken reference: icons/@coreui/coreui-pro/js/coreui.min.js (not installed) -->
 			<script src="{{asset('js/custom-form-validation.js')}}"></script>
 	</body>
 </html>

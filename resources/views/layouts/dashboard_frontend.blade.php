@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bansal CRM</title>
 	<!-- Bootstrap CSS -->
-    <link href="{{asset('css/DashboardFrontend/font-awesome.min.css')}}" rel="stylesheet">
-    <link href="{{asset('css/DashboardFrontend/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('css/DashboardFrontend/style.css')}}" rel="stylesheet">
-    <link href="{{asset('css/DashboardFrontend/responsive.css')}}" rel="stylesheet">
+    <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/app.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/components.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
 </head>
 <body>
@@ -23,9 +23,9 @@
 	</script>
 		 
 	<!-- Option 1: Bootstrap Bundle with Popper -->
-	<script src="{{asset('js/DashboardFrontend/jquery-3.3.1.min.js')}}"></script>
-	<script src="{{asset('js/DashboardFrontend/bootstrap.bundle.min.js')}}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+	<script src="{{asset('js/jquery_min_latest.js')}}"></script>
+	<script src="{{asset('js/app.min.js')}}"></script>
+	<script src="{{asset('js/moment.min.js')}}"></script>
 	<script src="{{asset('js/daterangepicker.js')}}"></script> 
 
 	<script>
