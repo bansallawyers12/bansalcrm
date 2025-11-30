@@ -36,3 +36,4 @@
 - The system tracks visa expiry dates and sends automated reminders
 - Migration applications use workflow ID 5
 - Documents are categorized as "migration" or "education" types
+

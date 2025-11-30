@@ -68,3 +68,4 @@ Write-Host "`nYou can now import the fixed file using:" -ForegroundColor Yellow
 Write-Host "  mysql -u root -p bansalc_db2 < $outputFile" -ForegroundColor Cyan
 
 
+

@@ -1731,8 +1731,7 @@
 													<option value="Airport Transfer Fee">Airport Transfer Fee</option>
 													<option value="Application Fee">Application Fee</option>
 													<option value="Bond">Bond</option>
-													<option   value="Tution Fee">Tution Fee</option>
-													<option   value="Tution Fee">Tution Fee</option>
+													<option value="Tuition Fee">Tuition Fee</option>
 												</select>
 											</div>
 										</div>
@@ -2221,7 +2220,7 @@
 
 						<input type="file" class="d-none" id="selectfile" />
 					</div>
-					</div class="col-md-4">
+					<div class="col-md-4">
 						<div id="showThumb">
 							<ul>
 							</ul>
