@@ -445,14 +445,6 @@
 				<a href="{{route('admin.offer.index')}}" class="nav-link"><i data-feather="gift"></i><span>Offers</span></a>
 			</li>
 			<?php
-			if(Route::currentRouteName() == 'admin.cms_pages.index'){
-				$cmspgclasstype = 'active';
-			}
-			?>
-			<li class="dropdown {{@$cmspgclasstype}}">
-				<a href="{{route('admin.cms_pages.index')}}" class="nav-link"><i data-feather="file"></i><span>Pages</span></a>
-			</li>
-			<?php
 			if(Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.staff.index'){
 				$reguvclasstype = 'active';
 			}

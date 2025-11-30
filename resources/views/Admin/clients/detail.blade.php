@@ -2,7 +2,7 @@
 @section('title', 'Client Detail')
 
 @section('content')
-<link rel="stylesheet" href="{{URL::asset('public/css/bootstrap-datepicker.min.css')}}">
+<link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
 <style>
 .popover {max-width:700px;}
 .ag-space-between {justify-content: space-between;}
@@ -4258,8 +4258,8 @@ if($fetchedData->tagname != ''){
 
 @endsection
 @section('scripts')
-<script src="{{URL::to('/')}}/public/js/popover.js"></script>
-<script src="{{URL::asset('public/js/bootstrap-datepicker.js')}}"></script>
+<script src="{{asset('js/popover.js')}}"></script>
+<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
 
 @if($showAlert)
     <script>
@@ -4359,60 +4359,78 @@ if($fetchedData->tagname != ''){
         }
     }
   
-    document.getElementById('chatGptToggle').addEventListener('click', function() {
-        const section = document.getElementById('chatGptSection');
-        section.classList.toggle('collapse');
-    });
-
-    document.getElementById('chatGptClose').addEventListener('click', function() {
-        const section = document.getElementById('chatGptSection');
-        section.classList.add('collapse');
-    });
-
-    document.getElementById('enhanceMessageBtn').addEventListener('click', function() {
-        const chatGptInput = document.getElementById('chatGptInput').value;
-        if (!chatGptInput) {
-            alert('Please enter a message to enhance.');
-            return;
-        }
-
-        fetch("{{ route('admin.mail.enhance') }}", {  // Use Laravel's route helper
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content") // Fetch CSRF token dynamically
-            },
-            body: JSON.stringify({ message: chatGptInput })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.enhanced_message) {
-                // Split the enhanced message into lines
-                const lines = data.enhanced_message.split('\n').filter(line => line.trim() !== '');
-
-                // First line is the subject
-                const subject = lines[0] || '';
-
-                // Remaining lines are the body
-                const body = lines.slice(1).join('\n') || '';
-
-                // Update the subject and message fields
-                document.getElementById('compose_email_subject').value = subject;
-                //document.getElementById('compose_email_message').value = body;
-                // Ensure Summernote is initialized before updating content
-                $("#emailmodal .summernote-simple").summernote('code',body);
-
-                // Close the ChatGPT section
-                document.getElementById('chatGptSection').classList.add('collapse');
-            } else {
-                alert(data.error || 'Failed to enhance message.');
+    const chatGptToggle = document.getElementById('chatGptToggle');
+    if (chatGptToggle) {
+        chatGptToggle.addEventListener('click', function() {
+            const section = document.getElementById('chatGptSection');
+            if (section) {
+                section.classList.toggle('collapse');
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while enhancing the message.');
         });
-    });
+    }
+
+    const chatGptClose = document.getElementById('chatGptClose');
+    if (chatGptClose) {
+        chatGptClose.addEventListener('click', function() {
+            const section = document.getElementById('chatGptSection');
+            if (section) {
+                section.classList.add('collapse');
+            }
+        });
+    }
+
+    const enhanceMessageBtn = document.getElementById('enhanceMessageBtn');
+    if (enhanceMessageBtn) {
+        enhanceMessageBtn.addEventListener('click', function() {
+            const chatGptInput = document.getElementById('chatGptInput');
+            if (!chatGptInput || !chatGptInput.value) {
+                alert('Please enter a message to enhance.');
+                return;
+            }
+
+            fetch("{{ route('admin.mail.enhance') }}", {  // Use Laravel's route helper
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content") // Fetch CSRF token dynamically
+                },
+                body: JSON.stringify({ message: chatGptInput.value })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.enhanced_message) {
+                    // Split the enhanced message into lines
+                    const lines = data.enhanced_message.split('\n').filter(line => line.trim() !== '');
+
+                    // First line is the subject
+                    const subject = lines[0] || '';
+
+                    // Remaining lines are the body
+                    const body = lines.slice(1).join('\n') || '';
+
+                    // Update the subject and message fields
+                    const composeEmailSubject = document.getElementById('compose_email_subject');
+                    if (composeEmailSubject) {
+                        composeEmailSubject.value = subject;
+                    }
+                    // Ensure Summernote is initialized before updating content
+                    $("#emailmodal .summernote-simple").summernote('code',body);
+
+                    // Close the ChatGPT section
+                    const chatGptSection = document.getElementById('chatGptSection');
+                    if (chatGptSection) {
+                        chatGptSection.classList.add('collapse');
+                    }
+                } else {
+                    alert(data.error || 'Failed to enhance message.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while enhancing the message.');
+            });
+        });
+    }
 </script>
   
 <script>
@@ -5965,26 +5983,41 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
 	});
 	$(document).delegate('.create_note_d', 'click', function(){
 
-		$('#create_note_d').modal('show');
+		// Reset form fields
 		$('#create_note_d input[name="mailid"]').val(0);
-
-		//$('#create_note input[name="title"]').val('');
+		$('#create_note_d input[name="noteid"]').val('');
+		$('#create_note_d #noteType').val('');
+		$('#create_note_d #additionalFields').html('');
+		$('#create_note_d .customerror').html('');
+		$('#create_note_d .custom-error').html('');
+		
+		// Reset summernote editor if initialized
+		if($('#create_note_d .summernote-simple').length > 0){
+			try {
+				if($('#create_note_d .summernote-simple').data('summernote')){
+					$('#create_note_d .summernote-simple').summernote('code', '');
+				} else {
+					$('#create_note_d .summernote-simple').val('');
+				}
+			} catch(e) {
+				$('#create_note_d .summernote-simple').val('');
+			}
+		}
+		
 		$('#create_note_d #appliationModalLabel').html('Create Note');
-		// alert('yes');
-	//	$('#create_note input[name="title"]').val('');
-				//	$("#create_note .summernote-simple").val('');
-				//	$('#create_note input[name="noteid"]').val('');
-			//	$("#create_note .summernote-simple").summernote('code','');
 
 		if($(this).attr('datatype') == 'note'){
 			$('.is_not_note').hide();
 		}else{
-		var datasubject = $(this).attr('datasubject');
-		var datamailid = $(this).attr('datamailid');
+			var datasubject = $(this).attr('datasubject');
+			var datamailid = $(this).attr('datamailid');
 			$('#create_note_d input[name="title"]').val(datasubject);
 			$('#create_note_d input[name="mailid"]').val(datamailid);
 			$('.is_not_note').show();
 		}
+		
+		// Show modal
+		$('#create_note_d').modal('show');
 	});
 
 
@@ -8904,9 +8937,14 @@ $(document).ready(function() {
         });
 
         function file_explorer() {
-          document.getElementById("selectfile").click();
-          document.getElementById("selectfile").onchange = function() {
-            files = document.getElementById("selectfile").files;
+          const selectfile = document.getElementById("selectfile");
+          if (!selectfile) {
+            console.warn("selectfile element not found");
+            return;
+          }
+          selectfile.click();
+          selectfile.onchange = function() {
+            files = selectfile.files;
             var formData = new FormData();
 
             for (var i = 0; i < files.length; i++) {
@@ -8938,7 +8976,9 @@ $(document).ready(function() {
                     $('.mychecklistdocdata').html(obj.doclistdata);
                     $('.checklistuploadcount').html(obj.applicationuploadcount);
                     $('.'+obj.type+'_checklists').html(obj.checklistdata);
-                    $('#selectfile').val('');
+                    if ($('#selectfile').length) {
+                        $('#selectfile').val('');
+                    }
 
                     if(obj.application_id){
                         $.ajax({
