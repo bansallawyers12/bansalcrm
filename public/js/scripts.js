@@ -352,21 +352,9 @@ $(function () {
       });
     });
 
-  if (jQuery().summernote) {
-    $(".summernote").summernote({
-      dialogsInBody: true,
-      minHeight: 250
-    });
-    $(".summernote-simple").summernote({
-      dialogsInBody: true,
-      minHeight: 150,
-      toolbar: [
-        ["style", ["bold", "italic", "underline", "clear"]],
-        ["font", ["strikethrough"]],
-        ["para", ["paragraph"]]
-      ]
-    });
-  }
+  // TinyMCE initialization is handled in tinymce-init.js
+  // This code is kept for backward compatibility but TinyMCE handles initialization automatically
+  // Summernote has been replaced with TinyMCE
 
   // Dismiss function
   $("[data-dismiss]").each(function () {

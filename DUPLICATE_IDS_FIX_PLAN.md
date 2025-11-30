@@ -476,3 +476,4 @@ git checkout resources/views/Admin/clients/detail.blade.php
 4. Test thoroughly
 5. Deploy with confidence
 
+

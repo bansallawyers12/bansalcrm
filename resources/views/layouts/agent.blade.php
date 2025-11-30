@@ -13,7 +13,7 @@
 	 
 	<link rel="stylesheet" href="{{asset('public/css/app.min.css')}}">
 	 <link rel="stylesheet" href="{{asset('public/css/fullcalendar.min.css')}}">
-	<link rel="stylesheet" href="{{asset('public/css/summernote-bs4.css')}}">
+	<!-- TinyMCE - No CSS needed -->
 	<link rel="stylesheet" href="{{asset('public/css/daterangepicker.css')}}">
 	<link rel="stylesheet" href="{{asset('public/css/bootstrap-timepicker.min.css')}}">
 	<link rel="stylesheet" href="{{asset('public/css/select2.min.css')}}">
@@ -91,7 +91,9 @@
 	<!--<script src="{{asset('public/js/apexcharts.min.js')}}"></script>--> 
 	<!-- Page Specific JS File -->	
 	<!--<script src="{{asset('public/js/index.js')}}"></script> -->  
-	<script src="{{asset('public/js/summernote-bs4.js')}}"></script> 
+	<script src="{{asset('public/assets/tinymce/js/tinymce/tinymce.min.js')}}"></script>
+	<script src="{{asset('public/js/tinymce-init.js')}}"></script>
+	<script src="{{asset('public/js/tinymce-summernote-compat.js')}}"></script> 
 	<script src="{{asset('public/js/daterangepicker.js')}}"></script> 
 	<script src="{{asset('public/js/bootstrap-timepicker.min.js')}}"></script> 
 	

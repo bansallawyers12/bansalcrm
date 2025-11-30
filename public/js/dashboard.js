@@ -28,7 +28,8 @@ $(function () {
   }) */
 
   // bootstrap WYSIHTML5 - text editor
-  $('.textarea').summernote()
+  // TinyMCE initialization is handled in tinymce-init.js
+  // Summernote has been replaced with TinyMCE
 
   $('.daterange').daterangepicker({
     ranges   : {

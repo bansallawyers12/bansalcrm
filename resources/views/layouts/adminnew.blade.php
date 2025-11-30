@@ -26,8 +26,8 @@
 	  <!-- overlayScrollbars -->
 	 
 	  <link rel="stylesheet" type="text/css" href="{{URL::asset('public/css/bootstrap-select.min.css')}}" >
-	  <!-- summernote -->
-	  <link rel="stylesheet" href="{{URL::asset('public/css/summernote-bs4.css')}}"> 
+	  <!-- TinyMCE -->
+	  <!-- No CSS needed for TinyMCE (uses inline styles) --> 
 	  <!-- style --> 
 	  <link rel="stylesheet" href="{{URL::asset('public/css/style.css')}}">
 	  <link rel="stylesheet" href="{{URL::asset('public/css/font-awesome.min.css')}}">
@@ -347,9 +347,10 @@
 		<script src="{{URL::asset('public/js/select2.min.js')}}"></script>			
 		<!-- daterangepicker -->
 		
-		<!-- Summernote -->
-		<script src="{{URL::asset('public/js/summernote-bs4.min.js')}}"></script>
-		
+		<!-- TinyMCE -->
+		<script src="{{URL::asset('public/assets/tinymce/js/tinymce/tinymce.min.js')}}"></script>
+		<script src="{{URL::asset('public/js/tinymce-init.js')}}"></script>
+		<script src="{{URL::asset('public/js/tinymce-summernote-compat.js')}}"></script>
 		
 		<!-- Admin Theme App -->
 		<script src="{{URL::asset('public/js/admintheme.min.js')}}"></script>
@@ -474,8 +475,8 @@
 		$('.select2_name, .select2_source, .select2_destination').select2({
 		  theme: 'bootstrap4'
 		}); 
-		// Summernote
-		$('.textarea').summernote();
+		// TinyMCE initialization is handled in tinymce-init.js
+		// Summernote has been replaced with TinyMCE
 			
     }); 
 

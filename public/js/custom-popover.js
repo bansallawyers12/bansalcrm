@@ -357,7 +357,7 @@ function isNumberKey1(evt)
         var d = new Date(remiderdatearray[2], remiderdatearray[1]-1, remiderdatearray[0]);
         var current = new Date();
         var $lead_email = $("#lead_email").val();
-        var $mail_content = CKEDITOR.instances['editor1'].getData();
+        var $mail_content = (typeof TinyMCEHelpers !== 'undefined') ? TinyMCEHelpers.getContent('editor1') : ($('#editor1').length ? $('#editor1').val() : '');
         var $lead_cc = $("#lead_cc").val();
         var $lead_subject = $("#lead_subject").val();
         var $lead_bcc = $("#lead_bcc").val();
@@ -570,7 +570,14 @@ function isNumberKey1(evt)
             type : "GET",
             url  :  "/ajax/insert-itinerary-ajax.php?nid="+$package_id+"&search=no&fcp_uid="+$fcp_uid,
             success : function(data){
-                CKEDITOR.instances.editor1.insertHtml(data);
+                if (typeof TinyMCEHelpers !== 'undefined') {
+                    TinyMCEHelpers.insertHtml('editor1', data);
+                } else if (typeof tinymce !== 'undefined') {
+                    var editor = tinymce.get('editor1');
+                    if (editor) {
+                        editor.insertContent(data);
+                    }
+                }
                 //return false;
             },
             error : function(error){
@@ -610,7 +617,14 @@ function isNumberKey1(evt)
                     else
                     {
                         $("#srch_res").html("");
-                        CKEDITOR.instances.editor1.insertHtml(data);
+                        if (typeof TinyMCEHelpers !== 'undefined') {
+                    TinyMCEHelpers.insertHtml('editor1', data);
+                } else if (typeof tinymce !== 'undefined') {
+                    var editor = tinymce.get('editor1');
+                    if (editor) {
+                        editor.insertContent(data);
+                    }
+                }
                         $("#ADDitinerary").modal('hide');
                     }
                     //return false;

@@ -2427,7 +2427,15 @@ function customValidate(formName, savetype = '')
 								    $('#create_note_d input[name="title"]').val('');
 					$("#create_note_d .summernote-simple").val('');
 				$('#create_note_d input[name="noteid"]').val('');                    
-			$("#create_note_d .summernote-simple").summernote('code','');
+			// TinyMCE replacement for summernote
+			if (typeof TinyMCEHelpers !== 'undefined') {
+				TinyMCEHelpers.setContent('#create_note_d .summernote-simple', '');
+			} else if (typeof tinymce !== 'undefined') {
+				var editor = tinymce.get($("#create_note_d .summernote-simple").attr('id') || 'create_note_d');
+				if (editor) {
+					editor.setContent('');
+				}
+			}
 									$('#create_note_d').modal('hide');
 								$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
 								$.ajax({
