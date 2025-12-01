@@ -1102,7 +1102,6 @@ class AssigneeController extends Controller
                             </div>
                         </div>
                     <?php } ?>
-                    */
                     </div>
                 </div>
         </div>
@@ -1217,7 +1216,6 @@ public function change_assignee(Request $request){
         $response['message']	=	'Please try again';
     }
     echo json_encode($response);
-    */
 }
 
 public function update_apppointment_comment(Request $request){
@@ -1235,7 +1233,6 @@ public function update_apppointment_comment(Request $request){
         $response['message']	=	'Please try again';
     }
     echo json_encode($response);
-    */
 }
 
 public function update_apppointment_description(Request $request){

@@ -2384,11 +2384,11 @@ class ClientsController extends Controller
 
                 $appoint_date_val = explode('/', $request->appoint_date);
                 $appoint_date_val_formated = $appoint_date_val[0].'/'.$appoint_date_val[1].'/'.$appoint_date_val[2];
-                /*if( isset($request->service_id) && $request->service_id == 1 ){ //1=>Paid
-                    $objs->description = '<p><span class="text-semi-bold">scheduled an paid appointment without payment on '.$appoint_date_val_formated.' at '.$request->appoint_time.'</span></p>';
-                } else if( isset($request->service_id) && $request->service_id == 2 ){ //2=>Free
-                    $objs->description = '<p><span class="text-semi-bold">scheduled an appointment on '.$appoint_date_val_formated.' at '.$request->appoint_time.'</span></p>';
-                }*/
+                //if( isset($request->service_id) && $request->service_id == 1 ){ //1=>Paid
+                //    $objs->description = '<p><span class="text-semi-bold">scheduled an paid appointment without payment on '.$appoint_date_val_formated.' at '.$request->appoint_time.'</span></p>';
+                //} else if( isset($request->service_id) && $request->service_id == 2 ){ //2=>Free
+                //    $objs->description = '<p><span class="text-semi-bold">scheduled an appointment on '.$appoint_date_val_formated.' at '.$request->appoint_time.'</span></p>';
+                //}
 
 
                 $objs->description = '<div style="display: -webkit-inline-box;">
@@ -2512,7 +2512,6 @@ class ClientsController extends Controller
 		$obj->invites = @$request->invites;
 		$obj->status = 0;
 		$saved = $obj->save();
-		*/
 		if($saved){
 			$subject = 'rescheduled an appointment';
 			$objs = new ActivitiesLog;
@@ -2616,7 +2615,6 @@ class ClientsController extends Controller
         // Appointment functionality removed - Appointment model deleted
         return redirect()->back()->with('error', 'Appointment functionality has been removed');
         /* Original code commented out - Appointment model deleted
-    {
         $requestData = $request->all(); //dd($requestData);
 
         $obj = \App\Models\Appointment::find($requestData['appointment_id']);
@@ -2731,19 +2729,19 @@ class ClientsController extends Controller
             $objs = new ActivitiesLog;
             $objs->client_id = $obj->client_id;
             $objs->created_by = Auth::user()->id;
-            /*$objs->description = '<div  style="margin-right: 1rem;float:left;">
-                    <span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
-                        <span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
-                            '.date('d M', strtotime($obj->date)).'
-                        </span>
-                        <span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
-                            '.date('Y', strtotime($obj->date)).'
-                        </span>
-                    </span>
-                </div>
-                <div style="float:right;"><span  class="text-semi-bold">'.$obj->title.'</span> <p  class="text-semi-light-grey col-v-1">
-            @ '.date('H:i A', strtotime($obj->time)).'
-            </p></div>';*/
+            //$objs->description = '<div  style="margin-right: 1rem;float:left;">
+            //        <span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
+            //            <span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
+            //                '.date('d M', strtotime($obj->date)).'
+            //            </span>
+            //            <span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
+            //                '.date('Y', strtotime($obj->date)).'
+            //            </span>
+            //        </span>
+            //    </div>
+            //    <div style="float:right;"><span  class="text-semi-bold">'.$obj->title.'</span> <p  class="text-semi-light-grey col-v-1">
+            //@ '.date('H:i A', strtotime($obj->time)).'
+            //</p></div>';
 
             //Get Nature of Enquiry
             $nature_of_enquiry_data = DB::table('nature_of_enquiry')->where('id', $obj->noe_id)->first();
