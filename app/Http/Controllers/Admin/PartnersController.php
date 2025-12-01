@@ -100,14 +100,17 @@ class PartnersController extends Controller
             $query->whereIn('stage', ['Coe issued', 'Enrolled', 'Coe Cancelled']);
         }]);
 
+        // Make columns sortable first
+        $lists = $lists->sortable(['id' => 'desc']);
+        
         // Apply sorting based on request parameters
         if ($request->has('sort') && $request->has('direction')) {
             $sort = $request->input('sort');
             $direction = $request->input('direction');
             $lists = $lists->orderBy($sort, $direction);
         } else {
-            // Default sorting by student_count descending
-            $lists = $lists->orderByDesc('student_count')->sortable(['id' => 'desc']);
+            // Default sorting by student_count descending, then by id descending
+            $lists = $lists->orderByDesc('student_count')->orderByDesc('id');
         }
 
         // Paginate the results
@@ -158,14 +161,17 @@ class PartnersController extends Controller
             $query->whereIn('stage', ['Coe issued', 'Enrolled', 'Coe Cancelled']);
         }]);
 
+        // Make columns sortable first
+        $lists = $lists->sortable(['id' => 'desc']);
+        
         // Apply sorting based on request parameters
         if ($request->has('sort') && $request->has('direction')) {
             $sort = $request->input('sort');
             $direction = $request->input('direction');
             $lists = $lists->orderBy($sort, $direction);
         } else {
-            // Default sorting by student_count descending
-            $lists = $lists->orderByDesc('student_count')->sortable(['id' => 'desc']);
+            // Default sorting by student_count descending, then by id descending
+            $lists = $lists->orderByDesc('student_count')->orderByDesc('id');
         }
 
         // Paginate the results

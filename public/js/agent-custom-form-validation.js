@@ -6,6 +6,104 @@ var min = "This field should be greater than or equal to ";
 var max = "This field should be less than or equal to ";
 var equal = "This field should be equal to ";
 
+// Helper function to sync TinyMCE/summernote content to textarea before form submission
+function syncEditorContent($form) {
+	$form.find('textarea.summernote-simple, textarea.summernote').each(function() {
+		var $field = $(this);
+		
+		// Try to sync from TinyMCE first
+		if(typeof tinymce !== 'undefined') {
+			var editorId = $field.attr('id');
+			if(editorId) {
+				var editor = tinymce.get(editorId);
+				if(editor) {
+					var content = editor.getContent();
+					$field.val(content);
+					return;
+				}
+			}
+			// Try to find editor by textarea element
+			try {
+				var editor = tinymce.get($field[0]);
+				if(editor) {
+					var content = editor.getContent();
+					$field.val(content);
+					return;
+				}
+			} catch(e) {
+				// Continue to next method
+			}
+		}
+		// Fallback to summernote method
+		if(typeof $.fn.summernote !== 'undefined') {
+			try {
+				var content = $field.summernote('code');
+				if(content !== undefined && content !== null) {
+					$field.val(content);
+					return;
+				}
+			} catch(e) {
+				// Continue
+			}
+		}
+	});
+}
+
+// Helper function to get value from summernote/tinymce fields
+function getFieldValue($field) {
+	var for_class = $field.attr('class') || '';
+	
+	// Check if it's a summernote/tinymce field
+	if(for_class.indexOf('summernote-simple') !== -1 || for_class.indexOf('summernote') !== -1) {
+		// Try to get content from TinyMCE first
+		if(typeof tinymce !== 'undefined') {
+			var editorId = $field.attr('id');
+			if(editorId) {
+				var editor = tinymce.get(editorId);
+				if(editor) {
+					var content = editor.getContent();
+					// Remove HTML tags and trim whitespace for validation
+					var textContent = $('<div>').html(content).text();
+					return $.trim(textContent);
+				}
+			}
+			// Try to find editor by textarea element
+			try {
+				var editor = tinymce.get($field[0]);
+				if(editor) {
+					var content = editor.getContent();
+					var textContent = $('<div>').html(content).text();
+					return $.trim(textContent);
+				}
+			} catch(e) {
+				// Continue to next method
+			}
+		}
+		// Fallback to summernote method
+		if(typeof $.fn.summernote !== 'undefined') {
+			try {
+				var content = $field.summernote('code');
+				if(content) {
+					var textContent = $('<div>').html(content).text();
+					return $.trim(textContent);
+				}
+			} catch(e) {
+				// Continue to next method
+			}
+		}
+		// Final fallback: check if textarea has value directly
+		var directValue = $.trim($field.val());
+		if(directValue) {
+			// Remove HTML tags if present
+			var textContent = $('<div>').html(directValue).text();
+			return $.trim(textContent);
+		}
+	}
+	
+	// Default to regular val() for other fields
+	return $.trim($field.val());
+}
+
 function customValidate(formName, savetype = '')
 	{
 		$(".popuploader").show(); //all form submit
@@ -33,7 +131,8 @@ function customValidate(formName, savetype = '')
 						} 
 					else 
 						{
-							if( !$.trim($(this).val()) ) 
+							var fieldValue = getFieldValue($(this));
+							if( !fieldValue ) 
 								{
 									i++;
 									j++;
@@ -43,9 +142,11 @@ function customValidate(formName, savetype = '')
 				}
 			if(j <= 0)
 				{
+					var fieldValue = getFieldValue($(this));
+					
 					if($.inArray("email", splitDataValidation) !== -1) //for email
 						{
-							if(!validateEmail($.trim($(this).val()))) 
+							if(!validateEmail(fieldValue)) 
 								{
 									i++;
 									$(this).after(errorDisplay(emailError));  
@@ -59,7 +160,7 @@ function customValidate(formName, savetype = '')
 							var breakMin = forMin.split('-');
 							var digit = breakMin[1];
 
-							var value = $.trim($(this).val()).length;
+							var value = fieldValue.length;
 							if(value < digit) 
 								{
 									i++;
@@ -73,7 +174,7 @@ function customValidate(formName, savetype = '')
 							var breakMax = forMax.split('-');
 							var digit = breakMax[1];
 
-							var value = $.trim($(this).val()).length;
+							var value = fieldValue.length;
 							if(value > digit) 
 								{
 									i++;
@@ -87,7 +188,7 @@ function customValidate(formName, savetype = '')
 							var breakEqual = forEqual.split('-');
 							var digit = breakEqual[1];
 
-							var value = ($.trim($(this).val()).replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-')).length;
+							var value = (fieldValue.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-')).length;
 							if(value != digit) 
 								{
 									i++;
@@ -161,6 +262,7 @@ function customValidate(formName, savetype = '')
 					}else if(formName == 'add-note')
 					{   
 						var myform = document.getElementById('addnoteform');
+						syncEditorContent($(myform));
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
@@ -186,6 +288,7 @@ function customValidate(formName, savetype = '')
 					{   
 				var noteid = $('#appnotetermform input[name="noteid"]').val();
 						var myform = document.getElementById('appnotetermform');
+						syncEditorContent($(myform));
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
@@ -218,6 +321,7 @@ function customValidate(formName, savetype = '')
 						
 						var client_id = $('input[name="client_id"]').val(); 	
 						var myform = document.getElementById('clientnotetermform');
+						syncEditorContent($(myform));
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
@@ -1839,7 +1943,8 @@ function customInvoiceValidate(formName, savetype)
 						} 
 					else 
 						{
-							if( !$.trim($(this).val()) ) 
+							var fieldValue = getFieldValue($(this));
+							if( !fieldValue ) 
 								{
 									i++;
 									j++;
@@ -1849,9 +1954,11 @@ function customInvoiceValidate(formName, savetype)
 				}
 			if(j <= 0)
 				{
+					var fieldValue = getFieldValue($(this));
+					
 					if($.inArray("email", splitDataValidation) !== -1) //for email
 						{
-							if(!validateEmail($.trim($(this).val()))) 
+							if(!validateEmail(fieldValue)) 
 								{
 									i++;
 									$(this).after(errorDisplay(emailError));  
@@ -1865,7 +1972,7 @@ function customInvoiceValidate(formName, savetype)
 							var breakMin = forMin.split('-');
 							var digit = breakMin[1];
 
-							var value = $.trim($(this).val()).length;
+							var value = fieldValue.length;
 							if(value < digit) 
 								{
 									i++;
@@ -1879,7 +1986,7 @@ function customInvoiceValidate(formName, savetype)
 							var breakMax = forMax.split('-');
 							var digit = breakMax[1];
 
-							var value = $.trim($(this).val()).length;
+							var value = fieldValue.length;
 							if(value > digit) 
 								{
 									i++;
@@ -1893,7 +2000,7 @@ function customInvoiceValidate(formName, savetype)
 							var breakEqual = forEqual.split('-');
 							var digit = breakEqual[1];
 
-							var value = ($.trim($(this).val()).replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-')).length;
+							var value = (fieldValue.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-')).length;
 							if(value != digit) 
 								{
 									i++;

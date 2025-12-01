@@ -5901,7 +5901,7 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
 			}
 		}
 		
-		$('#create_note_d #appliationModalLabel').html('Create Note');
+		$('#create_note_d #createNoteDModalLabel').html('Create Note');
 
 		if($(this).attr('datatype') == 'note'){
 			$('.is_not_note').hide();
@@ -5988,7 +5988,7 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
 		$('#create_note').modal('show');
 		$('#create_note input[name="mailid"]').val(0);
 		$('#create_note input[name="title"]').val('');
-		$('#create_note #appliationModalLabel').html('Create Note');
+		$('#create_note #createNoteModalLabel').html('Create Note');
 		$('#create_note input[name="title"]').val('');
 					$("#create_note .summernote-simple").val('');
 					$('#create_note input[name="noteid"]').val('');
@@ -6008,7 +6008,7 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
 		$('#opentaskmodal').modal('show');
 		$('#opentaskmodal input[name="mailid"]').val(0);
 		$('#opentaskmodal input[name="title"]').val('');
-		$('#opentaskmodal #appliationModalLabel').html('Create Note');
+		$('#opentaskmodal #taskModalLabel').html('Create Note');
 		$('#opentaskmodal input[name="attachments"]').val('');
 		$('#opentaskmodal input[name="title"]').val('');
 		$('#opentaskmodal .showattachment').val('Choose file');
@@ -6133,7 +6133,7 @@ function formatRepoSelection (repo) {
 }
 	$(document).delegate('.opennoteform', 'click', function(){
 		$('#create_note').modal('show');
-		$('#create_note #appliationModalLabel').html('Edit Note');
+		$('#create_note #createNoteModalLabel').html('Edit Note');
 		var v = $(this).attr('data-id');
 		$('#create_note input[name="noteid"]').val(v);
 			$('.popuploader').show();
@@ -6226,6 +6226,11 @@ function formatRepoSelection (repo) {
 				var explode = v.split('_');
 				if(v != ''){
 					$('.popuploader').show();
+					// Disable product field validation during loading
+					$('.add_appliation #product').attr('data-valid', '');
+					$('.add_appliation #product').prop('disabled', true);
+					// Clear any existing error messages
+					$('.add_appliation .product_error').html('');
 		$.ajax({
 			url: '{{URL::to('/admin/getbranchproduct')}}',
 			type:'GET',
@@ -6233,8 +6238,15 @@ function formatRepoSelection (repo) {
 			success:function(response){
 				$('.popuploader').hide();
 				$('.add_appliation #product').html(response);
+				$('.add_appliation #product').prop('disabled', false);
+				$('.add_appliation #product').attr('data-valid', 'required'); // Re-enable validation
 				$(".add_appliation #product").val('').trigger('change');
-
+			},
+			error: function() {
+				$('.popuploader').hide();
+				$('.add_appliation #product').prop('disabled', false);
+				$('.add_appliation #product').attr('data-valid', 'required');
+				$('.add_appliation #product').html('<option value="">Select Product</option>');
 			}
 		});
 				}

@@ -3,7 +3,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Add Application</h5>
+				<h5 class="modal-title" id="addApplicationModalLabel">Add Application</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -67,7 +67,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Discontinue Application</h5>
+				<h5 class="modal-title" id="disconApplicationModalLabel">Discontinue Application</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -96,7 +96,7 @@
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
 								<label for="">Notes <span class="span_req">*</span></label>
-								<textarea data-valid="required"  class="form-control" name="note" id=""></textarea>
+								<textarea data-valid="required"  class="form-control" name="note"></textarea>
 
 							</div>
 						</div>
@@ -115,7 +115,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Revert Discontinued Application</h5>
+				<h5 class="modal-title" id="revertApplicationModalLabel">Revert Discontinued Application</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -128,7 +128,7 @@
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
 								<label for="">Notes <span class="span_req">*</span></label>
-								<textarea data-valid="required"  class="form-control" name="note" id=""></textarea>
+								<textarea data-valid="required"  class="form-control" name="note"></textarea>
 
 							</div>
 						</div>
@@ -544,7 +544,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Create Note</h5>
+				<h5 class="modal-title" id="createNoteModalLabel">Create Note</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -603,7 +603,7 @@
 						<div class="col-12 col-md-12 col-lg-12 is_not_note" style="display:none;">
 							<div class="form-group">
 								<label for="contact_name">Contact Name <span class="span_req">*</span></label>
-								<select data-valid="" class="form-control contact_name js-data-example-ajaxcc" name="contact_name[]">
+								<select data-valid="" class="form-control contact_name js-data-example-ajaxcc" name="contact_name[]" id="contact_name_select">
 
 
 								</select>
@@ -627,7 +627,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Create Note</h5>
+				<h5 class="modal-title" id="createNoteDModalLabel">Create Note</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -782,7 +782,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="assignee">Assignee</label>
-								<select data-valid="" class="form-control assignee select2" name="assignee">
+								<select data-valid="" class="form-control assignee select2" name="assignee" id="task_assignee">
 									<option value="">Select</option>
 									<?php
 									$headoffice = \App\Models\Admin::where('role','!=',7)->get();
@@ -801,7 +801,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="priority">Priority</label>
-								<select data-valid="" class="form-control priority select2" name="priority">
+								<select data-valid="" class="form-control priority select2" name="priority" id="task_priority">
 									<option value="">Choose Priority</option>
 									<option value="Low">Low</option>
 									<option value="Normal">Normal</option>
@@ -895,7 +895,7 @@
 						<div class="col-12 col-md-6 col-lg-6 is_partner ifselecttask">
 							<div class="form-group">
 								<label for="partner_name">Partner Name <span class="span_req">*</span></label>
-								<select data-valid="" class="form-control partner_name select2" name="partner_name">
+								<select data-valid="" class="form-control partner_name select2" name="partner_name" id="task_partner_name">
 									<option value="">Choose Partner</option>
 									<option value="Amit">Amit</option>
 								</select>
@@ -907,7 +907,7 @@
 						<div class="col-12 col-md-6 col-lg-6 is_application ifselecttask">
 							<div class="form-group">
 								<label for="client_name">Client Name <span class="span_req">*</span></label>
-								<select data-valid="" class="form-control client_name select2" name="client_name">
+								<select data-valid="" class="form-control client_name select2" name="client_name" id="task_client_name">
 									<option value="">Choose Client</option>
 									<option value="Amit">Amit</option>
 								</select>
@@ -919,7 +919,7 @@
 						<div class="col-12 col-md-6 col-lg-6 is_application ifselecttask">
 							<div class="form-group">
 								<label for="application">Application <span class="span_req">*</span></label>
-								<select data-valid="" class="form-control application select2" name="application">
+								<select data-valid="" class="form-control application select2" name="application" id="task_application">
 									<option value="">Choose Application</option>
 									<option value="Demo">Demo</option>
 								</select>
@@ -931,7 +931,7 @@
 						<div class="col-12 col-md-6 col-lg-6 is_application ifselecttask">
 							<div class="form-group">
 								<label for="stage">Stage <span class="span_req">*</span></label>
-								<select data-valid="" class="form-control stage select2" name="stage">
+								<select data-valid="" class="form-control stage select2" name="stage" id="task_stage">
 									<option value="">Choose Stage</option>
 									<option value="Stage 1">Stage 1</option>
 								</select>
@@ -943,7 +943,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="followers">Followers <span class="span_req">*</span></label>
-								<select data-valid="" multiple class="form-control followers  select2" name="followers">
+								<select data-valid="" multiple class="form-control followers  select2" name="followers" id="task_followers">
 
 									<?php
 										$headoffice = \App\Models\Admin::where('role','!=',7)->get();
@@ -988,7 +988,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Create Education</h5>
+				<h5 class="modal-title" id="createEducationModalLabel">Create Education</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -1131,7 +1131,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Commission Invoice</h5>
+				<h5 class="modal-title" id="commissionInvoiceModalLabel">Commission Invoice</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -1205,7 +1205,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">General Invoice</h5>
+				<h5 class="modal-title" id="generalInvoiceModalLabel">General Invoice</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -1273,8 +1273,8 @@
 	<div class="modal-dialog">
 	{!! Form::open(array('url' => 'admin/invoice/payment-store', 'name'=>"ajaxinvoicepaymentform", 'autocomplete'=>'off', "enctype"=>"multipart/form-data", "id"=>"ajaxinvoicepaymentform"))  !!}
 	<input type="hidden" value="" name="invoice_id" id="invoice_id">
-	<input type="hidden" value="true" name="is_ajax" id="">
-	<input type="hidden" value="{{$fetchedData->id}}" name="client_id" id="">
+	<input type="hidden" value="true" name="is_ajax" id="invoice_is_ajax">
+	<input type="hidden" value="{{$fetchedData->id}}" name="client_id" id="invoice_client_id">
 		<div class="modal-content ">
 			<div class="modal-header">
 				<h4 class="modal-title">Payment Details</h4>
@@ -1346,7 +1346,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Create Note</h5>
+				<h5 class="modal-title" id="appNoteModalLabel">Create Note</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -1902,7 +1902,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="email_cc">CC </label>
-								<select data-valid="" class="js-data-example-ajaxccapp" name="email_cc[]"></select>
+								<select data-valid="" class="js-data-example-ajaxccapp" name="email_cc[]" id="email_cc_select"></select>
 
 								@if ($errors->has('email_cc'))
 									<span class="custom-error" role="alert">
@@ -1915,7 +1915,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="template">Templates </label>
-								<select data-valid="" class="form-control select2 selectapplicationtemplate" name="template">
+								<select data-valid="" class="form-control select2 selectapplicationtemplate" name="template" id="email_template_select">
 									<option value="">Select</option>
 									@foreach(\App\Models\CrmEmailTemplate::all() as $list)
 										<option value="{{$list->id}}">{{$list->name}}</option>
@@ -2239,7 +2239,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Create Client Receipt</h5>
+				<h5 class="modal-title" id="clientReceiptModalLabel">Create Client Receipt</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -2362,11 +2362,11 @@
 </div>
 
 <!-- Create All document Docs Modal -->
-<div class="modal fade create_alldocument_docs custom_modal" id="openalldocsmodal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+<div class="modal fade create_alldocument_docs custom_modal" id="openalldocsmodal" tabindex="-1" role="dialog" aria-labelledby="checklistModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="taskModalLabel">Add Checklist</h5>
+				<h5 class="modal-title" id="checklistModalLabel">Add Checklist</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -2497,7 +2497,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="appliationModalLabel">Refund Application</h5>
+				<h5 class="modal-title" id="refundApplicationModalLabel">Refund Application</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -2510,7 +2510,7 @@
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
 								<label for="">Notes <span class="span_req">*</span></label>
-								<textarea data-valid="required"  class="form-control" name="refund_note" id=""></textarea>
+								<textarea data-valid="required"  class="form-control" name="refund_note" id="refund_note_textarea"></textarea>
                             </div>
 						</div>
 						<div class="col-12 col-md-12 col-lg-12">

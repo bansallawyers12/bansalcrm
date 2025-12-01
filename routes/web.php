@@ -664,7 +664,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/deletefee', 'Admin\ProductsController@deletefee');
 		
 		
-		Route::post('/partner/addtask', 'Admin\PartnersController@addTask');
+		Route::post('/partner/addtask', 'Admin\PartnersController@addtask');
 		Route::get('/partner/get-tasks', 'Admin\PartnersController@gettasks');
 		Route::get('/partner/get-task-detail', 'Admin\PartnersController@taskdetail');
 		Route::post('/partner/savecomment', 'Admin\PartnersController@savecomment');
