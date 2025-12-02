@@ -2,7 +2,6 @@
 /public/hot
 /public/img/documents
 /public/img/invoice
-/public/checklists
 /public/storage
 /storage/*.key
 /vendor
