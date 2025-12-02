@@ -16,4 +16,11 @@ class CheckinLog extends Authenticatable
 	
 	public $sortable = ['id','created_at', 'updated_at'];
 	
+	/**
+     * Get the client for this check-in
+     */
+    public function client()
+    {
+        return $this->belongsTo('App\Models\Admin', 'client_id', 'id');
+    }
 }

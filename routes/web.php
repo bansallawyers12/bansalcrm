@@ -100,6 +100,10 @@ Route::post('/reset_link', 'HomeController@resetLink')->name('reset_link');	 */
 //Thank you page after email verification (KEEP - used by client self-update feature)
 Route::get('thankyou', 'HomeController@thankyou')->name('thankyou');
 
+//Root login routes - same as admin login
+Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('login');
+Route::post('/', 'Auth\AdminLoginController@login');
+
 /*---------------Agent Route-------------------*/
 require __DIR__ . '/agent.php';
 /*********************Admin Panel Start ***********************/
@@ -758,7 +762,9 @@ Route::prefix('admin')->group(function() {
 		Route::get('/teams/edit/{id}', 'Admin\TeamController@edit')->name('admin.teams.edit');
 		Route::post('/teams/edit', 'Admin\TeamController@edit');
 		Route::post('/teams/store', 'Admin\TeamController@store')->name('admin.teamsupload');	
-		Route::get('/all-notifications', 'Admin\AdminController@allnotification');	
+		Route::get('/all-notifications', 'Admin\AdminController@allnotification')->name('admin.notifications.index');
+		Route::post('/notifications/mark-read', 'Admin\AdminController@markNotificationAsRead')->name('admin.notifications.mark-read');
+		Route::post('/notifications/mark-all-read', 'Admin\AdminController@markAllNotificationsAsRead')->name('admin.notifications.mark-all-read');	
 		
 		// Assignee modulle
 		Route::resource('/assignee', Admin\AssigneeController::class);

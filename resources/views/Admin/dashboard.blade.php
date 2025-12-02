@@ -2,6 +2,103 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
+<style>
+    /* Dashboard Widget Improvements */
+    .dash_card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .dash_card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .card-statistic-4 {
+        padding: 1.5rem;
+    }
+    
+    .card_header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .card_header h5 {
+        margin: 0;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .card_body {
+        min-height: 100px;
+    }
+    
+    .card_body .text-center {
+        padding: 2rem 1rem;
+    }
+    
+    .card_body .text-muted {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    /* Task Filter Dropdown */
+    #task_filter {
+        font-size: 0.75rem;
+        height: 24px;
+        padding: 2px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+    
+    #task_filter:focus {
+        outline: none;
+        border-color: #6777ef;
+        box-shadow: 0 0 0 2px rgba(103, 119, 239, 0.1);
+    }
+    
+    /* Empty State Styling */
+    .card_body .text-center p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .card_body .text-center small {
+        font-size: 0.8rem;
+        color: #999;
+    }
+    
+    /* Table Improvements */
+    .card_body table {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .card_body table tbody tr {
+        border-bottom: 1px solid #f5f5f5;
+    }
+    
+    .card_body table tbody tr:last-child {
+        border-bottom: none;
+    }
+    
+    .card_body table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .dash_card {
+            margin-bottom: 1rem;
+        }
+        
+        .card-statistic-4 {
+            padding: 1rem;
+        }
+    }
+</style>
 
 <!-- Main Content -->
 <div class="main-content">
@@ -13,23 +110,14 @@
 
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
 				<div class="card dash_card">
-				    <?php
-
-					if(Auth::user()->role == 1){
-						$countfollowup = \App\Models\Note::select('id')->whereDate('followup_date', date('Y-m-d'))->count();
-					}else{
-						$countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->where('assigned_to', Auth::user()->id)->count();
-					}
-                    
-                    ?>
 					<div class="card-statistic-4">
 						<div class="align-items-center justify-content-between">
 							<div class="row ">
 								<div class="col-lg-12 col-md-12">
-										<div class="card-content">
+									<div class="card-content">
 										<h5 class="font-14">Today Followup</h5>
-										<h2 class="mb-3 font-18">{{$countfollowup}}</h2>
-										<p class="mb-0"><span class="col-green">{{$countfollowup}}</span> <a href="{{URL::to('/admin/followup-dates/')}}">click here</a></p>
+										<h2 class="mb-3 font-18">{{$todayFollowupCount}}</h2>
+										<p class="mb-0"><span class="col-green">{{$todayFollowupCount}}</span> <a href="{{URL::to('/admin/followup-dates/')}}">click here</a></p>
 									</div>
 								</div>
 							</div>
@@ -45,62 +133,65 @@
                     <div class="card-statistic-4">
                         <div class="card-content cus_card_content">
                             <div class="card_header">
-                                <h5 class="font-14">My Tasks for </h5>
-                                <!--<a href="javascript:;" id="create_task" class="btn btn-outline-primary btn-sm add_btn"><i class="fa fa-plus"></i> Add</a>-->
+                                <h5 class="font-14">My Tasks 
+                                    <select id="task_filter" class="form-control form-control-sm d-inline-block" style="width: auto; display: inline-block; margin-left: 5px; padding: 2px 5px;">
+                                        <option value="today" {{$dateFilter == 'today' ? 'selected' : ''}}>Today</option>
+                                        <option value="week" {{$dateFilter == 'week' ? 'selected' : ''}}>This Week</option>
+                                        <option value="month" {{$dateFilter == 'month' ? 'selected' : ''}}>This Month</option>
+                                    </select>
+                                </h5>
                             </div>
                             <div class="card_body">
-                                <?php
-                                if(Auth::user()->role == 1){
-                                    //echo date('Y-m-d');
-                                    $liststodo = \App\Models\Task::whereDate('due_date', date('Y-m-d'))->select('id','user_id','status','due_date','due_time')->orderby('created_at','Desc')->get();
-                                }else{
-                                    $liststodo = \App\Models\Task::whereDate('due_date', date('Y-m-d'))
-                                    ->where(function($query){
-                                        $query->where('assignee', Auth::user()->id)
-                                              ->orWhere('followers', Auth::user()->id);
-                                    })->select('id','user_id','status','due_date','due_time')->orderby('created_at','Desc')->get();
-                                } //dd($liststodo);
-                                ?>
-                                @if(@$totalData !== 0)
+                                @if($todayTasks->count() > 0)
                                 <div class="taskdata_list">
                                     <div class="table-responsive">
                                         <table id="my-datatable" class="table-2 table text_wrap">
                                             <tbody class="taskdata">
-                                            <?php
-                                            foreach($liststodo as $alist)
-                                            { //dd($alist);
-                                                $admin = \App\Models\Admin::where('id', $alist->user_id)->select('last_name','first_name')->first();//dd($admin);
-                                                if($admin){
-                                                    $first_name = $admin->first_name ?? 'N/A';
-                                                    $last_name = $admin->last_name ?? 'N/A';
-                                                    $full_name = $first_name.' '.$last_name;
-                                                } else {
-                                                    $full_name = 'N/A';
-                                                } ?>
-                                                <tr class="opentaskview" style="cursor:pointer;" id="{{$alist->id}}">
-                                                    <td><?php if($alist->status == 1 || $alist->status == 2){ echo "<span class='check'><i class='fa fa-check'></i></span>"; } else{ echo "<span class='round'></span>"; } ?></td>
-                                                    <td>{{$full_name}}<br><i class="fa fa-clock"></i>{{date('d/m/Y h:i A', strtotime($alist->due_date.' '.$alist->due_time))}} </td>
-                                                    <td>
-                                                    <?php
-                                                    if($alist->status == 1){
-                                                        echo '<span style="color: rgb(113, 204, 83); width: 84px;">Completed</span>';
-                                                    }else if($alist->status == 2){
-                                                        echo '<span style="color: rgb(255, 173, 0); width: 84px;">In Progress</span>';
-                                                    }else if($alist->status == 3){
-                                                        echo '<span style="color: rgb(156, 156, 156); width: 84px;">On Review</span>';
-                                                    }else{
-                                                        echo '<span style="color: rgb(255, 173, 0); width: 84px;">Todo</span>';
+                                            @foreach($todayTasks as $alist)
+                                                @php
+                                                    // Use eager-loaded user relationship
+                                                    if($alist->user){
+                                                        $first_name = $alist->user->first_name ?? 'N/A';
+                                                        $last_name = $alist->user->last_name ?? 'N/A';
+                                                        $full_name = $first_name.' '.$last_name;
+                                                    } else {
+                                                        $full_name = 'N/A';
                                                     }
-                                                    ?></td>
+                                                @endphp
+                                                <tr class="opentaskview" style="cursor:pointer;" id="{{$alist->id}}">
+                                                    <td>
+                                                        @if($alist->status == 1 || $alist->status == 2)
+                                                            <span class='check'><i class='fa fa-check'></i></span>
+                                                        @else
+                                                            <span class='round'></span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{$full_name}}<br>
+                                                        <i class="fa fa-clock"></i> {{$alist->formatted_due_date ?? 'N/A'}}
+                                                    </td>
+                                                    <td>
+                                                        @if($alist->status == 1)
+                                                            <span style="color: rgb(113, 204, 83); width: 84px;">Completed</span>
+                                                        @elseif($alist->status == 2)
+                                                            <span style="color: rgb(255, 173, 0); width: 84px;">In Progress</span>
+                                                        @elseif($alist->status == 3)
+                                                            <span style="color: rgb(156, 156, 156); width: 84px;">On Review</span>
+                                                        @else
+                                                            <span style="color: rgb(255, 173, 0); width: 84px;">Todo</span>
+                                                        @endif
+                                                    </td>
                                                 </tr>
-                                                <?php
-                                            } ?>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 @else
-                                <p class="text-muted">No tasks at the moment.</p>
+                                <div class="text-center py-3">
+                                    <p class="text-muted mb-0">No tasks for {{$dateFilter == 'today' ? 'today' : ($dateFilter == 'week' ? 'this week' : 'this month')}}.</p>
+                                    <small class="text-muted">All caught up!</small>
+                                </div>
                                 @endif
                             </div>
                         </div>
@@ -111,34 +202,31 @@
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
                 <div class="card dash_card">
                     <div class="card-statistic-4">
-                        <?php
-                        $checkins 		= \App\Models\CheckinLog::where('id', '!=', '')->where('status', '=', '0')->select('id','client_id','created_at');
-                        $checkinstotalData 	= $checkins->count();
-                        $checkinslists		= 		$checkins->get()
-                        ?>
                         <div class="card-content cus_card_content">
                             <div class="card_header">
                                 <h5 class="font-14">Check-In Queue</h5>
                             </div>
                             <div class="card_body">
-                            @if($checkinstotalData !== 0)
+                            @if($checkInQueue['total'] > 0)
                                 <table>
                                     <tbody>
-                                    @foreach($checkinslists as $checkinslist)
-                                        <?php
-                                        $client = \App\Models\Admin::where('role', '=', '7')->where('id', '=', $checkinslist->client_id)->select('last_name','first_name')->first();
-                                        ?>
+                                    @foreach($checkInQueue['items'] as $checkinslist)
                                         <tr>
-                                            <td><a id="{{@$checkinslist->id}}" class="opencheckindetail" href="javascript:;">{{@$client->first_name}} {{@$client->last_name}} </a>
-                                            <br>
-                                            <span>Waiting since {{date('h:i A', strtotime($checkinslist->created_at))}}</span>
+                                            <td>
+                                                <a id="{{@$checkinslist->id}}" class="opencheckindetail" href="javascript:;">
+                                                    {{@$checkinslist->client->first_name ?? 'N/A'}} {{@$checkinslist->client->last_name ?? ''}}
+                                                </a>
+                                                <br>
+                                                <span>Waiting since {{$checkinslist->formatted_waiting_time ?? 'N/A'}}</span>
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
                             @else
-                                <p class="text-muted">No office check-in at the moment.</p>
+                                <div class="text-center py-3">
+                                    <p class="text-muted mb-0">No office check-in at the moment.</p>
+                                </div>
                             @endif
                             </div>
                         </div>
@@ -175,20 +263,17 @@
                                     </tr>
                                     @else
                                     @foreach($notesData as $note)
-                                    <?php
-                                    $note_client = \App\Models\Partner::select('id','partner_name')->where('id', $note->client_id)->first();
-                                    ?>
                                     <tr>
-                                        <td><a href="{{URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$note_client->id)) )}}">{{ @$note_client->partner_name == "" ? config('constants.empty') : str_limit(@$note_client->partner_name, '50', '...') }}</a></td>
+                                        <td><a href="{{URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$note->client_id)) )}}">{{ @$note->partner_name == "" ? config('constants.empty') : str_limit(@$note->partner_name, '50', '...') }}</a></td>
                                         <td><?php echo preg_replace('/<\/?p>/', '', $note->description ); ?></td>
-                                        <td>{{ date('d/m/Y',strtotime($note->note_deadline)) }}</td>
-                                        <td>{{ date('d/m/Y',strtotime($note->created_at)) }}</td>
+                                        <td>{{ $note->formatted_deadline ?? 'N/A' }}</td>
+                                        <td>{{ $note->formatted_created_at ?? 'N/A' }}</td>
                                         <td style="white-space: initial;">
                                             <div class="dropdown d-inline">
                                                 <button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item has-icon" href="javascript:;" onclick="closeNotesDeadlineAction({{$note->id}})">Close</a>
-                                                    <a class="dropdown-item has-icon btn-extend_note_deadline"  data-noteid="{{$note->id}}" data-assignnote="{{$note->description}}" data-deadlinedate="<?php echo date('d/m/Y',strtotime($note->note_deadline));?>" href="javascript:;">Extend</a>
+                                                    <a class="dropdown-item has-icon btn-extend_note_deadline"  data-noteid="{{$note->id}}" data-assignnote="{{$note->description}}" data-deadlinedate="{{$note->formatted_deadline ?? ''}}" href="javascript:;">Extend</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -262,6 +347,12 @@
 <script src="{{asset('js/popover.js')}}"></script>
 <script>
 $(document).ready(function() {
+    // Task filter change handler
+    $('#task_filter').on('change', function() {
+        var filter = $(this).val();
+        window.location.href = '{{URL::to('/admin/dashboard')}}?task_filter=' + filter;
+    });
+
     $('#note_deadline').datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true }).datepicker('setDate', new Date());
 
     $(document).on('click', '#extend_deadline', function() {

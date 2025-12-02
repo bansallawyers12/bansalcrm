@@ -23,4 +23,11 @@ class Task extends Authenticatable
    
 	public $sortable = ['id', 'created_at', 'due_date', 'status', 'priority_no'];
 	
+	/**
+     * Get the user that created the task
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Admin', 'user_id', 'id');
+    }
 }

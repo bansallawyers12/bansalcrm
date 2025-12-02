@@ -26,6 +26,7 @@ use App\Models\Note;
 
 
 use App\Services\EmailService;
+use App\Services\DashboardService;
 
 class AdminController extends Controller
 {
@@ -36,12 +37,15 @@ class AdminController extends Controller
      */
   
     protected $emailService;
+    protected $dashboardService;
   
-    public function __construct(EmailService $emailService)
+    public function __construct(EmailService $emailService, DashboardService $dashboardService)
     {
         $this->middleware('auth:admin');
         $this->emailService = $emailService;
+        $this->dashboardService = $dashboardService;
     }
+    
     /**
      * Show the application dashboard.
      *
@@ -49,65 +53,36 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-		/* Leads */
-		/*$not_contacted = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 0)->count();
-		$create_porposal = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 1)->count();
-		$followup = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 15)->count();
-		$undecided = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 11)->count();
-		$lost = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 12)->count();
-		$won = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 13)->count();
-		$ready_to_pay = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 14)->count();*/
-
-		/* Leads */
-		/* Client data */
-		$Contact = Contact::count();
-		//$Lead = Lead::where('user_id', '=', Auth::user()->id)->count();
-		//$Admindd = Admin::where('user_id', '=', Auth::user()->id)->count();
-
-
-
-        //Total Enquiries
-        //$countenquiries = \App\Models\Enquiry::whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countenquiries = DB::table('enquiries')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        #dd($countenquiries);
-
-        //dd(Auth::user()->role);
-        //Get User role and module access
-        /*$roles = \App\Models\UserRole::find(Auth::user()->role);
-        $newarray = json_decode($roles->module_access);
-        $module_access = (array) $newarray; //dd($module_access);*/
-
-        //For Total Leads section
-        //$countleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countallleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->count();
-        //$countleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countallleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->count();
-
-
-        //Today Followup
-       /* if(Auth::user()->role == 1){
-            $countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->count();
-        }else{
-            $countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->where('assigned_to', Auth::user()->id)->count();
-        }*/
-
-        //Total Clients
-        //$countclient = \App\Models\Admin::where('is_archived',0)->where('type','client')->where('role', '=', '7')->count();
-
-
-		/* Client data */
-        //return view('Admin.dashboard', compact(['not_contacted', 'create_porposal', 'followup', 'undecided', 'lost', 'won', 'ready_to_pay', 'Contact', 'Lead', 'Admindd']));
-        //return view('Admin.dashboard', compact(['countenquiries','module_access','countleads','countallleads','countfollowup','countclient']));
-      
-        if(\Auth::user()->role == 1){
-            $notesData = DB::table('notes')->whereNotNull('note_deadline')->where('status','!=',1)->orderby('note_deadline','DESC')->paginate(config ('constants.limit')); // You can adjust the number per page as needed;
-        } else {
-            $notesData = DB::table('notes')->where('assigned_to',Auth::user()->id)->whereNotNull('note_deadline')->where('status','!=',1)->orderby('note_deadline','DESC')->paginate(config ('constants.limit'));
+        try {
+            // Get date filter from request (default to 'today')
+            $dateFilter = request()->get('task_filter', 'today');
+            
+            // Get dashboard data using service
+            $todayFollowupCount = $this->dashboardService->getTodayFollowupCount();
+            $todayTasks = $this->dashboardService->getTodayTasks($dateFilter);
+            $checkInQueue = $this->dashboardService->getCheckInQueue();
+            $notesData = $this->dashboardService->getNotesWithDeadlines();
+            
+            return view('Admin.dashboard', compact([
+                'todayFollowupCount',
+                'todayTasks',
+                'checkInQueue',
+                'notesData',
+                'dateFilter'
+            ]));
+        } catch (\Exception $e) {
+            \Log::error('Dashboard error: ' . $e->getMessage());
+            \Log::error('Dashboard error trace: ' . $e->getTraceAsString());
+            
+            // Return view with empty data on error
+            return view('Admin.dashboard', [
+                'todayFollowupCount' => 0,
+                'todayTasks' => collect([]),
+                'checkInQueue' => ['total' => 0, 'items' => collect([])],
+                'notesData' => new \Illuminate\Pagination\LengthAwarePaginator([], 0, config('constants.limit', 10)),
+                'dateFilter' => 'today'
+            ])->with('error', 'An error occurred while loading the dashboard. Some data may not be available.');
         }
-        //dd($notesData);
-        return view('Admin.dashboard', compact(['Contact','notesData']));
-        
-
     }
 
     public function fetchnotification(Request $request){
@@ -1948,8 +1923,54 @@ class AdminController extends Controller
     }
 
 	public function allnotification(Request $request){
-		$lists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->orderby('created_at','DESC')->paginate(20);
-		return view('Admin.notifications', compact(['lists']));
+		$query = \App\Models\Notification::where('receiver_id', Auth::user()->id);
+		
+		// Filter by read/unread status
+		if($request->has('filter') && $request->filter != 'all'){
+			if($request->filter == 'unread'){
+				$query->where('receiver_status', 0);
+			} elseif($request->filter == 'read'){
+				$query->where('receiver_status', 1);
+			}
+		}
+		
+		// Search functionality
+		if($request->has('search') && !empty($request->search)){
+			$search = $request->search;
+			$query->where('message', 'LIKE', '%'.$search.'%');
+		}
+		
+		$lists = $query->orderby('created_at','DESC')->paginate(20)->appends($request->query());
+		
+		// Get counts for filter tabs
+		$totalCount = \App\Models\Notification::where('receiver_id', Auth::user()->id)->count();
+		$unreadCount = \App\Models\Notification::where('receiver_id', Auth::user()->id)->where('receiver_status', 0)->count();
+		$readCount = \App\Models\Notification::where('receiver_id', Auth::user()->id)->where('receiver_status', 1)->count();
+		
+		return view('Admin.notifications', compact(['lists', 'totalCount', 'unreadCount', 'readCount']));
+	}
+	
+	public function markNotificationAsRead(Request $request){
+		if($request->has('id') && !empty($request->id)){
+			$notification = \App\Models\Notification::where('id', $request->id)
+				->where('receiver_id', Auth::user()->id)
+				->first();
+			
+			if($notification){
+				$notification->receiver_status = 1;
+				$notification->save();
+				return response()->json(['success' => true, 'message' => 'Notification marked as read']);
+			}
+		}
+		return response()->json(['success' => false, 'message' => 'Notification not found']);
+	}
+	
+	public function markAllNotificationsAsRead(Request $request){
+		$updated = \App\Models\Notification::where('receiver_id', Auth::user()->id)
+			->where('receiver_status', 0)
+			->update(['receiver_status' => 1]);
+		
+		return response()->json(['success' => true, 'message' => $updated.' notifications marked as read']);
 	}
   
     public function partnerChangeToInactive(Request $request)
