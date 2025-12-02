@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ClientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -299,59 +300,59 @@ Route::prefix('admin')->group(function() {
 		Route::post('/photo-gallery/update_action', 'Admin\MediaController@update_action')->name('admin.photo.update_action');
 		
 		//clients Start  
-		Route::get('/clients', 'Admin\ClientsController@index')->name('admin.clients.index');
-		Route::get('/clients/create', 'Admin\ClientsController@create')->name('admin.clients.create'); 
-		Route::post('/clients/store', 'Admin\ClientsController@store')->name('admin.clients.store');
-		Route::get('/clients/edit/{id}', 'Admin\ClientsController@edit')->name('admin.clients.edit');
-		Route::post('/clients/edit', 'Admin\ClientsController@edit');
+		Route::get('/clients', [ClientsController::class, 'index'])->name('admin.clients.index');
+		Route::get('/clients/create', [ClientsController::class, 'create'])->name('admin.clients.create'); 
+		Route::post('/clients/store', [ClientsController::class, 'store'])->name('admin.clients.store');
+		Route::get('/clients/edit/{id}', [ClientsController::class, 'edit'])->name('admin.clients.edit');
+		Route::post('/clients/edit', [ClientsController::class, 'edit']);
   
-		Route::post('/clients/followup/store', 'Admin\ClientsController@followupstore');
-        Route::post('/clients/followup_application/store_application', 'Admin\ClientsController@followupstore_application');
+		Route::post('/clients/followup/store', [ClientsController::class, 'followupstore']);
+        Route::post('/clients/followup_application/store_application', [ClientsController::class, 'followupstore_application']);
   
-		Route::post('/clients/followup/retagfollowup', 'Admin\ClientsController@retagfollowup');
-		Route::get('/clients/changetype/{id}/{type}', 'Admin\ClientsController@changetype');
-		Route::get('/document/download/pdf/{id}', 'Admin\ClientsController@downloadpdf');
-		Route::get('/clients/removetag', 'Admin\ClientsController@removetag');
-		Route::get('/clients/detail/{id}', 'Admin\ClientsController@detail')->name('admin.clients.detail');	
-		Route::get('/clients/get-recipients', 'Admin\ClientsController@getrecipients')->name('admin.clients.getrecipients');
-		Route::get('/clients/get-onlyclientrecipients', 'Admin\ClientsController@getonlyclientrecipients')->name('admin.clients.getonlyclientrecipients');
+		Route::post('/clients/followup/retagfollowup', [ClientsController::class, 'retagfollowup']);
+		Route::get('/clients/changetype/{id}/{type}', [ClientsController::class, 'changetype']);
+		Route::get('/document/download/pdf/{id}', [ClientsController::class, 'downloadpdf']);
+		Route::get('/clients/removetag', [ClientsController::class, 'removetag']);
+		Route::get('/clients/detail/{id}', [ClientsController::class, 'detail'])->name('admin.clients.detail');	
+		Route::get('/clients/get-recipients', [ClientsController::class, 'getrecipients'])->name('admin.clients.getrecipients');
+		Route::get('/clients/get-onlyclientrecipients', [ClientsController::class, 'getonlyclientrecipients'])->name('admin.clients.getonlyclientrecipients');
 		// Global search endpoint with rate limiting (60 requests per minute)
-		Route::get('/clients/get-allclients', 'Admin\ClientsController@getallclients')
+		Route::get('/clients/get-allclients', [ClientsController::class, 'getallclients'])
 			->name('admin.clients.getallclients')
 			->middleware('throttle:60,1');
-		Route::get('/clients/change_assignee', 'Admin\ClientsController@change_assignee');
+		Route::get('/clients/change_assignee', [ClientsController::class, 'change_assignee']);
 		Route::get('/get-templates', 'Admin\AdminController@gettemplates')->name('admin.clients.gettemplates');
 		Route::post('/sendmail', 'Admin\AdminController@sendmail')->name('admin.clients.sendmail');
-		Route::post('/create-note', 'Admin\ClientsController@createnote')->name('admin.clients.createnote');
-		Route::get('/getnotedetail', 'Admin\ClientsController@getnotedetail')->name('admin.clients.getnotedetail');
-		Route::get('/deletenote', 'Admin\ClientsController@deletenote')->name('admin.clients.deletenote');
+		Route::post('/create-note', [ClientsController::class, 'createnote'])->name('admin.clients.createnote');
+		Route::get('/getnotedetail', [ClientsController::class, 'getnotedetail'])->name('admin.clients.getnotedetail');
+		Route::get('/deletenote', [ClientsController::class, 'deletenote'])->name('admin.clients.deletenote');
   
-        Route::get('/deleteactivitylog', 'Admin\ClientsController@deleteactivitylog')->name('admin.clients.deleteactivitylog');
+        Route::get('/deleteactivitylog', [ClientsController::class, 'deleteactivitylog'])->name('admin.clients.deleteactivitylog');
 
   
-         Route::post('/not-picked-call', 'Admin\ClientsController@notpickedcall')->name('admin.clients.notpickedcall');
+         Route::post('/not-picked-call', [ClientsController::class, 'notpickedcall'])->name('admin.clients.notpickedcall');
 		//prospects Start  
-		Route::get('/prospects', 'Admin\ClientsController@prospects')->name('admin.clients.prospects');
-		Route::get('/viewnotedetail', 'Admin\ClientsController@viewnotedetail');
-		Route::get('/viewapplicationnote', 'Admin\ClientsController@viewapplicationnote');
-		Route::post('/saveprevvisa', 'Admin\ClientsController@saveprevvisa');	
-		Route::post('/saveonlineprimaryform', 'Admin\ClientsController@saveonlineform');	
-		Route::post('/saveonlinesecform', 'Admin\ClientsController@saveonlineform');	
-		Route::post('/saveonlinechildform', 'Admin\ClientsController@saveonlineform');	
+		Route::get('/prospects', [ClientsController::class, 'prospects'])->name('admin.clients.prospects');
+		Route::get('/viewnotedetail', [ClientsController::class, 'viewnotedetail']);
+		Route::get('/viewapplicationnote', [ClientsController::class, 'viewapplicationnote']);
+		Route::post('/saveprevvisa', [ClientsController::class, 'saveprevvisa']);	
+		Route::post('/saveonlineprimaryform', [ClientsController::class, 'saveonlineform']);	
+		Route::post('/saveonlinesecform', [ClientsController::class, 'saveonlineform']);	
+		Route::post('/saveonlinechildform', [ClientsController::class, 'saveonlineform']);	
 		//archived Start  
-		Route::get('/archived', 'Admin\ClientsController@archived')->name('admin.clients.archived');
-		Route::get('/change-client-status', 'Admin\ClientsController@updateclientstatus')->name('admin.clients.updateclientstatus');
-		Route::get('/get-activities', 'Admin\ClientsController@activities')->name('admin.clients.activities');
-		Route::get('/get-application-lists', 'Admin\ClientsController@getapplicationlists')->name('admin.clients.getapplicationlists');
-		Route::post('/saveapplication', 'Admin\ClientsController@saveapplication')->name('admin.clients.saveapplication');
-		Route::get('/get-notes', 'Admin\ClientsController@getnotes')->name('admin.clients.getnotes');
-		Route::get('/convertapplication', 'Admin\ClientsController@convertapplication')->name('admin.clients.convertapplication');
-		Route::get('/deleteservices', 'Admin\ClientsController@deleteservices')->name('admin.clients.deleteservices');
-		Route::post('/upload-document', 'Admin\ClientsController@uploaddocument')->name('admin.clients.uploaddocument');
-		Route::get('/deletedocs', 'Admin\ClientsController@deletedocs')->name('admin.clients.deletedocs');
-		Route::post('/renamedoc', 'Admin\ClientsController@renamedoc')->name('admin.clients.renamedoc');
+		Route::get('/archived', [ClientsController::class, 'archived'])->name('admin.clients.archived');
+		Route::get('/change-client-status', [ClientsController::class, 'updateclientstatus'])->name('admin.clients.updateclientstatus');
+		Route::get('/get-activities', [ClientsController::class, 'activities'])->name('admin.clients.activities');
+		Route::get('/get-application-lists', [ClientsController::class, 'getapplicationlists'])->name('admin.clients.getapplicationlists');
+		Route::post('/saveapplication', [ClientsController::class, 'saveapplication'])->name('admin.clients.saveapplication');
+		Route::get('/get-notes', [ClientsController::class, 'getnotes'])->name('admin.clients.getnotes');
+		Route::get('/convertapplication', [ClientsController::class, 'convertapplication'])->name('admin.clients.convertapplication');
+		Route::get('/deleteservices', [ClientsController::class, 'deleteservices'])->name('admin.clients.deleteservices');
+		Route::post('/upload-document', [ClientsController::class, 'uploaddocument'])->name('admin.clients.uploaddocument');
+		Route::get('/deletedocs', [ClientsController::class, 'deletedocs'])->name('admin.clients.deletedocs');
+		Route::post('/renamedoc', [ClientsController::class, 'renamedoc'])->name('admin.clients.renamedoc');
 		
-		Route::post('/savetoapplication', 'Admin\ClientsController@savetoapplication');
+		Route::post('/savetoapplication', [ClientsController::class, 'savetoapplication']);
 		
 		//products Start   
 		Route::get('/products', 'Admin\ProductsController@index')->name('admin.products.index');
@@ -458,19 +459,19 @@ Route::prefix('admin')->group(function() {
 		Route::get('/invoice/general-invoice', 'Admin\InvoiceController@general_invoice')->name('admin.invoice.general-invoice'); 
 		
 		Route::get('/applications/detail/{id}', 'Admin\ApplicationsController@detail')->name('admin.applications.detail'); 	 
-		Route::post('/interested-service', 'Admin\ClientsController@interestedService'); 	 
-		Route::post('/edit-interested-service', 'Admin\ClientsController@editinterestedService'); 	 
-		Route::get('/get-services', 'Admin\ClientsController@getServices'); 	 
-		Route::get('/showproductfeeserv', 'Admin\ClientsController@showproductfeeserv');Route::post('/servicesavefee', 'Admin\ClientsController@servicesavefee');		 	 
-		Route::post('/upload-mail', 'Admin\ClientsController@uploadmail'); 	 
-		Route::post('/updatefollowupschedule', 'Admin\ClientsController@updatefollowupschedule'); 
+		Route::post('/interested-service', [ClientsController::class, 'interestedService']); 	 
+		Route::post('/edit-interested-service', [ClientsController::class, 'editinterestedService']); 	 
+		Route::get('/get-services', [ClientsController::class, 'getServices']); 	 
+		Route::get('/showproductfeeserv', [ClientsController::class, 'showproductfeeserv']);Route::post('/servicesavefee', [ClientsController::class, 'servicesavefee']);		 	 
+		Route::post('/upload-mail', [ClientsController::class, 'uploadmail']); 	 
+		Route::post('/updatefollowupschedule', [ClientsController::class, 'updatefollowupschedule']); 
   
-        Route::get('/pinnote', 'Admin\ClientsController@pinnote'); 	 
-  	    Route::get('/pinactivitylog', 'Admin\ClientsController@pinactivitylog');
+        Route::get('/pinnote', [ClientsController::class, 'pinnote']); 	 
+  	    Route::get('/pinactivitylog', [ClientsController::class, 'pinactivitylog']);
   
-		Route::get('/getintrestedservice', 'Admin\ClientsController@getintrestedservice'); 	 
-		Route::post('/application/saleforcastservice', 'Admin\ClientsController@saleforcastservice');
-		Route::get('/getintrestedserviceedit', 'Admin\ClientsController@getintrestedserviceedit'); 	 
+		Route::get('/getintrestedservice', [ClientsController::class, 'getintrestedservice']); 	 
+		Route::post('/application/saleforcastservice', [ClientsController::class, 'saleforcastservice']);
+		Route::get('/getintrestedserviceedit', [ClientsController::class, 'getintrestedserviceedit']); 	 
 		Route::post('/saveeducation', 'Admin\EducationController@store'); 	 
 		Route::post('/editeducation', 'Admin\EducationController@edit'); 	 
 		Route::get('/get-educations', 'Admin\EducationController@geteducations'); 	 
@@ -744,7 +745,7 @@ Route::prefix('admin')->group(function() {
         Route::post('/report/save_random_client_selection', 'Admin\ReportController@saveclientrandomlyselectmonthly');
 
 
-		Route::post('/save_tag', 'Admin\ClientsController@save_tag'); 	 
+		Route::post('/save_tag', [ClientsController::class, 'save_tag']); 	 
 		
 		
 		//Email Start
@@ -796,12 +797,12 @@ Route::prefix('admin')->group(function() {
         Route::delete('/destroy_complete_activity/{note_id}', 'Admin\AssigneeController@destroy_complete_activity')->name('assignee.destroy_complete_activity'); //delete completed activity
 
         //Save Personal Task
-        Route::post('/clients/personalfollowup/store', 'Admin\ClientsController@personalfollowup');
-        Route::post('/clients/updatefollowup/store', 'Admin\ClientsController@updatefollowup');
-        Route::post('/clients/reassignfollowup/store', 'Admin\ClientsController@reassignfollowupstore');
+        Route::post('/clients/personalfollowup/store', [ClientsController::class, 'personalfollowup']);
+        Route::post('/clients/updatefollowup/store', [ClientsController::class, 'updatefollowup']);
+        Route::post('/clients/reassignfollowup/store', [ClientsController::class, 'reassignfollowupstore']);
         
         //update attending session to be completed
-        Route::post('/clients/update-session-completed', 'Admin\ClientsController@updatesessioncompleted')->name('admin.clients.updatesessioncompleted');
+        Route::post('/clients/update-session-completed', [ClientsController::class, 'updatesessioncompleted'])->name('admin.clients.updatesessioncompleted');
         
         //Total person waiting and total activity counter
         Route::get('/fetch-InPersonWaitingCount', 'Admin\AdminController@fetchInPersonWaitingCount');
@@ -818,10 +819,10 @@ Route::prefix('admin')->group(function() {
         Route::post('/is_contactno_unique', 'Admin\LeadController@is_contactno_unique');
         
         //merge records
-        Route::post('/merge_records','Admin\ClientsController@merge_records')->name('client.merge_records');
+        Route::post('/merge_records',[ClientsController::class, 'merge_records'])->name('client.merge_records');
         
         //update email verified at client detail page
-        Route::post('/clients/update-email-verified', 'Admin\ClientsController@updateemailverified');
+        Route::post('/clients/update-email-verified', [ClientsController::class, 'updateemailverified']);
         
 		
 		 //Promo code
@@ -832,28 +833,28 @@ Route::prefix('admin')->group(function() {
 		Route::post('/promo-code/edit', 'Admin\PromoCodeController@edit');
         Route::post('/promo-code/checkpromocode', 'Admin\PromoCodeController@checkpromocode');
         
-        Route::post('/address_auto_populate', 'Admin\ClientsController@address_auto_populate');
+        Route::post('/address_auto_populate', [ClientsController::class, 'address_auto_populate']);
   
-        Route::post('/client/createservicetaken', 'Admin\ClientsController@createservicetaken');
-        Route::post('/client/removeservicetaken', 'Admin\ClientsController@removeservicetaken');
-        Route::post('/client/getservicetaken', 'Admin\ClientsController@getservicetaken');
+        Route::post('/client/createservicetaken', [ClientsController::class, 'createservicetaken']);
+        Route::post('/client/removeservicetaken', [ClientsController::class, 'removeservicetaken']);
+        Route::post('/client/getservicetaken', [ClientsController::class, 'getservicetaken']);
   
-        Route::get('/gettagdata', 'Admin\ClientsController@gettagdata');
+        Route::get('/gettagdata', [ClientsController::class, 'gettagdata']);
   
   		//Account Receipts section
-        Route::get('/clients/saveaccountreport/{id}', 'Admin\ClientsController@saveaccountreport')->name('admin.clients.saveaccountreport');
-        Route::post('/clients/saveaccountreport', 'Admin\ClientsController@saveaccountreport')->name('admin.clients.saveaccountreport.update');
-        Route::post('/clients/getTopReceiptValInDB', 'Admin\ClientsController@getTopReceiptValInDB')->name('admin.clients.getTopReceiptValInDB');
-        Route::get('/clients/printpreview/{id}', 'Admin\ClientsController@printpreview'); //Client receipt print preview
-		Route::post('/clients/getClientReceiptInfoById', 'Admin\ClientsController@getClientReceiptInfoById')->name('admin.clients.getClientReceiptInfoById');
+        Route::get('/clients/saveaccountreport/{id}', [ClientsController::class, 'saveaccountreport'])->name('admin.clients.saveaccountreport');
+        Route::post('/clients/saveaccountreport', [ClientsController::class, 'saveaccountreport'])->name('admin.clients.saveaccountreport.update');
+        Route::post('/clients/getTopReceiptValInDB', [ClientsController::class, 'getTopReceiptValInDB'])->name('admin.clients.getTopReceiptValInDB');
+        Route::get('/clients/printpreview/{id}', [ClientsController::class, 'printpreview']); //Client receipt print preview
+		Route::post('/clients/getClientReceiptInfoById', [ClientsController::class, 'getClientReceiptInfoById'])->name('admin.clients.getClientReceiptInfoById');
 
 
-        Route::get('/clients/clientreceiptlist', 'Admin\ClientsController@clientreceiptlist')->name('admin.clients.clientreceiptlist');
-        Route::post('/validate_receipt','Admin\ClientsController@validate_receipt')->name('client.validate_receipt');
+        Route::get('/clients/clientreceiptlist', [ClientsController::class, 'clientreceiptlist'])->name('admin.clients.clientreceiptlist');
+        Route::post('/validate_receipt',[ClientsController::class, 'validate_receipt'])->name('client.validate_receipt');
   
   		//Commission Report
-        Route::get('/commissionreport', 'Admin\ClientsController@commissionreport')->name('admin.commissionreport');
-        Route::post('/commissionreport/list','Admin\ClientsController@getcommissionreport')->name('admin.commissionreportlist');
+        Route::get('/commissionreport', [ClientsController::class, 'commissionreport'])->name('admin.commissionreport');
+        Route::post('/commissionreport/list',[ClientsController::class, 'getcommissionreport'])->name('admin.commissionreportlist');
   
         Route::post('/application/updateStudentId', 'Admin\ApplicationsController@updateStudentId');
   
@@ -868,19 +869,19 @@ Route::prefix('admin')->group(function() {
 		Route::post('/documentchecklist/edit', 'Admin\DocumentChecklistController@edit');
   
   		//All Document Upload
-        Route::post('/add-alldocchecklist', 'Admin\ClientsController@addalldocchecklist')->name('admin.clients.addalldocchecklist');
-        Route::post('/upload-alldocument', 'Admin\ClientsController@uploadalldocument')->name('admin.clients.uploadalldocument');
+        Route::post('/add-alldocchecklist', [ClientsController::class, 'addalldocchecklist'])->name('admin.clients.addalldocchecklist');
+        Route::post('/upload-alldocument', [ClientsController::class, 'uploadalldocument'])->name('admin.clients.uploadalldocument');
 
         //Document Not Use Tab
-        Route::post('/notuseddoc', 'Admin\ClientsController@notuseddoc')->name('admin.clients.notuseddoc');
-        Route::post('/renamechecklistdoc', 'Admin\ClientsController@renamechecklistdoc')->name('admin.clients.renamechecklistdoc');
-        Route::post('/verifydoc', 'Admin\ClientsController@verifydoc')->name('admin.clients.verifydoc');
-        Route::get('/deletealldocs', 'Admin\ClientsController@deletealldocs')->name('admin.clients.deletealldocs');
-		Route::post('/renamealldoc', 'Admin\ClientsController@renamealldoc')->name('admin.clients.renamealldoc');
+        Route::post('/notuseddoc', [ClientsController::class, 'notuseddoc'])->name('admin.clients.notuseddoc');
+        Route::post('/renamechecklistdoc', [ClientsController::class, 'renamechecklistdoc'])->name('admin.clients.renamechecklistdoc');
+        Route::post('/verifydoc', [ClientsController::class, 'verifydoc'])->name('admin.clients.verifydoc');
+        Route::get('/deletealldocs', [ClientsController::class, 'deletealldocs'])->name('admin.clients.deletealldocs');
+		Route::post('/renamealldoc', [ClientsController::class, 'renamealldoc'])->name('admin.clients.renamealldoc');
   
   
        //Back To Document
-        Route::post('/backtodoc', 'Admin\ClientsController@backtodoc')->name('admin.clients.backtodoc');
+        Route::post('/backtodoc', [ClientsController::class, 'backtodoc'])->name('admin.clients.backtodoc');
   
         //inactive partners
         Route::get('/partners-inactive', 'Admin\PartnersController@inactivePartnerList')->name('admin.partners.inactive');
@@ -938,7 +939,7 @@ Route::prefix('admin')->group(function() {
         //Route::get('/get-partner-activities', 'Admin\PartnersController@partnerActivities')->name('admin.partners.activities');
   
         //Fetch all contact list of any client at create note popup
-        Route::post('/clients/fetchClientContactNo', 'Admin\ClientsController@fetchClientContactNo');
+        Route::post('/clients/fetchClientContactNo', [ClientsController::class, 'fetchClientContactNo']);
   
         //Fetch all contact list of any partner at create note popup at partner detail page
         Route::post('/partners/fetchPartnerContactNo', 'Admin\PartnersController@fetchPartnerContactNo');
@@ -977,7 +978,7 @@ Route::prefix('admin')->group(function() {
   
   
         //admin send msg
-        Route::post('/sendmsg', 'Admin\ClientsController@sendmsg')->name('admin.clients.sendmsg');
+        Route::post('/sendmsg', [ClientsController::class, 'sendmsg'])->name('admin.clients.sendmsg');
   
   
         //Twilio api
@@ -1000,15 +1001,15 @@ Route::prefix('admin')->group(function() {
 
   
        //Google review email sent
-        Route::post('/is_greview_mail_sent', 'Admin\ClientsController@isgreviewmailsent')->name('admin.clients.isgreviewmailsent');
+        Route::post('/is_greview_mail_sent', [ClientsController::class, 'isgreviewmailsent'])->name('admin.clients.isgreviewmailsent');
   
-        Route::post('/mail/enhance', 'Admin\ClientsController@enhanceMessage')->name('admin.mail.enhance');
+        Route::post('/mail/enhance', [ClientsController::class, 'enhanceMessage'])->name('admin.mail.enhance');
   
        //partner document upload
         Route::post('/upload-partner-document-upload', 'Admin\PartnersController@uploadpartnerdocumentupload');
   
          //Download Document
-        Route::post('/download-document', 'Admin\ClientsController@download_document');
+        Route::post('/download-document', [ClientsController::class, 'download_document']);
 });     
 
 	//Email verfiy link in send email (KEEP - Client Self-Update Feature)
