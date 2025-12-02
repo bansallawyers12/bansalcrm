@@ -160,10 +160,10 @@ var calendar = $("#myEvent").fullCalendar({
                                     <dd id="description" class="fw-bold fs-4"></dd>
                                 </div>
                                  </div>
-                         <form method="post" name="retagmodalsave" id="retagmodalsave" action="{{URL::to('/admin/clients/followup/retagfollowup')}}" autocomplete="off" enctype="multipart/form-data">
-			            	@csrf   
-			            	<input type="hidden" name="client_id" id="client_id">
-			            	<input type="hidden" name="lead_id" id="lead_id">
+                        <form method="post" name="retagmodalsave" id="retagmodalsave" action="{{URL::to('/admin/clients/followup/retagfollowup')}}" autocomplete="off" enctype="multipart/form-data">
+		            	@csrf   
+		            	<input type="hidden" name="client_id" id="followup_client_id">
+		            	<input type="hidden" name="lead_id" id="lead_id">
 			            	 <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">

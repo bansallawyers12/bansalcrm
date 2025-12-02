@@ -632,13 +632,13 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<form method="post" action="{{URL::to('/admin/create-note')}}" name="notetermform_n" autocomplete="off" id="notetermform_n" enctype="multipart/form-data">
-				@csrf
-				<input type="hidden" name="client_id" id="client_id" value="{{$fetchedData->id}}">
-				<input type="hidden" name="noteid" value="">
-				<input type="hidden" name="mailid" value="0">
-				<input type="hidden" name="vtype" value="client">
+		<div class="modal-body">
+			<form method="post" action="{{URL::to('/admin/create-note')}}" name="notetermform_n" autocomplete="off" id="notetermform_n" enctype="multipart/form-data">
+			@csrf
+			<input type="hidden" name="client_id" id="note_client_id" value="{{$fetchedData->id}}">
+			<input type="hidden" name="noteid" value="">
+			<input type="hidden" name="mailid" value="0">
+			<input type="hidden" name="vtype" value="client">
 					<div class="row">
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
@@ -2102,12 +2102,12 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-			<form method="post" action="{{URL::to('/admin/create-invoice')}}" name="createinvoive"  autocomplete="off" enctype="multipart/form-data">
-				@csrf
-				<input type="hidden" name="client_id" id="client_id">
-				<input type="hidden" name="application" id="app_id">
-				<input type="hidden" name="schedule_id" id="schedule_id">
+		<div class="modal-body">
+		<form method="post" action="{{URL::to('/admin/create-invoice')}}" name="createinvoive"  autocomplete="off" enctype="multipart/form-data">
+			@csrf
+			<input type="hidden" name="client_id" id="invoice_client_id">
+			<input type="hidden" name="application" id="app_id">
+			<input type="hidden" name="schedule_id" id="schedule_id">
 					<div class="row">
 						<div class="col-4 col-md-4 col-lg-4">
 							<div class="form-group">

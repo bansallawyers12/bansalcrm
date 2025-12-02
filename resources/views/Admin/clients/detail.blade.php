@@ -3884,7 +3884,7 @@ use App\Http\Controllers\Controller;
 			<div class="modal-body">
 				<form method="post" action="{{URL::to('/admin/save_tag')}}" name="stags_application" id="stags_application" autocomplete="off" enctype="multipart/form-data">
 				@csrf
-				<input type="hidden" name="client_id" id="client_id" value="">
+				<input type="hidden" name="client_id" id="tags_client_id" value="">
 					<div class="row">
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
@@ -5874,7 +5874,7 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
 		var sid	= $(this).attr('data-id');
 		var cid	= $(this).attr('data-cid');
 		var aid	= $(this).attr('data-app-id');
-		$('#client_id').val(cid);
+		$('#opencreateinvoiceform #invoice_client_id').val(cid);
 		$('#app_id').val(aid);
 		$('#schedule_id').val(sid);
 	});
@@ -5935,7 +5935,7 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
             `);
 
             //Fetch all contact list of any client at create note popup
-            var client_id = $('#client_id').val();
+            var client_id = $('#create_note_d #note_client_id').val();
             $('.popuploader').show();
             $.ajax({
                 url: "{{URL::to('/admin/clients/fetchClientContactNo')}}",

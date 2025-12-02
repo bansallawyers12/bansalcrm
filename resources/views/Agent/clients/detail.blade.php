@@ -844,7 +844,7 @@ $(document).delegate('#confirmpublishdocModal .acceptpublishdoc', 'click', funct
 		var sid	= $(this).attr('data-id');
 		var cid	= $(this).attr('data-cid');
 		var aid	= $(this).attr('data-app-id');
-		$('#client_id').val(cid);
+		$('#opencreateinvoiceform #invoice_client_id').val(cid);
 		$('#app_id').val(aid);
 		$('#schedule_id').val(sid);
 	});
@@ -2919,7 +2919,7 @@ $(document).ready(function() {
 
 <div class="modal fade custom_modal" id="tags_clients" tabindex="-1" role="dialog" aria-labelledby="applicationModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content"> 
+		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="appliationModalLabel">Tags</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -2929,7 +2929,7 @@ $(document).ready(function() {
 			<div class="modal-body">
 				<form method="post" action="{{URL::to('/agent/save_tag')}}" name="stags_application" id="stags_application" autocomplete="off" enctype="multipart/form-data">
 				@csrf 
-				<input type="hidden" name="client_id" id="client_id" value="">
+				<input type="hidden" name="client_id" id="tags_client_id" value="">
 					<div class="row">
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">

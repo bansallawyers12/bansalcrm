@@ -314,12 +314,12 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-			<form method="post" action="{{URL::to('/admin/create-invoice')}}" name="createinvoive"  autocomplete="off" enctype="multipart/form-data">
-				@csrf 
-				<input type="hidden" name="client_id" id="client_id">
-				<input type="hidden" name="application" id="app_id">
-				<input type="hidden" name="schedule_id" id="schedule_id">
+		<div class="modal-body">
+		<form method="post" action="{{URL::to('/admin/create-invoice')}}" name="createinvoive"  autocomplete="off" enctype="multipart/form-data">
+			@csrf 
+			<input type="hidden" name="client_id" id="invoice_client_id">
+			<input type="hidden" name="application" id="app_id">
+			<input type="hidden" name="schedule_id" id="schedule_id">
 					<div class="row">
 						<div class="col-4 col-md-4 col-lg-4">
 							<div class="form-group">
@@ -476,7 +476,7 @@ jQuery(document).ready(function($){
 		var sid	= $(this).attr('data-id');
 		var cid	= $(this).attr('data-cid');
 		var aid	= $(this).attr('data-app-id');
-		$('#client_id').val(cid);
+		$('#opencreateinvoiceform #invoice_client_id').val(cid);
 		$('#app_id').val(aid);
 		$('#schedule_id').val(sid);
 	});

@@ -1896,12 +1896,12 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-			<form method="post" action="{{URL::to('/admin/create-invoice')}}" name="createinvoive"  autocomplete="off" enctype="multipart/form-data">
-				@csrf 
-				<input type="hidden" name="client_id" id="client_id">
-				<input type="hidden" name="application" id="app_id">
-				<input type="hidden" name="schedule_id" id="schedule_id">
+		<div class="modal-body">
+		<form method="post" action="{{URL::to('/admin/create-invoice')}}" name="createinvoive"  autocomplete="off" enctype="multipart/form-data">
+			@csrf 
+			<input type="hidden" name="client_id" id="invoice_client_id">
+			<input type="hidden" name="application" id="app_id">
+			<input type="hidden" name="schedule_id" id="schedule_id">
 					<div class="row">
 						<div class="col-4 col-md-4 col-lg-4">
 							<div class="form-group">
