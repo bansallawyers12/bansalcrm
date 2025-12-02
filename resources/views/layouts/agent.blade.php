@@ -26,6 +26,8 @@
 	<link rel="stylesheet" href="{{asset('css/components.css')}}">
 	<!-- Custom style CSS -->
 	<link rel="stylesheet" href="{{asset('css/custom.css')}}">
+	<!-- Modern Search CSS -->
+	<link rel="stylesheet" href="{{asset('css/modern-search.css')}}">
 	   <style>
 .dropbtn {
   background-color: transparent;
@@ -106,74 +108,13 @@
 	<script src="{{asset('js/scripts.js')}}"></script>   
 
 	<!-- Custom JS File -->	
-	<script src="{{asset('js/custom.js')}}"></script> 
+	<script src="{{asset('js/custom.js')}}"></script>
+	<!-- Modern Search JS -->
+	<script src="{{asset('js/modern-search.js')}}"></script> 
 	<script>
 		$(document).ready(function () {
-			$('.js-data-example-ajaxccsearch').select2({
-		 
-		 closeOnSelect: true,
-		
-		  ajax: {
-			url: '{{URL::to('/admin/clients/get-allclients')}}',
-			dataType: 'json',
-			processResults: function (data) {
-			  // Transforms the top-level key of the response object from 'items' to 'results'
-			  return {
-				results: data.items
-			  };
-			  
-			},
-			 cache: true
-			
-		  },
-	templateResult: formatRepomain,
-	templateSelection: formatRepoSelectionmain
-});
-function formatRepomain (repo) {
-  if (repo.loading) {
-    return repo.text;
-  }
-
-  var $container = $(
-    "<div dataid="+repo.cid+" class='selectclient select2-result-repository ag-flex ag-space-between ag-align-center')'>" +
-
-      "<div  class='ag-flex ag-align-start'>" +
-        "<div  class='ag-flex ag-flex-column col-hr-1'><div class='ag-flex'><span  class='select2-result-repository__title text-semi-bold'></span>&nbsp;</div>" +
-        "<div class='ag-flex ag-align-center'><small class='select2-result-repository__description'></small ></div>" +
-      
-      "</div>" +
-      "</div>" +
-	   "<div class='ag-flex ag-flex-column ag-align-end'>" +
-        
-        "<span class='ui label yellow select2-result-repository__statistics'>" +
-          
-        "</span>" +
-      "</div>" +
-    "</div>"
-  );
-
-  $container.find(".select2-result-repository__title").text(repo.name);
-  $container.find(".select2-result-repository__description").text(repo.email);
-  $container.find(".select2-result-repository__statistics").append(repo.status);
- 
-  return $container;
-}
-
-function formatRepoSelectionmain (repo) {
-  return repo.name || repo.text;
-}
-
- $('.js-data-example-ajaxccsearch').on('change', function () {
-         var v = $(this).val();
-         var s = v.split('/');
-         if(s[1] == 'Client'){
-              window.location = '{{URL::to('/admin/clients/detail/')}}/'+s[0]; // redirect
-         }else{
-              window.location = '{{URL::to('/admin/leads/history/')}}/'+s[0]; // redirect
-         } 
-         
-          return false;
-      });
+			// Modern search is now initialized in modern-search.js
+			// This provides better performance with debouncing, keyboard shortcuts, and categorization
 			
 
 $(document).delegate('.opencheckin', 'click', function(){

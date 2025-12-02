@@ -7,7 +7,8 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{!! Form::open(array('url' => 'admin/agents/store', 'name'=>"add-agents", 'autocomplete'=>'off', "enctype"=>"multipart/form-data"))  !!}
+			<form action="{{ url('admin/agents/store') }}" method="POST" name="add-agents" autocomplete="off" enctype="multipart/form-data">
+				@csrf
 				<div class="row">
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -336,7 +337,7 @@
 						</div>
 					</div> 
 				</div>
-			 {!! Form::close()  !!}	
+			</form>	
 		</div>
 	</section>
 </div>

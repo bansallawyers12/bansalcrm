@@ -34,6 +34,7 @@ use Carbon\Carbon;
 
 //use App\Services\TwilioService;
 use App\Services\SmsService;
+use App\Services\SearchService;
 use App\Models\VerifiedNumber;
 
 use GuzzleHttp\Client;
@@ -1283,137 +1284,23 @@ class ClientsController extends Controller
 	}
 
 
+	/**
+	 * Modern search endpoint with validation, limits, and caching
+	 * Searches across: Clients, Leads, Partners, Products, Applications
+	 */
 	public function getallclients(Request $request){
-		$squery = $request->q; //dd($squery);
-		if($squery != ''){
-			$d = '';
-			if(strstr($squery, '/')){
-				$dob = explode('/', $squery);
-				if(!empty($dob) && is_array($dob)){
-					$d = $dob[2].'/'.$dob[1].'/'.$dob[0];
-				}
-			}
-			//dd($d);
-            if( $d != "") {
-              
-                /*$clients = \App\Models\Admin::where('role', '=', 7)->whereNull('is_deleted')
-                ->where(
-                    function($query) use ($squery,$d) {
-                    return $query
-                        ->orwhere('email', 'LIKE', '%'.$squery.'%')
-                        //->where('att_email', '!=', '')
-                        //->where('att_phone', '!=', '')
-                        ->orwhere('first_name', 'LIKE','%'.$squery.'%')
-                        ->orwhere('last_name', 'LIKE','%'.$squery.'%')
-                        ->orwhere('client_id', 'LIKE','%'.$squery.'%')
-                        ->orwhere('att_email', 'LIKE','%'.$squery.'%')
-                        ->orwhere('att_phone', 'LIKE','%'.$squery.'%')
-                        ->orwhere('phone', 'LIKE','%'.$squery.'%')
-                        ->orwhere('dob', '=',$d)
-                        ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%".$squery."%");
-                    })
-                ->get();*/
-              
-              
-                $phoneSubquery = DB::table('client_phones')
-                ->select('client_id', DB::raw('GROUP_CONCAT(client_phone) as phones'))
-                ->groupBy('client_id');
+		// Validate input
+		$validated = $request->validate([
+			'q' => 'required|string|min:2|max:100',
+		]);
 
-                $clients = \App\Models\Admin::where('admins.role', '=', 7)
-                //->whereNull('admins.is_deleted')
-                ->where(function ($query) {
-                    $query->whereNull('admins.is_deleted')
-                          ->orWhere('admins.is_deleted', 0);
-                })
-                ->leftJoinSub($phoneSubquery, 'phone_data', 'admins.id', '=', 'phone_data.client_id')
-                ->where(function ($query) use ($squery, $d) {
-                    $query->orWhere('admins.email', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.first_name', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.last_name', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.client_id', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.att_email', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.att_phone', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.phone', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.dob', '=', $d)
-                          ->orWhere(DB::raw("CONCAT(admins.first_name, ' ', admins.last_name)"), 'LIKE', '%' . $squery . '%')
-                          ->orWhere('phone_data.phones', 'LIKE', '%' . $squery . '%');
-                })
-                ->select('admins.*', 'phone_data.phones')
-                ->get();
+		$query = $validated['q'];
 
-            } else {
-              
-                /*$clients = \App\Models\Admin::where('role', '=', 7)->whereNull('is_deleted')
-                ->where(
-                    function($query) use ($squery) {
-                    return $query
-                        ->orwhere('email', 'LIKE', '%'.$squery.'%')
-                        //->where('att_email', '!=', '')
-                        //->where('att_phone', '!=', '')
-                        ->orwhere('first_name', 'LIKE','%'.$squery.'%')
-                        ->orwhere('last_name', 'LIKE','%'.$squery.'%')
-                        ->orwhere('client_id', 'LIKE','%'.$squery.'%')
-                        ->orwhere('att_email', 'LIKE','%'.$squery.'%')
-                        ->orwhere('att_phone', 'LIKE','%'.$squery.'%')
-                        ->orwhere('phone', 'LIKE','%'.$squery.'%')
-                        ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%".$squery."%");
-                    })
-                ->get();*/
-              
-                $phoneSubquery = DB::table('client_phones')
-                ->select('client_id', DB::raw('GROUP_CONCAT(client_phone) as phones'))
-                ->groupBy('client_id');
+		// Use SearchService for optimized search
+		$searchService = new SearchService($query, 50, true);
+		$results = $searchService->search();
 
-                $clients = \App\Models\Admin::where('admins.role', '=', 7)
-                //->whereNull('admins.is_deleted')
-                ->where(function ($query) {
-                    $query->whereNull('admins.is_deleted')
-                          ->orWhere('admins.is_deleted', 0);
-                })
-                ->leftJoinSub($phoneSubquery, 'phone_data', 'admins.id', '=', 'phone_data.client_id')
-                ->where(function ($query) use ($squery, $d) {
-                    $query->orWhere('admins.email', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.first_name', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.last_name', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.client_id', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.att_email', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.att_phone', 'LIKE', '%' . $squery . '%')
-                          ->orWhere('admins.phone', 'LIKE', '%' . $squery . '%')
-                          ->orWhere(DB::raw("CONCAT(admins.first_name, ' ', admins.last_name)"), 'LIKE', '%' . $squery . '%')
-                          ->orWhere('phone_data.phones', 'LIKE', '%' . $squery . '%');
-                })
-                ->select('admins.*', 'phone_data.phones')
-                ->get();
-            }
-             //dd($clients);
-			/*	 $leads = \App\Models\Lead::where('converted', '=', 0)
-
-       ->where(
-           function($query) use ($squery,$d) {
-             return $query
-                    ->where('email', 'LIKE', '%'.$squery.'%')
-                    ->orwhere('first_name', 'LIKE','%'.$squery.'%')->orwhere('last_name', 'LIKE','%'.$squery.'%')->orwhere('phone', 'LIKE','%'.$squery.'%')->orwhere('dob', '=',$d)  ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%".$squery."%");
-
-            })
-            ->get();*/
-
-				$litems = array();
-			/*foreach($leads as $lead){
-				$litems[] = array('name' => $lead->first_name.' '.$lead->last_name,'email'=>$lead->email,'status'=>'Lead','id'=>base64_encode(convert_uuencode(@$lead->id)).'/Lead');
-			}*/
-
-			$items = array();
-			foreach($clients as $clint){
-				if($clint->is_archived == 1){
-					$type = 'Archived';
-				}else{
-					$type = $clint->type;
-				}
-				$items[] = array('name' => $clint->first_name.' '.$clint->last_name,'email'=>$clint->email,'status'=>$type,'id'=>base64_encode(convert_uuencode(@$clint->id)).'/Client');
-			}
-			$m = array_merge($items, $litems);
-			echo json_encode(array('items'=>$m));
-		}
+		return response()->json($results);
 	}
 
 

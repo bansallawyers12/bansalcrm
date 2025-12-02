@@ -7,8 +7,8 @@
 <div class="main-content">
 	<section class="section">
 	     <div class="server-error">
-			@include('../Elements/flash-message')
-		</div>
+				@include('../Elements/flash-message')
+			</div>
 		
 		@if ($errors->any())
 		<div class="alert alert-danger alert-dismissible show fade">
@@ -26,7 +26,7 @@
 		</div>
 		@endif
 		
-	<div class="section-body">
+		<div class="section-body">
 		<form action="{{ route('admin.leads.store') }}" method="POST" name="add-leads" autocomplete="off" enctype="multipart/form-data" novalidate>
 			@csrf
 			<input type="hidden" name="type" value="lead">
@@ -68,26 +68,26 @@
 									<div class="col-12 col-md-12 col-lg-12">
 										<div class="row">
 											<div class="col-4 col-md-4 col-lg-4">
-											<div class="form-group">
-												<label for="first_name">First Name <span class="span_req">*</span></label>
+												<div class="form-group">
+													<label for="first_name">First Name <span class="span_req">*</span></label>
 												<input type="text" name="first_name" value="{{ old('first_name') }}" class="form-control {{ $errors->has('first_name') ? 'is-invalid' : '' }}" data-valid="required" autocomplete="off" placeholder="">
-												@if ($errors->has('first_name'))
-													<span class="custom-error" role="alert">
-														<strong>{{ @$errors->first('first_name') }}</strong>
-													</span>
-												@endif
-											</div>
+													@if ($errors->has('first_name'))
+														<span class="custom-error" role="alert">
+															<strong>{{ @$errors->first('first_name') }}</strong>
+														</span>
+													@endif
+												</div>
 											</div>
 											<div class="col-4 col-md-4 col-lg-4">
-											<div class="form-group">
-												<label for="last_name">Last Name <span class="span_req">*</span></label>
+												<div class="form-group">
+													<label for="last_name">Last Name <span class="span_req">*</span></label>
 												<input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control {{ $errors->has('last_name') ? 'is-invalid' : '' }}" data-valid="required" autocomplete="off" placeholder="">
-												@if ($errors->has('last_name'))
-													<span class="custom-error" role="alert">
-														<strong>{{ @$errors->first('last_name') }}</strong>
-													</span>
-												@endif
-											</div>
+													@if ($errors->has('last_name'))
+														<span class="custom-error" role="alert">
+															<strong>{{ @$errors->first('last_name') }}</strong>
+														</span>
+													@endif
+												</div>
 											</div>
 											<div class="col-4 col-md-4 col-lg-4">
 												<?php $oldgender = old('gender');?>
@@ -211,11 +211,11 @@
 													<input style="width:50px;padding-left:2px;" class="telephone" id="telephone" type="tel" name="country_code" readonly >
 												</div>
 											<input type="text" name="phone" value="{{ old('phone') }}" class="form-control tel_input contactno_unique {{ $errors->has('phone') ? 'is-invalid' : '' }}" data-valid="required" autocomplete="off" placeholder="">
-											@if ($errors->has('phone'))
-												<span class="custom-error" role="alert">
-													<strong>{{ @$errors->first('phone') }}</strong>
-												</span>
-											@endif
+												@if ($errors->has('phone'))
+													<span class="custom-error" role="alert">
+														<strong>{{ @$errors->first('phone') }}</strong>
+													</span>
+												@endif
 											</div>
 										</div>
 									</div>
@@ -237,13 +237,13 @@
 
 									<div class="col-sm-3">
 										<div class="form-group">
-										<label for="email">Email <span style="color:#ff0000;">*</span></label>
+											<label for="email">Email <span style="color:#ff0000;">*</span></label>
 										<input type="email" name="email" value="{{ old('email') }}" class="form-control email_unique {{ $errors->has('email') ? 'is-invalid' : '' }}" data-valid="required email" autocomplete="off" placeholder="">
-										@if ($errors->has('email'))
-											<span class="custom-error" role="alert">
-												<strong>{{ @$errors->first('email') }}</strong>
-											</span>
-										@endif
+											@if ($errors->has('email'))
+												<span class="custom-error" role="alert">
+													<strong>{{ @$errors->first('email') }}</strong>
+												</span>
+											@endif
 										</div>
                                     </div>
 
@@ -603,7 +603,7 @@
 								<div class="row" id="internal">
 									<div class="col-sm-3">
 										<div class="form-group">
-										<label for="service">Service <span style="color:#ff0000;">*</span></label>
+											<label for="service">Service <span style="color:#ff0000;">*</span></label>
 										<select class="form-control select2 {{ $errors->has('service') ? 'is-invalid' : '' }}" name="service" data-valid="required">
 											<option value="">- Select Lead Service -</option>
 											@foreach(\App\Models\LeadService::orderby('name', 'ASC')->get() as $leadservlist)
@@ -619,7 +619,7 @@
 									</div>
 									<div class="col-sm-3">
 										<div class="form-group">
-										<label for="assign_to">Assign To <span style="color:#ff0000;">*</span></label>
+											<label for="assign_to">Assign To <span style="color:#ff0000;">*</span></label>
 										<select style="padding: 0px 5px;" name="assign_to" id="assign_to" class="form-control select2 {{ $errors->has('assign_to') ? 'is-invalid' : '' }}" data-valid="required">
 											<?php
 												$admins = \App\Models\Admin::where('role','!=',7)->orderby('first_name','ASC')->get();
@@ -655,7 +655,7 @@
 									</div>
 									<div class="col-sm-3">
 										<div class="form-group">
-										<label for="lead_quality">Lead Quality <span style="color:#ff0000;">*</span></label>
+											<label for="lead_quality">Lead Quality <span style="color:#ff0000;">*</span></label>
 										<select style="padding: 0px 5px;" name="lead_quality" id="lead_quality" class="form-control {{ $errors->has('lead_quality') ? 'is-invalid' : '' }}" data-valid="required">
 												<option <?php if(old('lead_quality') == '1'){ echo 'selected'; } ?> value="1">1</option>
 												<option <?php if(old('lead_quality') == '2'){ echo 'selected'; } ?> value="2">2</option>
@@ -672,19 +672,19 @@
 									</div>
 									<div class="col-sm-3">
 										<div class="form-group">
-										<label for="lead_source">Lead Source <span style="color:#ff0000;">*</span></label>
+											<label for="lead_source">Lead Source <span style="color:#ff0000;">*</span></label>
 										<select style="padding: 0px 5px;" name="lead_source" id="lead_source" class="form-control select2 {{ $errors->has('lead_source') ? 'is-invalid' : '' }}" data-valid="required">
-											<option value="">Lead Source</option>
-											<option value="Sub Agent" >Sub Agent</option>
-										@foreach(\App\Models\Source::all() as $sources)
-										<option <?php if(old('lead_source') == $sources->name){ echo 'selected'; } ?> value="{{$sources->name}}">{{$sources->name}}</option>
-		@endforeach
-										</select>
-										@if ($errors->has('lead_source'))
-											<span class="custom-error" role="alert">
-												<strong>{{ @$errors->first('lead_source') }}</strong>
-											</span>
-										@endif
+												<option value="">Lead Source</option>
+												<option value="Sub Agent" >Sub Agent</option>
+											@foreach(\App\Models\Source::all() as $sources)
+											<option <?php if(old('lead_source') == $sources->name){ echo 'selected'; } ?> value="{{$sources->name}}">{{$sources->name}}</option>
+							@endforeach
+											</select>
+											@if ($errors->has('lead_source'))
+												<span class="custom-error" role="alert">
+													<strong>{{ @$errors->first('lead_source') }}</strong>
+												</span>
+											@endif
 										</div>
 									</div>
 									<div class="col-sm-3 is_subagent" style="display:none;">
@@ -736,9 +736,9 @@
 									</div>
 								</div>
 							</div>
+						</div>
 					</div>
 				</div>
-			</div>
 		</form>
 		</div>
 	</section>

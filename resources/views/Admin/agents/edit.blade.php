@@ -6,8 +6,9 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{!! Form::open(array('url' => 'admin/agents/edit', 'name'=>"edit-agents", 'autocomplete'=>'off', "enctype"=>"multipart/form-data"))  !!}
-			{!! Form::hidden('id', @$fetchedData->id)  !!} 
+			<form action="{{ url('admin/agents/edit') }}" method="POST" name="edit-agents" autocomplete="off" enctype="multipart/form-data">
+				@csrf
+				<input type="hidden" name="id" value="{{ @$fetchedData->id }}">
 				<div class="row">
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -348,7 +349,7 @@
 				</div>
 			</div>	
 		</div>	
-		{!! Form::close()  !!}
+		</form>
 		</div>
 	</section>
 </div>

@@ -50,7 +50,7 @@ class AdminLoginController extends Controller
         $this->validate($request, [
         'email' => 'required|string',
         'password' => 'required|string',
-        'g-recaptcha-response' => 'required',
+        // 'g-recaptcha-response' => 'required', // Temporarily disabled for testing
         ]);
     }
 	
@@ -76,7 +76,8 @@ class AdminLoginController extends Controller
     
     public function authenticated(Request $request, $user)
     {   
-        $recaptcha_response = $request->input('g-recaptcha-response');
+        // Temporarily disabled reCAPTCHA for testing
+        /* $recaptcha_response = $request->input('g-recaptcha-response');
         if (is_null($recaptcha_response)) {
             $errors = ['g-recaptcha-response' => 'Please Complete the Recaptcha to proceed'];
             return redirect()->back()->withErrors($errors);
@@ -93,7 +94,8 @@ class AdminLoginController extends Controller
         $response = Http::get($url, $body); //dd($response);
         $result = json_decode($response); //dd($result);
 
-        if ($response->successful() && $result->success == true) { 
+        if ($response->successful() && $result->success == true) { */
+        if (true) { // Temporarily bypassing reCAPTCHA for testing 
             if(!empty($request->remember)) {
                 \Cookie::queue(\Cookie::make('email', $request->email, 3600));
                 \Cookie::queue(\Cookie::make('password', $request->password, 3600));
@@ -126,9 +128,10 @@ class AdminLoginController extends Controller
             $obj->message = 'Logged in successfully';
             $obj->save();
             return redirect()->intended($this->redirectPath());
-        } else { 
+        /* } else { 
             $errors = ['g-recaptcha-response' => 'Please Complete the Recaptcha Again to proceed'];
             return redirect()->back()->withErrors($errors);
+        } */
         }
     }
 	

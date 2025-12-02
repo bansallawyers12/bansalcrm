@@ -157,15 +157,15 @@ class AgentController extends Controller
 			$obj->income_sharing	=	@$requestData['income_sharing'];
 			$obj->claim_revenue	=	@$requestData['claim_revenue'];
 			
-			/* Profile Image Upload Function Start */						  
-			if($request->hasfile('profile_img')) 
-			{	
-				/* Unlink File Function Start */ 
-					if($requestData['profile_img'] != '')
-						{
-							$this->unlinkFile($requestData['old_profile_img'], Config::get('constants.profile_imgs'));
-						}
-				/* Unlink File Function End */
+		/* Profile Image Upload Function Start */						  
+		if($request->hasfile('profile_img')) 
+		{	
+			/* Unlink File Function Start */ 
+				if(isset($requestData['old_profile_img']) && $requestData['old_profile_img'] != '')
+					{
+						$this->unlinkFile($requestData['old_profile_img'], Config::get('constants.profile_imgs'));
+					}
+			/* Unlink File Function End */
 				
 				$profile_img = $this->uploadFile($request->file('profile_img'), Config::get('constants.profile_imgs'));
 			}

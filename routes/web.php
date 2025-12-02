@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\FollowupController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,7 +156,7 @@ Route::prefix('admin')->group(function() {
 		Route::post('/settings/taxes/savereturnsetting', 'Admin\AdminController@returnsetting')->name('admin.savereturnsetting');
 		Route::get('/getsubcategories', 'Admin\AdminController@getsubcategories');
 		Route::get('/getproductbranch', 'Admin\AdminController@getproductbranch');
-		Route::get('/getservicemodal', 'Admin\ServicesController@servicemodal');
+		Route::get('/getservicemodal', [ServicesController::class, 'servicemodal']);
 		Route::get('/getassigneeajax', 'Admin\AdminController@getassigneeajax');
 		Route::get('/getpartnerajax', 'Admin\AdminController@getpartnerajax');
 		Route::get('/checkclientexist', 'Admin\AdminController@checkclientexist');
@@ -160,40 +165,40 @@ Route::prefix('admin')->group(function() {
 		Route::get('/uploadfile/index', 'Admin\MediaController@index')->name('admin.media.index');
 		Route::get('/uploadfile/delete', 'Admin\MediaController@deleteAction')->name('admin.media.delete');
 		
-		Route::get('/users', 'Admin\UserController@index')->name('admin.users.index');
-		Route::get('/users/create', 'Admin\UserController@create')->name('admin.users.create'); 
-		Route::post('/users/store', 'Admin\UserController@store')->name('admin.users.store');
-		Route::get('/users/edit/{id}', 'Admin\UserController@edit')->name('admin.users.edit');
-		Route::get('/users/view/{id}', 'Admin\UserController@view')->name('admin.users.view');
-		Route::post('/users/edit', 'Admin\UserController@edit');
-		Route::post('/users/savezone', 'Admin\UserController@savezone');
+		Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+		Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create'); 
+		Route::post('/users/store', [UserController::class, 'store'])->name('admin.users.store');
+		Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('admin.users.edit');
+		Route::get('/users/view/{id}', [UserController::class, 'view'])->name('admin.users.view');
+		Route::post('/users/edit', [UserController::class, 'edit']);
+		Route::post('/users/savezone', [UserController::class, 'savezone']);
 		
-		Route::get('/users/active', 'Admin\UserController@active')->name('admin.users.active');
-		Route::get('/users/inactive', 'Admin\UserController@inactive')->name('admin.users.inactive'); 
-		Route::get('/users/invited', 'Admin\UserController@invited')->name('admin.users.invited');  
+		Route::get('/users/active', [UserController::class, 'active'])->name('admin.users.active');
+		Route::get('/users/inactive', [UserController::class, 'inactive'])->name('admin.users.inactive'); 
+		Route::get('/users/invited', [UserController::class, 'invited'])->name('admin.users.invited');  
 		
-		Route::get('/staff', 'Admin\StaffController@index')->name('admin.staff.index');
-		Route::get('/staff/create', 'Admin\StaffController@create')->name('admin.staff.create'); 
-		Route::post('/staff/store', 'Admin\StaffController@store')->name('admin.staff.store');
-		Route::get('/staff/edit/{id}', 'Admin\StaffController@edit')->name('admin.staff.edit');
-		Route::post('/staff/edit', 'Admin\StaffController@edit');
+		Route::get('/staff', [StaffController::class, 'index'])->name('admin.staff.index');
+		Route::get('/staff/create', [StaffController::class, 'create'])->name('admin.staff.create'); 
+		Route::post('/staff/store', [StaffController::class, 'store'])->name('admin.staff.store');
+		Route::get('/staff/edit/{id}', [StaffController::class, 'edit'])->name('admin.staff.edit');
+		Route::post('/staff/edit', [StaffController::class, 'edit']);
 		
-		Route::get('/customer', 'Admin\CustomerController@index')->name('admin.customer.index');
-		Route::get('/customer/create', 'Admin\CustomerController@create')->name('admin.customer.create'); 
-		Route::post('/customer/store', 'Admin\CustomerController@store')->name('admin.customer.store');
-		Route::get('/customer/edit/{id}', 'Admin\CustomerController@edit')->name('admin.customer.edit');
-		Route::post('/customer/edit', 'Admin\CustomerController@edit');
-		Route::post('/customer/upload', 'Admin\CustomerController@uploadcsv')->name('admin.customer.upload');
+		Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer.index');
+		Route::get('/customer/create', [CustomerController::class, 'create'])->name('admin.customer.create'); 
+		Route::post('/customer/store', [CustomerController::class, 'store'])->name('admin.customer.store');
+		Route::get('/customer/edit/{id}', [CustomerController::class, 'edit'])->name('admin.customer.edit');
+		Route::post('/customer/edit', [CustomerController::class, 'edit']);
+		Route::post('/customer/upload', [CustomerController::class, 'uploadcsv'])->name('admin.customer.upload');
 		
-		Route::get('/users/clientlist', 'Admin\UserController@clientlist')->name('admin.users.clientlist'); 		
-		Route::get('/users/createclient', 'Admin\UserController@createclient')->name('admin.users.createclient'); 
-		Route::post('/users/storeclient', 'Admin\UserController@storeclient')->name('admin.users.storeclient'); 
-		Route::get('/users/editclient/{id}', 'Admin\UserController@editclient')->name('admin.users.editclient');
-		Route::post('/users/editclient', 'Admin\UserController@editclient'); 
+		Route::get('/users/clientlist', [UserController::class, 'clientlist'])->name('admin.users.clientlist'); 		
+		Route::get('/users/createclient', [UserController::class, 'createclient'])->name('admin.users.createclient'); 
+		Route::post('/users/storeclient', [UserController::class, 'storeclient'])->name('admin.users.storeclient'); 
+		Route::get('/users/editclient/{id}', [UserController::class, 'editclient'])->name('admin.users.editclient');
+		Route::post('/users/editclient', [UserController::class, 'editclient']); 
 		
-		Route::post('/followup/store', 'Admin\FollowupController@store')->name('admin.followup.store'); 
-		Route::get('/followup/list', 'Admin\FollowupController@index')->name('admin.followup.index'); 
-		Route::post('/followup/compose', 'Admin\FollowupController@compose')->name('admin.followup.compose'); 
+		Route::post('/followup/store', [FollowupController::class, 'store'])->name('admin.followup.store'); 
+		Route::get('/followup/list', [FollowupController::class, 'index'])->name('admin.followup.index'); 
+		Route::post('/followup/compose', [FollowupController::class, 'compose'])->name('admin.followup.compose'); 
 		 
 		Route::get('/usertype', 'Admin\UsertypeController@index')->name('admin.usertype.index');
 		Route::get('/usertype/create', 'Admin\UsertypeController@create')->name('admin.usertype.create');  		
@@ -208,20 +213,20 @@ Route::prefix('admin')->group(function() {
 		Route::post('/userrole/edit', 'Admin\UserroleController@edit');
 		
 	//Services Start
-		Route::get('/services', 'Admin\ServicesController@index')->name('admin.services.index');
-		Route::get('/services/create', 'Admin\ServicesController@create')->name('admin.services.create'); 
-		Route::post('/services/store', 'Admin\ServicesController@store')->name('admin.services.store');
-		Route::get('/services/edit/{id}', 'Admin\ServicesController@edit')->name('admin.services.edit');
-		Route::post('/services/edit', 'Admin\ServicesController@edit');
+		Route::get('/services', [ServicesController::class, 'index'])->name('admin.services.index');
+		Route::get('/services/create', [ServicesController::class, 'create'])->name('admin.services.create'); 
+		Route::post('/services/store', [ServicesController::class, 'store'])->name('admin.services.store');
+		Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('admin.services.edit');
+		Route::post('/services/edit', [ServicesController::class, 'edit']);
 			     
 	  //Manage Contacts Start   
-		Route::get('/contact', 'Admin\ContactController@index')->name('admin.managecontact.index'); 
-		Route::get('/contact/create', 'Admin\ContactController@create')->name('admin.managecontact.create');
-		Route::post('/managecontact/store', 'Admin\ContactController@store')->name('admin.managecontact.store');
-		Route::post('/contact/add', 'Admin\ContactController@add')->name('admin.managecontact.add');
-		Route::get('/contact/edit/{id}', 'Admin\ContactController@edit')->name('admin.managecontact.edit');
-		Route::post('/contact/edit', 'Admin\ContactController@edit');
-		Route::post('/contact/storeaddress', 'Admin\ContactController@storeaddress');
+		Route::get('/contact', [ContactController::class, 'index'])->name('admin.managecontact.index'); 
+		Route::get('/contact/create', [ContactController::class, 'create'])->name('admin.managecontact.create');
+		Route::post('/managecontact/store', [ContactController::class, 'store'])->name('admin.managecontact.store');
+		Route::post('/contact/add', [ContactController::class, 'add'])->name('admin.managecontact.add');
+		Route::get('/contact/edit/{id}', [ContactController::class, 'edit'])->name('admin.managecontact.edit');
+		Route::post('/contact/edit', [ContactController::class, 'edit']);
+		Route::post('/contact/storeaddress', [ContactController::class, 'storeaddress']);
 		 
 	//Leads Start - Updated to modern syntax
 	Route::get('/leads', [LeadController::class, 'index'])->name('admin.leads.index');  
@@ -310,7 +315,10 @@ Route::prefix('admin')->group(function() {
 		Route::get('/clients/detail/{id}', 'Admin\ClientsController@detail')->name('admin.clients.detail');	
 		Route::get('/clients/get-recipients', 'Admin\ClientsController@getrecipients')->name('admin.clients.getrecipients');
 		Route::get('/clients/get-onlyclientrecipients', 'Admin\ClientsController@getonlyclientrecipients')->name('admin.clients.getonlyclientrecipients');
-		Route::get('/clients/get-allclients', 'Admin\ClientsController@getallclients')->name('admin.clients.getallclients');
+		// Global search endpoint with rate limiting (60 requests per minute)
+		Route::get('/clients/get-allclients', 'Admin\ClientsController@getallclients')
+			->name('admin.clients.getallclients')
+			->middleware('throttle:60,1');
 		Route::get('/clients/change_assignee', 'Admin\ClientsController@change_assignee');
 		Route::get('/get-templates', 'Admin\AdminController@gettemplates')->name('admin.clients.gettemplates');
 		Route::post('/sendmail', 'Admin\AdminController@sendmail')->name('admin.clients.sendmail');
