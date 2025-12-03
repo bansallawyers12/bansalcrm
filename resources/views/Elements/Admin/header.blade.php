@@ -65,14 +65,14 @@
 			    </div>
 		    </li>
 		     <?php }?>
-			<li>
-				<form class="form-inline mr-auto">
-					<div class="search-element">
-						<select class="form-control js-data-example-ajaxccsearch" type="search" placeholder="Search" aria-label="Search" data-width="200"></select>
-						<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-					</div>
-				</form>
-			</li>
+		<li>
+			<form class="form-inline mr-auto" onsubmit="return false;">
+				<div class="search-element">
+					<select class="form-control js-data-example-ajaxccsearch" type="search" placeholder="Search" aria-label="Search" data-width="200"></select>
+					<button class="btn" type="button"><i class="fas fa-search"></i></button>
+				</div>
+			</form>
+		</li>
 		</ul>
 	</div>
 	<ul class="navbar-nav navbar-right">
