@@ -199,29 +199,49 @@ $(document).delegate('.opencheckin', 'click', function(){
 	
 	$(document).delegate('.completesession', 'click', function(){
 		var appliid = $(this).attr('data-id');
+		var attendcountdata = $('#attendcountdata').val();
+		console.log('Complete Session clicked - ID:', appliid, 'Attend Count:', attendcountdata);
 		$('.popuploader').show();
 		$.ajax({
 			url: site_url+'/admin/complete_session',
 			type:'POST',
 			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			data:{id: appliid,attendcountdata: $('#attendcountdata').val()},
+			data:{id: appliid, attendcountdata: attendcountdata},
 			success: function(response){
-		
-				 var obj = $.parseJSON(response);
-				if(obj.status){
-					$.ajax({
-					url: site_url+'/admin/get-checkin-detail',
-					type:'GET',
-					data:{id: appliid},
-					success: function(res){
-						 $('.popuploader').hide();
-						$('.showchecindetail').html(res);
+				console.log('Complete Session Response:', response);
+				try {
+					var obj = $.parseJSON(response);
+					if(obj.status){
+						$.ajax({
+							url: site_url+'/admin/get-checkin-detail',
+							type:'GET',
+							data:{id: appliid},
+							success: function(res){
+								$('.popuploader').hide();
+								$('.showchecindetail').html(res);
+								alert('Session completed successfully!');
+							},
+							error: function(xhr, status, error){
+								$('.popuploader').hide();
+								console.error('Error fetching checkin detail:', error);
+								alert('Session completed but failed to refresh details.');
+							}
+						});
+						$('.checindata #id_'+appliid).remove();
+					}else{
+						$('.popuploader').hide();
+						alert(obj.message);
 					}
-				});
-					$('.checindata #id_'+appliid).remove();
-				}else{
-					alert(obj.message);
+				} catch(e) {
+					$('.popuploader').hide();
+					console.error('Error parsing response:', e);
+					alert('Error processing response');
 				}
+			},
+			error: function(xhr, status, error){
+				$('.popuploader').hide();
+				console.error('AJAX Error:', {xhr: xhr, status: status, error: error});
+				alert('Failed to complete session. Error: ' + error + '\nStatus: ' + xhr.status + '\nResponse: ' + xhr.responseText);
 			}
 		});
 	});
