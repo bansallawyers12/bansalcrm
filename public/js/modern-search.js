@@ -130,19 +130,18 @@
             return $('<strong class="select2-category-header">' + repo.text + '</strong>');
         }
 
-        // Build additional details array
+        // Show client ID as blue badge before name
+        const clientId = repo.client_id ? `<span style="color: #007bff; font-weight: 600; margin-right: 8px;">#${repo.client_id}</span>` : '';
+        
+        // Build additional details array for subtitle
         const details = [];
         
-        if (repo.client_id) {
-            details.push(`ID: ${repo.client_id}`);
+        if (repo.email) {
+            details.push(repo.email);
         }
         
         if (repo.phone) {
             details.push(`Phone: ${repo.phone}`);
-        }
-        
-        if (repo.email) {
-            details.push(repo.email);
         }
         
         // Join details with separator
@@ -152,7 +151,7 @@
             <div class="select2-result-repository modern-search-result">
                 <div class="modern-search-result-content">
                     <div class="modern-search-result-main">
-                        <div class="modern-search-result-title">${repo.name || repo.text}</div>
+                        <div class="modern-search-result-title">${clientId}${repo.name || repo.text}</div>
                         <div class="modern-search-result-subtitle">${detailsText}</div>
                     </div>
                 </div>
