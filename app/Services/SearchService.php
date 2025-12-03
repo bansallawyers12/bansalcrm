@@ -4,10 +4,6 @@ namespace App\Services;
 
 use App\Models\Admin;
 use App\Models\Lead;
-use App\Models\Partner;
-use App\Models\Product;
-use App\Models\Application;
-use App\Models\Invoice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
@@ -77,13 +73,10 @@ class SearchService
                 $results = array_merge($results, $this->searchByPhone($searchType['value']));
                 break;
             default:
-                // General search across all types
+                // Search only clients and leads
                 $results = array_merge(
                     $this->searchClients(),
-                    $this->searchLeads(),
-                    $this->searchPartners(),
-                    $this->searchProducts(),
-                    $this->searchApplications()
+                    $this->searchLeads()
                 );
                 break;
         }
@@ -203,92 +196,6 @@ class SearchService
         })->toArray();
     }
 
-    /**
-     * Search partners
-     */
-    protected function searchPartners()
-    {
-        $query = $this->query;
-
-        $partners = Partner::where(function ($q) use ($query) {
-                $q->where('partner_name', 'LIKE', '%' . $query . '%')
-                  ->orWhere('email', 'LIKE', '%' . $query . '%')
-                  ->orWhere('phone', 'LIKE', '%' . $query . '%')
-                  ->orWhere('partner_id', 'LIKE', '%' . $query . '%');
-            })
-            ->limit($this->limit)
-            ->get();
-
-        return $partners->map(function ($partner) {
-            return [
-                'name' => $this->highlightMatch($partner->partner_name ?? ''),
-                'email' => $this->highlightMatch($partner->email ?? ''),
-                'partner_id' => $partner->partner_id,
-                'status' => 'Partner',
-                'type' => 'Partner',
-                'id' => base64_encode(convert_uuencode($partner->id)) . '/Partner',
-                'raw_id' => $partner->id,
-                'category' => 'partners',
-                'badge_color' => 'purple'
-            ];
-        })->toArray();
-    }
-
-    /**
-     * Search products
-     */
-    protected function searchProducts()
-    {
-        $query = $this->query;
-
-        $products = Product::where(function ($q) use ($query) {
-                $q->where('product_name', 'LIKE', '%' . $query . '%')
-                  ->orWhere('product_code', 'LIKE', '%' . $query . '%');
-            })
-            ->limit($this->limit)
-            ->get();
-
-        return $products->map(function ($product) {
-            return [
-                'name' => $this->highlightMatch($product->product_name ?? ''),
-                'email' => $product->product_code ?? '',
-                'status' => 'Product',
-                'type' => 'Product',
-                'id' => base64_encode(convert_uuencode($product->id)) . '/Product',
-                'raw_id' => $product->id,
-                'category' => 'products',
-                'badge_color' => 'green'
-            ];
-        })->toArray();
-    }
-
-    /**
-     * Search applications
-     */
-    protected function searchApplications()
-    {
-        $query = $this->query;
-
-        $applications = Application::where(function ($q) use ($query) {
-                $q->where('application_id', 'LIKE', '%' . $query . '%')
-                  ->orWhere('student_id', 'LIKE', '%' . $query . '%');
-            })
-            ->limit($this->limit)
-            ->get();
-
-        return $applications->map(function ($app) {
-            return [
-                'name' => $this->highlightMatch('Application #' . ($app->application_id ?? $app->id)),
-                'email' => 'Student ID: ' . ($app->student_id ?? 'N/A'),
-                'status' => 'Application',
-                'type' => 'Application',
-                'id' => base64_encode(convert_uuencode($app->id)) . '/Application',
-                'raw_id' => $app->id,
-                'category' => 'applications',
-                'badge_color' => 'indigo'
-            ];
-        })->toArray();
-    }
 
     /**
      * Search by specific client ID
@@ -333,7 +240,10 @@ class SearchService
             ->where(function ($q) {
                 $q->whereNull('is_deleted')->orWhere('is_deleted', 0);
             })
-            ->where('email', 'LIKE', '%' . $email . '%')
+            ->where(function ($q) use ($email) {
+                $q->where('email', 'LIKE', '%' . $email . '%')
+                  ->orWhere('att_email', 'LIKE', '%' . $email . '%');
+            })
             ->limit(10)
             ->get();
 
@@ -377,15 +287,22 @@ class SearchService
     {
         $results = [];
 
+        $phoneSubquery = DB::table('client_phones')
+            ->select('client_id', DB::raw('GROUP_CONCAT(client_phone) as phones'))
+            ->groupBy('client_id');
+
         // Search clients
-        $clients = Admin::where('role', '=', 7)
+        $clients = Admin::where('admins.role', '=', 7)
             ->where(function ($q) {
-                $q->whereNull('is_deleted')->orWhere('is_deleted', 0);
+                $q->whereNull('admins.is_deleted')->orWhere('admins.is_deleted', 0);
             })
+            ->leftJoinSub($phoneSubquery, 'phone_data', 'admins.id', '=', 'phone_data.client_id')
             ->where(function ($q) use ($phone) {
-                $q->where('phone', 'LIKE', '%' . $phone . '%')
-                  ->orWhere('att_phone', 'LIKE', '%' . $phone . '%');
+                $q->where('admins.phone', 'LIKE', '%' . $phone . '%')
+                  ->orWhere('admins.att_phone', 'LIKE', '%' . $phone . '%')
+                  ->orWhere('phone_data.phones', 'LIKE', '%' . $phone . '%');
             })
+            ->select('admins.*')
             ->limit(10)
             ->get();
 
@@ -398,6 +315,24 @@ class SearchService
                 'id' => base64_encode(convert_uuencode($client->id)) . '/Client',
                 'category' => 'clients',
                 'badge_color' => 'yellow'
+            ];
+        }
+
+        // Search leads
+        $leads = Lead::where('converted', 0)
+            ->where('phone', 'LIKE', '%' . $phone . '%')
+            ->limit(10)
+            ->get();
+
+        foreach ($leads as $lead) {
+            $results[] = [
+                'name' => $lead->first_name . ' ' . $lead->last_name,
+                'email' => $lead->email ?? '',
+                'status' => 'Lead',
+                'type' => 'Lead',
+                'id' => base64_encode(convert_uuencode($lead->id)) . '/Lead',
+                'category' => 'leads',
+                'badge_color' => 'blue'
             ];
         }
 

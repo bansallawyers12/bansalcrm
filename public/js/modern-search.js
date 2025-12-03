@@ -31,7 +31,7 @@
             allowClear: true,
             minimumInputLength: 2,
             ajax: {
-                url: $('#site_url').val() + '/admin/clients/get-allclients',
+                url: (typeof site_url !== 'undefined' ? site_url : '') + '/admin/clients/get-allclients',
                 dataType: 'json',
                 delay: 300, // Debounce built into Select2
                 processResults: function(data) {
@@ -172,7 +172,7 @@
             return;
         }
 
-        const siteUrl = $('#site_url').val() || '';
+        const siteUrl = (typeof site_url !== 'undefined' ? site_url : '');
         const parts = data.id.split('/');
         const type = parts[1];
         const id = parts[0];
