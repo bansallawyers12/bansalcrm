@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'admin',
+        'passwords' => 'admins',
     ],
 	'admins' => [
         'driver' => 'eloquent',
@@ -43,26 +43,17 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-        ],
 		'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-		'provider' => [
-            'driver' => 'session',
-            'provider' => 'providers',
-        ],
         'agents' => [
             'driver' => 'session',
             'provider' => 'agents',
+        ],
+		'provider' => [
+            'driver' => 'session',
+            'provider' => 'providers',
         ],
     ],
 
@@ -84,21 +75,17 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
 		'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-		'providers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Provider::class,
-        ],
         'agents' => [
             'driver' => 'eloquent',
             'model' => App\Models\Agent::class,
+        ],
+		'providers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Provider::class,
         ]
     ],
 
@@ -118,13 +105,13 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
 		'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 15,
+        ],
+        'agents' => [
+            'provider' => 'agents',
             'table' => 'password_resets',
             'expire' => 15,
         ],
@@ -132,11 +119,6 @@ return [
             'provider' => 'providers',
             'table' => 'password_resets',
             'expire' => 60,
-        ],
-        'agents' => [
-            'provider' => 'agents',
-            'table' => 'password_resets',
-            'expire' => 15,
         ],
     ],
 	

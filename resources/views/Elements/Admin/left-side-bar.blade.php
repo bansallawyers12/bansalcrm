@@ -404,27 +404,22 @@
 				$contclasstype = 'active';
 			}
 		?>
-		<li class="dropdown {{@$contclasstype}}">
-			<a href="{{route('admin.managecontact.index')}}" class="nav-link"><i data-feather="phone"></i><span>Manage Contacts</span></a>
+	<li class="dropdown {{@$contclasstype}}">
+		<a href="{{route('admin.managecontact.index')}}" class="nav-link"><i data-feather="phone"></i><span>Manage Contacts</span></a>
+	</li>
+	<?php
+	if(Route::currentRouteName() == 'admin.staff.index'){
+		$staffclasstype = 'active';
+	}
+	?>
+		<li class="dropdown {{@$staffclasstype}}">
+			<a href="{{route('admin.staff.index')}}" class="nav-link"><i data-feather="users"></i><span>Staffs</span></a>
 		</li>
 		<?php
-		if(Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.staff.index'){
-			$reguvclasstype = 'active';
+		if(Route::currentRouteName() == 'admin.email.index'){
+			$emtemclasstype = 'active';
 		}
 		?>
-			<li class="dropdown {{@$reguvclasstype}}">
-				<a href="#" class="menu-toggle nav-link has-dropdown"><i
-				data-feather="users"></i><span>Users</span></a>
-				<ul class="dropdown-menu">
-					<li class="{{(Route::currentRouteName() == 'admin.customer.index') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.customer.index')}}">Registered Users</a></li> 
-					<li class="{{(Route::currentRouteName() == 'admin.staff.index') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.staff.index')}}">Staffs</a></li>
-				</ul>
-			</li>
-			<?php
-			if(Route::currentRouteName() == 'admin.email.index'){
-				$emtemclasstype = 'active';
-			}
-			?>
 			<li class="dropdown {{@$emtemclasstype}}">
 				<a href="{{route('admin.email.index')}}" class="nav-link"><i data-feather="mail"></i><span>Email Templates</span></a>
 			</li>

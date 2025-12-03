@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\FollowupController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StaffController;
-use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ClientsController;
@@ -59,13 +58,7 @@ Route::match(['get', 'post'], '/exception', 'ExceptionController@index')->name('
 // Route::get('/invoice/download/{id}', 'InvoiceController@customer_invoice_download')->name('invoice.customer_invoice_download'); 
 // Route::get('/invoice/print/{id}', 'InvoiceController@customer_invoice_print')->name('invoice.customer_invoice_print');  
 //Login and Register
-// Auth::routes(); // Removed - not compatible with Laravel 12
-// Note: Regular user auth routes commented out - using admin login instead
-// Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-// Route::post('login', 'Auth\LoginController@login');
-// Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-// Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
-// Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+// Legacy user authentication routes removed - system uses admin/agent authentication only
 
 // Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 // //Forgot Password 
@@ -177,20 +170,15 @@ Route::prefix('admin')->group(function() {
 		Route::get('/users/inactive', [UserController::class, 'inactive'])->name('admin.users.inactive'); 
 		Route::get('/users/invited', [UserController::class, 'invited'])->name('admin.users.invited');  
 		
-		Route::get('/staff', [StaffController::class, 'index'])->name('admin.staff.index');
-		Route::get('/staff/create', [StaffController::class, 'create'])->name('admin.staff.create'); 
-		Route::post('/staff/store', [StaffController::class, 'store'])->name('admin.staff.store');
-		Route::get('/staff/edit/{id}', [StaffController::class, 'edit'])->name('admin.staff.edit');
-		Route::post('/staff/edit', [StaffController::class, 'edit']);
-		
-		Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer.index');
-		Route::get('/customer/create', [CustomerController::class, 'create'])->name('admin.customer.create'); 
-		Route::post('/customer/store', [CustomerController::class, 'store'])->name('admin.customer.store');
-		Route::get('/customer/edit/{id}', [CustomerController::class, 'edit'])->name('admin.customer.edit');
-		Route::post('/customer/edit', [CustomerController::class, 'edit']);
-		Route::post('/customer/upload', [CustomerController::class, 'uploadcsv'])->name('admin.customer.upload');
-		
-		Route::get('/users/clientlist', [UserController::class, 'clientlist'])->name('admin.users.clientlist'); 		
+	Route::get('/staff', [StaffController::class, 'index'])->name('admin.staff.index');
+	Route::get('/staff/create', [StaffController::class, 'create'])->name('admin.staff.create'); 
+	Route::post('/staff/store', [StaffController::class, 'store'])->name('admin.staff.store');
+	Route::get('/staff/edit/{id}', [StaffController::class, 'edit'])->name('admin.staff.edit');
+	Route::post('/staff/edit', [StaffController::class, 'edit']);
+	
+	// Customer routes removed - legacy travel system feature
+	
+	Route::get('/users/clientlist', [UserController::class, 'clientlist'])->name('admin.users.clientlist');
 		Route::get('/users/createclient', [UserController::class, 'createclient'])->name('admin.users.createclient'); 
 		Route::post('/users/storeclient', [UserController::class, 'storeclient'])->name('admin.users.storeclient'); 
 		Route::get('/users/editclient/{id}', [UserController::class, 'editclient'])->name('admin.users.editclient');

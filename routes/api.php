@@ -15,10 +15,5 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
- 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
-
+// API routes for admin authentication
 Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('throttle:api');
