@@ -104,7 +104,8 @@ class AdminLoginController extends Controller
                 \Cookie::queue(\Cookie::forget('password'));
             }
           
-             if(! \App\Models\UserLog::where('ip_address', '=', $request->getClientIp() )->exists())
+            // Temporarily commented out to avoid SMTP errors during development
+            /* if(! \App\Models\UserLog::where('ip_address', '=', $request->getClientIp() )->exists())
             {
                 $message  = '<html><body>';
                 $message .= '<p>Dear Admin,</p>';
@@ -117,7 +118,7 @@ class AdminLoginController extends Controller
                 $message .= '</body></html>';
                 $subject = 'CRM Traced new IP Address- '.$request->getClientIp().' from Email- '.$user->email;
                 $this->send_compose_template('info@bansaleducation.au', $subject, 'info@bansaleducation.au', $message,'Bansal Immigration');
-            }
+            } */
 
 
             $obj = new \App\Models\UserLog;
