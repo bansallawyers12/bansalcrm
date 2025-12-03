@@ -221,8 +221,8 @@ Route::prefix('admin')->group(function() {
 	Route::get('/leads/create', [LeadController::class, 'create'])->name('admin.leads.create');
 	Route::post('/leads/store', [LeadController::class, 'store'])->name('admin.leads.store');   
 	Route::post('/leads/assign', [LeadController::class, 'assign'])->name('admin.leads.assign');    
-	Route::get('/leads/edit/{id}', [LeadController::class, 'edit'])->name('admin.leads.edit');
-	Route::post('/leads/edit', [LeadController::class, 'edit']);
+	Route::get('/leads/detail/{id}', [ClientsController::class, 'detail'])->name('admin.leads.detail');  // Lead detail page (uses client detail view)
+	// Removed broken edit routes - leads now use detail page for viewing/editing
 	Route::get('/leads/notes/delete/{id}', [LeadController::class, 'leaddeleteNotes']);
 	Route::get('/get-notedetail', [LeadController::class, 'getnotedetail']);
 	Route::post('/followup/update', [FollowupController::class, 'followupupdate']);

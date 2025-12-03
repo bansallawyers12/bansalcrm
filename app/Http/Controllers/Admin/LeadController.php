@@ -331,146 +331,16 @@ class LeadController extends Controller
 		}	
 	} 
 	
-	 public function edit(Request $request, $id = NULL)
-	{			
-		
-		if ($request->isMethod('post')) 
-		{
-			$this->validate($request, [
-										'first_name' => 'required|max:255',
-										'last_name' => 'required|max:255',
-										'gender' => 'required|max:255',
-										'contact_type' => 'required|max:255',
-										'phone' => 'required',
-										'email_type' => 'required|max:255',
-										'email' => 'required|max:255',
-										'service' => 'required',
-										'assign_to' => 'required',
-										'lead_quality' => 'required',
-										'lead_source' => 'required',
-									  ]);
-			
-			$requestData 		= 	$request->all();
-			 
-			$related_files = '';
-	        if(isset($requestData['related_files'])){
-	            for($i=0; $i<count($requestData['related_files']); $i++){
-	                $related_files .= $requestData['related_files'][$i].',';
-	            }
-	            
-	        }	
-	        	  $dob = '';
-	        if(isset($requestData['dob']) && $requestData['dob'] != ''){
-	           $dobs = explode('/', $requestData['dob']);
-	          $dob = $dobs[2].'-'.$dobs[1].'-'. $dobs[0]; 
-	        }
-	          $visa_expiry_date = '';
-	        if(isset($requestData['visa_expiry_date']) && $requestData['visa_expiry_date'] != ''){
-	           $visa_expiry_dates = explode('/', $requestData['visa_expiry_date']);
-	          $visa_expiry_date = $visa_expiry_dates[2].'-'.$visa_expiry_dates[1].'-'. $visa_expiry_dates[0]; 
-	        }
-			$obj				= Lead::find(@$requestData['id']); 
-			$obj->first_name		=	@$requestData['first_name'];
-			$obj->last_name		=	@$requestData['last_name'];
-			$obj->gender		=	@$requestData['gender'];
-			$obj->dob		=	@$dob;
-			$obj->age	=	@$requestData['age'];
-			$obj->martial_status		=	@$requestData['martial_status'];
-			$obj->passport_no		=	@$requestData['passport_no'];
-			$obj->visa_type			=	@$requestData['visa_type'];
-			$obj->visa_expiry_date		=	@$visa_expiry_date;
-			$obj->tags_label		=	@$requestData['tags_label'];
-			$obj->contact_type		=	@$requestData['contact_type'];
-			$obj->country_code		=	@$requestData['country_code'];
-			$obj->phone		=	@$requestData['phone'];
-			$obj->email_type		=	@$requestData['email_type'];
-			$obj->email		=	@$requestData['email'];			
-			// $obj->social_type		=	@$requestData['social_type'];			
-		    // $obj->social_link		=	@$requestData['social_link'];			
-			$obj->service		=	@$requestData['service'];			
-			$obj->assign_to		=	@$requestData['assign_to'];				 
-			$obj->status		=	@$requestData['status'];				 
-			$obj->lead_quality		=	@$requestData['lead_quality'];		
-			$obj->att_country_code		=	@$requestData['att_country_code'];
-			$obj->att_phone		=	@$requestData['att_phone'];
-				$obj->att_email		=	@$requestData['att_email'];	 
-			$obj->lead_source		=	@$requestData['lead_source'];	
-			$obj->related_files	=	rtrim($related_files,',');
-			
-		//	$obj->advertisements_name		=	@$requestData['advertisements_name'];
-			$obj->comments_note		=	@$requestData['comments_note'];				/* Profile Image Upload Function Start */						  
-		if($request->hasfile('profile_img')) 
-		{	
-			/* Unlink File Function Start */ 
-				if(isset($requestData['old_profile_img']) && $requestData['old_profile_img'] != '')
-					{
-						$this->unlinkFile($requestData['old_profile_img'], Config::get('constants.profile_imgs'));
-					}
-			/* Unlink File Function End */
-				
-				$profile_img = $this->uploadFile($request->file('profile_img'), Config::get('constants.profile_imgs'));
-			}
-			else
-			{
-				$profile_img = @$requestData['old_profile_img'];
-			}		
-		/* Profile Image Upload Function End */
-			$obj->profile_img			=	@$profile_img;
-    		$obj->preferredIntake			=	@$requestData['preferredIntake'];
-    		$obj->country_passport			=	@$requestData['country_passport'];
-    		$obj->address			=	@$requestData['address'];
-    		$obj->city			=	@$requestData['city'];
-    		$obj->state			=	@$requestData['state'];
-    		$obj->zip			=	@$requestData['zip'];
-    		$obj->country			=	@$requestData['country'];
-    		$obj->nomi_occupation			=	@$requestData['nomi_occupation'];
-    		$obj->skill_assessment			=	@$requestData['skill_assessment'];
-    		$obj->high_quali_aus			=	@$requestData['high_quali_aus'];
-    		$obj->high_quali_overseas			=	@$requestData['high_quali_overseas'];
-    		$obj->relevant_work_exp_aus			=	@$requestData['relevant_work_exp_aus'];
-    		$obj->relevant_work_exp_over			=	@$requestData['relevant_work_exp_over'];
-    		$obj->naati_py			=	@$requestData['naati_py'];
-    		$obj->married_partner			=	@$requestData['married_partner'];
-    		$obj->total_points			=	@$requestData['total_points'];
-    		$obj->start_process			=	@$requestData['start_process'];
-			$saved				=	$obj->save();  
-			
-			if(!$saved) 
-			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
-			}
-			else
-			{ 
-				return Redirect::to('/admin/leads/edit/'.base64_encode(convert_uuencode(@$requestData['id'])))->with('success', 'Lead updated Successfully');
-			}				
-		}
-		else
-		{	
-			if(isset($id) && !empty($id)) 
-			{
-				$id = $this->decodeString($id);	
-				if(Auth::user()->role == 1){
-				   $leadsexists =  Lead::where('id', '=', $id)->exists();
-				}else{
-				   $leadsexists =  Lead::where('id', '=', $id)->where('user_id', '=', Auth::user()->id)->exists();
-				}
-				$leadsexists =  Lead::where('id', '=', $id)->exists();
-				if($leadsexists) 
-				{
-					$fetchedData = Lead::find($id);
-					return view('Admin.leads.edit', compact(['fetchedData']));
-				}
-				else
-				{
-					return Redirect::to('/admin/leads')->with('error', 'Lead Not Exist');
-				}	
-			}
-			else
-			{
-				return Redirect::to('/admin/leads')->with('error', Config::get('constants.unauthorized'));
-			}		
-		}				
-	} 
+	/* REMOVED: Broken edit method - Leads now use the detail page (ClientsController@detail) for viewing and editing
+	 * The detail page provides a much richer interface with tabs for notes, activities, documents, etc.
+	 * This old edit method had issues:
+	 * - Missing CSRF token handling
+	 * - No proper method specification in form
+	 * - Route mismatch between GET and POST
+	 * - Form submission failures (405 errors)
+	 * 
+	 * To edit a lead, users should now click on the lead to open the detail page.
+	 */ 
 	
 	public function leadPin(Request $request, $id)
 	{

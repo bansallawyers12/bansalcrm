@@ -29,7 +29,7 @@
 			
             
 				<?php
-			if(Route::currentRouteName() == 'admin.leads.index' || Route::currentRouteName() == 'admin.leads.create' || Route::currentRouteName() == 'admin.leads.edit' || Route::currentRouteName() == 'admin.leads.history'){
+			if(Route::currentRouteName() == 'admin.leads.index' || Route::currentRouteName() == 'admin.leads.create' || Route::currentRouteName() == 'admin.leads.detail' || Route::currentRouteName() == 'admin.leads.history'){
 				$leadstype = 'active'; 
 			}
 			?>
