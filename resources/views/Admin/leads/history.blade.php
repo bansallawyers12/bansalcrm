@@ -370,13 +370,13 @@
 								@endif
 							</div>
 						</div>
-						<div class="col-12 col-md-12 col-lg-12">
-							<button onclick="customValidate('add-compose')" type="button" class="btn btn-primary">Send</button>
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						</div>
+					<div class="col-12 col-md-12 col-lg-12">
+						<button onclick="customValidate('add-compose')" type="button" class="btn btn-primary">Send</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					</div>
-				</form>
-			</div>
+				</div>
+			{!! Form::close() !!}
+		</div>
 		</div>
 	</div>
 </div>

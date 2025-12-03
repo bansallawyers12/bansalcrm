@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\PartnersController;
+use App\Http\Controllers\Admin\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,13 +162,10 @@ Route::prefix('admin')->group(function() {
 		Route::get('/getservicemodal', [ServicesController::class, 'servicemodal']);
 		Route::get('/getassigneeajax', 'Admin\AdminController@getassigneeajax');
 		Route::get('/getpartnerajax', 'Admin\AdminController@getpartnerajax');
-		Route::get('/checkclientexist', 'Admin\AdminController@checkclientexist');
-	/*CRM route start*/
-		Route::post('/uploadfile/store', 'Admin\MediaController@store')->name('admin.media.store');
-		Route::get('/uploadfile/index', 'Admin\MediaController@index')->name('admin.media.index');
-		Route::get('/uploadfile/delete', 'Admin\MediaController@deleteAction')->name('admin.media.delete');
-		
-		Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+	Route::get('/checkclientexist', 'Admin\AdminController@checkclientexist');
+/*CRM route start*/
+	
+	Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
 		Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create'); 
 		Route::post('/users/store', [UserController::class, 'store'])->name('admin.users.store');
 		Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('admin.users.edit');
@@ -231,7 +230,11 @@ Route::prefix('admin')->group(function() {
 		 
 	//Leads Start - Updated to modern syntax
 	Route::get('/leads', [LeadController::class, 'index'])->name('admin.leads.index');  
-	Route::get('/leads/history/{id}', [LeadController::class, 'history'])->name('admin.leads.history'); 
+	Route::get('/leads/history/{id}', [LeadController::class, 'history'])->name('admin.leads.history');
+	// Redirect POST to GET for history route (prevents form submission errors)
+	Route::post('/leads/history/{id}', function($id) {
+		return redirect()->route('admin.leads.history', ['id' => $id]);
+	});
 	Route::get('/leads/create', [LeadController::class, 'create'])->name('admin.leads.create');
 	Route::post('/leads/store', [LeadController::class, 'store'])->name('admin.leads.store');   
 	Route::post('/leads/assign', [LeadController::class, 'assign'])->name('admin.leads.assign');    
@@ -286,20 +289,10 @@ Route::prefix('admin')->group(function() {
 		Route::get('/edit_seo/{id}', 'Admin\AdminController@editSeo')->name('admin.edit_seo');
 		Route::post('/edit_seo', 'Admin\AdminController@editSeo');
 		
-		Route::get('/api-key', 'Admin\AdminController@editapi')->name('admin.edit_api');
-		Route::post('/api-key', 'Admin\AdminController@editapi');	
-		
-		Route::get('/offer/index', 'Admin\OfferController@index')->name('admin.offer.index'); 
-		Route::get('/offer/create', 'Admin\OfferController@create')->name('admin.offer.create'); 
-		Route::post('/offer/store', 'Admin\OfferController@store')->name('admin.offer.store'); 
-		Route::get('/offer/edit/{id}', 'Admin\OfferController@edit')->name('admin.offer.edit'); 
-		Route::post('/offer/edit', 'Admin\OfferController@edit'); 
-		
-		Route::get('/photo-gallery/getlist', 'Admin\MediaController@getlist')->name('admin.photo.getlist');
-		Route::post('/photo-gallery/uploadlist', 'Admin\MediaController@uploadlist')->name('admin.photo.uploadlist');
-		Route::post('/photo-gallery/update_action', 'Admin\MediaController@update_action')->name('admin.photo.update_action');
-		
-		//clients Start  
+	Route::get('/api-key', 'Admin\AdminController@editapi')->name('admin.edit_api');
+	Route::post('/api-key', 'Admin\AdminController@editapi');	
+	
+	//clients Start
 		Route::get('/clients', [ClientsController::class, 'index'])->name('admin.clients.index');
 		Route::get('/clients/create', [ClientsController::class, 'create'])->name('admin.clients.create'); 
 		Route::post('/clients/store', [ClientsController::class, 'store'])->name('admin.clients.store');
@@ -355,29 +348,29 @@ Route::prefix('admin')->group(function() {
 		Route::post('/savetoapplication', [ClientsController::class, 'savetoapplication']);
 		
 		//products Start   
-		Route::get('/products', 'Admin\ProductsController@index')->name('admin.products.index');
-		Route::get('/products/create', 'Admin\ProductsController@create')->name('admin.products.create'); 
-		Route::post('/products/store', 'Admin\ProductsController@store')->name('admin.products.store');
-		Route::get('/products/edit/{id}', 'Admin\ProductsController@edit')->name('admin.products.edit');
-		Route::post('/products/edit', 'Admin\ProductsController@edit');
-		Route::post('/products-import', 'Admin\ProductsController@import')->name('admin.products.import');
+		Route::get('/products', [ProductsController::class, 'index'])->name('admin.products.index');
+		Route::get('/products/create', [ProductsController::class, 'create'])->name('admin.products.create'); 
+		Route::post('/products/store', [ProductsController::class, 'store'])->name('admin.products.store');
+		Route::get('/products/edit/{id}', [ProductsController::class, 'edit'])->name('admin.products.edit');
+		Route::post('/products/edit', [ProductsController::class, 'edit']);
+		Route::post('/products-import', [ProductsController::class, 'import'])->name('admin.products.import');
 
 		
-		Route::get('/products/detail/{id}', 'Admin\ProductsController@detail')->name('admin.products.detail');	 
-		 Route::get('/products/get-recipients', 'Admin\ProductsController@getrecipients')->name('admin.products.getrecipients');
-		Route::get('/products/get-allclients', 'Admin\ProductsController@getallclients')->name('admin.products.getallclients');
+		Route::get('/products/detail/{id}', [ProductsController::class, 'detail'])->name('admin.products.detail');	 
+		 Route::get('/products/get-recipients', [ProductsController::class, 'getrecipients'])->name('admin.products.getrecipients');
+		Route::get('/products/get-allclients', [ProductsController::class, 'getallclients'])->name('admin.products.getallclients');
 		
 		//Partner Start
-		Route::get('/partners', 'Admin\PartnersController@index')->name('admin.partners.index');
-		Route::get('/partners/create', 'Admin\PartnersController@create')->name('admin.partners.create');  
-		Route::post('/partners/store', 'Admin\PartnersController@store')->name('admin.partners.store');
-		Route::get('/partners/edit/{id}', 'Admin\PartnersController@edit')->name('admin.partners.edit');
-		Route::post('/partners/edit', 'Admin\PartnersController@edit');
-		Route::get('/getpaymenttype', 'Admin\PartnersController@getpaymenttype')->name('admin.partners.getpaymenttype');
+		Route::get('/partners', [PartnersController::class, 'index'])->name('admin.partners.index');
+		Route::get('/partners/create', [PartnersController::class, 'create'])->name('admin.partners.create');  
+		Route::post('/partners/store', [PartnersController::class, 'store'])->name('admin.partners.store');
+		Route::get('/partners/edit/{id}', [PartnersController::class, 'edit'])->name('admin.partners.edit');
+		Route::post('/partners/edit', [PartnersController::class, 'edit']);
+		Route::get('/getpaymenttype', [PartnersController::class, 'getpaymenttype'])->name('admin.partners.getpaymenttype');
 		
-		Route::get('/partners/detail/{id}', 'Admin\PartnersController@detail')->name('admin.partners.detail');	 
-		 Route::get('/partners/get-recipients', 'Admin\PartnersController@getrecipients')->name('admin.partners.getrecipients');
-		Route::get('/partners/get-allclients', 'Admin\PartnersController@getallclients')->name('admin.partners.getallclients');
+		Route::get('/partners/detail/{id}', [PartnersController::class, 'detail'])->name('admin.partners.detail');	 
+		 Route::get('/partners/get-recipients', [PartnersController::class, 'getrecipients'])->name('admin.partners.getrecipients');
+		Route::get('/partners/get-allclients', [PartnersController::class, 'getallclients'])->name('admin.partners.getallclients');
 	
 		//Branch Start
 		Route::get('/branch', 'Admin\BranchesController@index')->name('admin.branch.index'); 
@@ -656,35 +649,35 @@ Route::prefix('admin')->group(function() {
 		Route::get('/workflow/activate-workflow/{id}', 'Admin\WorkflowController@activateWorkflow')->name('admin.workflow.activate');
 		Route::post('/workflow/edit', 'Admin\WorkflowController@edit')->name('admin.workflow.update');
 		
-		Route::post('/partner/saveagreement', 'Admin\PartnersController@saveagreement');
-		Route::post('/partner/create-contact', 'Admin\PartnersController@createcontact');
-		Route::get('/get-contacts', 'Admin\PartnersController@getcontacts');
-		Route::get('/deletecontact', 'Admin\PartnersController@deletecontact');
-		Route::get('/getcontactdetail', 'Admin\PartnersController@getcontactdetail');
-		Route::post('/partners-import', 'Admin\PartnersController@import')->name('admin.partners.import');
+		Route::post('/partner/saveagreement', [PartnersController::class, 'saveagreement']);
+		Route::post('/partner/create-contact', [PartnersController::class, 'createcontact']);
+		Route::get('/get-contacts', [PartnersController::class, 'getcontacts']);
+		Route::get('/deletecontact', [PartnersController::class, 'deletecontact']);
+		Route::get('/getcontactdetail', [PartnersController::class, 'getcontactdetail']);
+		Route::post('/partners-import', [PartnersController::class, 'import'])->name('admin.partners.import');
 		
-		Route::post('/partner/create-branch', 'Admin\PartnersController@createbranch');
-		Route::get('/get-branches', 'Admin\PartnersController@getbranch');
-		Route::get('/getbranchdetail', 'Admin\PartnersController@getbranchdetail');
-		Route::get('/deletebranch', 'Admin\PartnersController@deletebranch');
+		Route::post('/partner/create-branch', [PartnersController::class, 'createbranch']);
+		Route::get('/get-branches', [PartnersController::class, 'getbranch']);
+		Route::get('/getbranchdetail', [PartnersController::class, 'getbranchdetail']);
+		Route::get('/deletebranch', [PartnersController::class, 'deletebranch']);
 		
-		Route::post('/saveacademic', 'Admin\ProductsController@saveacademic');
-		Route::post('/saveotherinfo', 'Admin\ProductsController@saveotherinfo');
-		Route::get('/product/getotherinfo', 'Admin\ProductsController@getotherinfo');
-		Route::get('/get-all-fees', 'Admin\ProductsController@getallfees');
-		Route::post('/savefee', 'Admin\ProductsController@savefee');
+		Route::post('/saveacademic', [ProductsController::class, 'saveacademic']);
+		Route::post('/saveotherinfo', [ProductsController::class, 'saveotherinfo']);
+		Route::get('/product/getotherinfo', [ProductsController::class, 'getotherinfo']);
+		Route::get('/get-all-fees', [ProductsController::class, 'getallfees']);
+		Route::post('/savefee', [ProductsController::class, 'savefee']);
 		
-		Route::get('/getfeeoptionedit', 'Admin\ProductsController@editfee');
-		Route::post('/editfee', 'Admin\ProductsController@editfeeform');
-		Route::get('/deletefee', 'Admin\ProductsController@deletefee');
+		Route::get('/getfeeoptionedit', [ProductsController::class, 'editfee']);
+		Route::post('/editfee', [ProductsController::class, 'editfeeform']);
+		Route::get('/deletefee', [ProductsController::class, 'deletefee']);
 		
 		
-		Route::post('/partner/addtask', 'Admin\PartnersController@addtask');
-		Route::get('/partner/get-tasks', 'Admin\PartnersController@gettasks');
-		Route::get('/partner/get-task-detail', 'Admin\PartnersController@taskdetail');
-		Route::post('/partner/savecomment', 'Admin\PartnersController@savecomment');
-		Route::get('/change-task-status', 'Admin\PartnersController@changetaskstatus');
-		Route::get('/change-task-priority', 'Admin\PartnersController@changetaskpriority');
+		Route::post('/partner/addtask', [PartnersController::class, 'addtask']);
+		Route::get('/partner/get-tasks', [PartnersController::class, 'gettasks']);
+		Route::get('/partner/get-task-detail', [PartnersController::class, 'taskdetail']);
+		Route::post('/partner/savecomment', [PartnersController::class, 'savecomment']);
+		Route::get('/change-task-status', [PartnersController::class, 'changetaskstatus']);
+		Route::get('/change-task-priority', [PartnersController::class, 'changetaskpriority']);
 		
 		Route::post('/promotion/store', 'Admin\PromotionController@store');
 		Route::post('/promotion/edit', 'Admin\PromotionController@edit');
@@ -884,49 +877,49 @@ Route::prefix('admin')->group(function() {
         Route::post('/backtodoc', [ClientsController::class, 'backtodoc'])->name('admin.clients.backtodoc');
   
         //inactive partners
-        Route::get('/partners-inactive', 'Admin\PartnersController@inactivePartnerList')->name('admin.partners.inactive');
+        Route::get('/partners-inactive', [PartnersController::class, 'inactivePartnerList'])->name('admin.partners.inactive');
         Route::post('/partner_change_to_inactive', 'Admin\AdminController@partnerChangeToInactive');
         Route::post('/partner_change_to_active', 'Admin\AdminController@partnerChangeToActive');
   
   
        //Partner Student Invoice
-        Route::get('/partners/savepartnerstudentinvoice/{id}', 'Admin\PartnersController@savepartnerstudentinvoice')->name('admin.partners.savepartnerstudentinvoice');
-        Route::post('/partners/savepartnerstudentinvoice', 'Admin\PartnersController@savepartnerstudentinvoice')->name('admin.partners.savepartnerstudentinvoice.update');
-        Route::post('/partners/getTopReceiptValInDB', 'Admin\PartnersController@getTopReceiptValInDB')->name('admin.partners.getTopReceiptValInDB');
-        Route::post('/partners/getEnrolledStudentList', 'Admin\PartnersController@getEnrolledStudentList')->name('admin.partners.getEnrolledStudentList');
+        Route::get('/partners/savepartnerstudentinvoice/{id}', [PartnersController::class, 'savepartnerstudentinvoice'])->name('admin.partners.savepartnerstudentinvoice');
+        Route::post('/partners/savepartnerstudentinvoice', [PartnersController::class, 'savepartnerstudentinvoice'])->name('admin.partners.savepartnerstudentinvoice.update');
+        Route::post('/partners/getTopReceiptValInDB', [PartnersController::class, 'getTopReceiptValInDB'])->name('admin.partners.getTopReceiptValInDB');
+        Route::post('/partners/getEnrolledStudentList', [PartnersController::class, 'getEnrolledStudentList'])->name('admin.partners.getEnrolledStudentList');
 
 
         //Partner Student Record Invoice
-        Route::get('/partners/savepartnerrecordinvoice/{id}', 'Admin\PartnersController@savepartnerrecordinvoice')->name('admin.partners.savepartnerrecordinvoice');
-        Route::post('/partners/savepartnerrecordinvoice', 'Admin\PartnersController@savepartnerrecordinvoice')->name('admin.partners.savepartnerrecordinvoice.update');
+        Route::get('/partners/savepartnerrecordinvoice/{id}', [PartnersController::class, 'savepartnerrecordinvoice'])->name('admin.partners.savepartnerrecordinvoice');
+        Route::post('/partners/savepartnerrecordinvoice', [PartnersController::class, 'savepartnerrecordinvoice'])->name('admin.partners.savepartnerrecordinvoice.update');
 
         //Partner Student Record payment
-        Route::get('/partners/savepartnerrecordpayment/{id}', 'Admin\PartnersController@savepartnerrecordpayment')->name('admin.partners.savepartnerrecordpayment');
-        Route::post('/partners/savepartnerrecordpayment', 'Admin\PartnersController@savepartnerrecordpayment')->name('admin.partners.savepartnerrecordpayment.update');
-        Route::post('/partners/getRecordedInvoiceList', 'Admin\PartnersController@getRecordedInvoiceList')->name('admin.partners.getRecordedInvoiceList');
+        Route::get('/partners/savepartnerrecordpayment/{id}', [PartnersController::class, 'savepartnerrecordpayment'])->name('admin.partners.savepartnerrecordpayment');
+        Route::post('/partners/savepartnerrecordpayment', [PartnersController::class, 'savepartnerrecordpayment'])->name('admin.partners.savepartnerrecordpayment.update');
+        Route::post('/partners/getRecordedInvoiceList', [PartnersController::class, 'getRecordedInvoiceList'])->name('admin.partners.getRecordedInvoiceList');
         //update student status
-        Route::post('/partners/update-student-status', 'Admin\PartnersController@updateStudentStatus')->name('admin.partners.updateStudentStatus');
+        Route::post('/partners/update-student-status', [PartnersController::class, 'updateStudentStatus'])->name('admin.partners.updateStudentStatus');
 
         //get student info
-        Route::post('/partners/getStudentInfo', 'Admin\PartnersController@getStudentInfo')->name('admin.partners.getStudentInfo');
-        Route::post('/partners/getStudentCourseInfo', 'Admin\PartnersController@getStudentCourseInfo')->name('admin.partners.getStudentCourseInfo');
+        Route::post('/partners/getStudentInfo', [PartnersController::class, 'getStudentInfo'])->name('admin.partners.getStudentInfo');
+        Route::post('/partners/getStudentCourseInfo', [PartnersController::class, 'getStudentCourseInfo'])->name('admin.partners.getStudentCourseInfo');
 
-        Route::post('/partners/getTopInvoiceValInDB', 'Admin\PartnersController@getTopInvoiceValInDB')->name('admin.partners.getTopInvoiceValInDB');
-        Route::get('/partners/printpreviewcreateinvoice/{id}', 'Admin\PartnersController@printpreviewcreateinvoice'); //Create Student Invoice print preview
+        Route::post('/partners/getTopInvoiceValInDB', [PartnersController::class, 'getTopInvoiceValInDB'])->name('admin.partners.getTopInvoiceValInDB');
+        Route::get('/partners/printpreviewcreateinvoice/{id}', [PartnersController::class, 'printpreviewcreateinvoice']); //Create Student Invoice print preview
 
-        Route::post('/partners/updateInvoiceSentOptionToYes', 'Admin\PartnersController@updateInvoiceSentOptionToYes')->name('admin.partners.updateInvoiceSentOptionToYes');
-        Route::post('/partners/getInfoByInvoiceId', 'Admin\PartnersController@getInfoByInvoiceId')->name('admin.partners.getInfoByInvoiceId');
+        Route::post('/partners/updateInvoiceSentOptionToYes', [PartnersController::class, 'updateInvoiceSentOptionToYes'])->name('admin.partners.updateInvoiceSentOptionToYes');
+        Route::post('/partners/getInfoByInvoiceId', [PartnersController::class, 'getInfoByInvoiceId'])->name('admin.partners.getInfoByInvoiceId');
 
-  Route::post('/partners/getEnrolledStudentListInEditMode', 'Admin\PartnersController@getEnrolledStudentListInEditMode')->name('admin.partners.getEnrolledStudentListInEditMode');
+  Route::post('/partners/getEnrolledStudentListInEditMode', [PartnersController::class, 'getEnrolledStudentListInEditMode'])->name('admin.partners.getEnrolledStudentListInEditMode');
   
-  Route::post('/partners/deleteStudentRecordByInvoiceId', 'Admin\PartnersController@deleteStudentRecordByInvoiceId')->name('admin.partners.deleteStudentRecordByInvoiceId');
-        Route::post('/partners/deleteStudentRecordInvoiceByInvoiceId', 'Admin\PartnersController@deleteStudentRecordInvoiceByInvoiceId')->name('admin.partners.deleteStudentRecordInvoiceByInvoiceId');
-        Route::post('/partners/deleteStudentPaymentInvoiceByInvoiceId', 'Admin\PartnersController@deleteStudentPaymentInvoiceByInvoiceId')->name('admin.partners.deleteStudentPaymentInvoiceByInvoiceId');
+  Route::post('/partners/deleteStudentRecordByInvoiceId', [PartnersController::class, 'deleteStudentRecordByInvoiceId'])->name('admin.partners.deleteStudentRecordByInvoiceId');
+        Route::post('/partners/deleteStudentRecordInvoiceByInvoiceId', [PartnersController::class, 'deleteStudentRecordInvoiceByInvoiceId'])->name('admin.partners.deleteStudentRecordInvoiceByInvoiceId');
+        Route::post('/partners/deleteStudentPaymentInvoiceByInvoiceId', [PartnersController::class, 'deleteStudentPaymentInvoiceByInvoiceId'])->name('admin.partners.deleteStudentPaymentInvoiceByInvoiceId');
 
   
        //partner inbox and sent email
-        Route::post('/upload-partner-fetch-mail', 'Admin\PartnersController@uploadpartnerfetchmail');
-        Route::post('/upload-partner-sent-fetch-mail', 'Admin\PartnersController@uploadpartnersentfetchmail');
+        Route::post('/upload-partner-fetch-mail', [PartnersController::class, 'uploadpartnerfetchmail']);
+        Route::post('/upload-partner-sent-fetch-mail', [PartnersController::class, 'uploadpartnersentfetchmail']);
   
         //Applications overdue
 		Route::get('/applications-overdue', 'Admin\ApplicationsController@overdueApplicationList')->name('admin.applications.overdue');
@@ -935,31 +928,31 @@ Route::prefix('admin')->group(function() {
 		Route::get('/applications-finalize', 'Admin\ApplicationsController@finalizeApplicationList')->name('admin.applications.finalize');
   
         //partner assign user
-        Route::post('/partners/followup_partner/store_partner', 'Admin\PartnersController@followupstore_partner');
-        //Route::get('/get-partner-activities', 'Admin\PartnersController@partnerActivities')->name('admin.partners.activities');
+        Route::post('/partners/followup_partner/store_partner', [PartnersController::class, 'followupstore_partner']);
+        //Route::get('/get-partner-activities', [PartnersController::class, 'partnerActivities')->name('admin.partners.activities');
   
         //Fetch all contact list of any client at create note popup
         Route::post('/clients/fetchClientContactNo', [ClientsController::class, 'fetchClientContactNo']);
   
         //Fetch all contact list of any partner at create note popup at partner detail page
-        Route::post('/partners/fetchPartnerContactNo', 'Admin\PartnersController@fetchPartnerContactNo');
+        Route::post('/partners/fetchPartnerContactNo', [PartnersController::class, 'fetchPartnerContactNo']);
   
         //update student application overall status
-        Route::post('/partners/update-student-application-overall-status', 'Admin\PartnersController@updateStudentApplicationOverallStatus')->name('admin.partners.updateStudentApplicationOverallStatus');
+        Route::post('/partners/update-student-application-overall-status', [PartnersController::class, 'updateStudentApplicationOverallStatus'])->name('admin.partners.updateStudentApplicationOverallStatus');
   
   
         //Add Note To Student
-        Route::post('/add-student-note', 'Admin\PartnersController@addstudentnote')->name('admin.partners.addstudentnote');
+        Route::post('/add-student-note', [PartnersController::class, 'addstudentnote'])->name('admin.partners.addstudentnote');
         //Fetch all partner activity logs
-        Route::get('/get-partner-activities', 'Admin\PartnersController@activities')->name('admin.partners.activities');
+        Route::get('/get-partner-activities', [PartnersController::class, 'activities'])->name('admin.partners.activities');
 
   
   
         //Update student application commission percentage
-        Route::get('/partners/updatecommissionpercentage/{partner_id}', 'Admin\PartnersController@updatecommissionpercentage')->name('admin.partners.updatecommissionpercentage');
+        Route::get('/partners/updatecommissionpercentage/{partner_id}', [PartnersController::class, 'updatecommissionpercentage'])->name('admin.partners.updatecommissionpercentage');
 
         //Update student application commission claimed and other
-        Route::get('/partners/updatecommissionclaimed/{partner_id}', 'Admin\PartnersController@updatecommissionclaimed')->name('admin.partners.updatecommissionclaimed');
+        Route::get('/partners/updatecommissionclaimed/{partner_id}', [PartnersController::class, 'updatecommissionclaimed'])->name('admin.partners.updatecommissionclaimed');
   
         //Note deadline task complete
         Route::post('/update-note-deadline-completed', 'Admin\AdminController@updatenotedeadlinecompleted');
@@ -971,10 +964,10 @@ Route::prefix('admin')->group(function() {
         Route::post('/refund_application', 'Admin\ApplicationsController@refund_application');
 
         //save student note
-        Route::post('/partners/save-student-note', 'Admin\PartnersController@saveStudentNote')->name('admin.partners.saveStudentNote');
+        Route::post('/partners/save-student-note', [PartnersController::class, 'saveStudentNote'])->name('admin.partners.saveStudentNote');
   
        //Get partner notes
-        Route::get('/get-partner-notes', 'Admin\PartnersController@getPartnerNotes')->name('admin.partners.getPartnerNotes');
+        Route::get('/get-partner-notes', [PartnersController::class, 'getPartnerNotes'])->name('admin.partners.getPartnerNotes');
   
   
         //admin send msg
@@ -1006,7 +999,7 @@ Route::prefix('admin')->group(function() {
         Route::post('/mail/enhance', [ClientsController::class, 'enhanceMessage'])->name('admin.mail.enhance');
   
        //partner document upload
-        Route::post('/upload-partner-document-upload', 'Admin\PartnersController@uploadpartnerdocumentupload');
+        Route::post('/upload-partner-document-upload', [PartnersController::class, 'uploadpartnerdocumentupload']);
   
          //Download Document
         Route::post('/download-document', [ClientsController::class, 'download_document']);

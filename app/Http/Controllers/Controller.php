@@ -596,12 +596,12 @@ class Controller extends BaseController
                     <span class="btn btn-primary btn-field-upload" id="openUploader"><?php echo __("Upload image") ?></span>
                 </div>
             </div>
-            <div class="attach-demo" title="Change file">
-                <?php  if ($file != '') {
-					
-                    printf('<img class="w_150" src="'.asset('img/media_gallery/'.$file).'" class="image-responsive">');
-                }  ?>
-            </div>
+        <div class="attach-demo" title="Change file">
+            <?php  if ($file != '') {
+				// Media gallery feature removed - image upload disabled
+                // printf('<img class="w_150" src="'.asset('img/media_gallery/'.$file).'" class="image-responsive">');
+            }  ?>
+        </div>
             <div class="upload-actions justify-content-between" v-show="value">
                 <span></span>
                 <a cid="<?php echo $fieldname; ?>" class="delete btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
@@ -609,22 +609,25 @@ class Controller extends BaseController
         </div>
 					</div>
 					
-			<script> 
-			$(document).delegate('#<?php echo $fieldname; ?> #openUploader', 'click', function(){
-		$('#cdn-browser-modal').modal('show');
-		$('#cdn-browser').addClass('is_loading');
-		$.ajax({
-			url:'<?php echo \URL::to('/admin')?>/photo-gallery/getlist',
-             type:'get',
-			 data:{page:1, fieldname:'<?php echo $fieldname; ?>'},
-			success:function(res){
-				$('#filemtype').val('<?php echo $multiple; ?>');
-				$('#files').attr('fieldname','<?php echo $fieldname; ?>');
-					$('#cdn-browser').removeClass('is_loading');
-				$('.my-list').html(res);
-			}
-		});
+		<script> 
+		/* Media gallery feature removed - upload functionality disabled
+		$(document).delegate('#<?php echo $fieldname; ?> #openUploader', 'click', function(){
+	$('#cdn-browser-modal').modal('show');
+	$('#cdn-browser').addClass('is_loading');
+	$.ajax({
+		url:'<?php echo \URL::to('/admin')?>/photo-gallery/getlist',
+         type:'get',
+		 data:{page:1, fieldname:'<?php echo $fieldname; ?>'},
+		success:function(res){
+			$('#filemtype').val('<?php echo $multiple; ?>');
+			$('#files').attr('fieldname','<?php echo $fieldname; ?>');
+				$('#cdn-browser').removeClass('is_loading');
+			$('.my-list').html(res);
+		}
 	});
+});
+*/ 
+
 			$(document).delegate('.usefile', 'click', function(){
 				var v = $('#filemtype').val();
 				if(v == 'single'){

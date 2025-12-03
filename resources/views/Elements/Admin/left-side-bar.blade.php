@@ -403,23 +403,15 @@
 			if(Route::currentRouteName() == 'admin.managecontact.index' || Route::currentRouteName() == 'admin.managecontact.create' || Route::currentRouteName() == 'admin.managecontact.edit'){
 				$contclasstype = 'active';
 			}
-			?>
-			<li class="dropdown {{@$contclasstype}}">
-				<a href="{{route('admin.managecontact.index')}}" class="nav-link"><i data-feather="phone"></i><span>Manage Contacts</span></a>
-			</li>
-			<?php
-			if(Route::currentRouteName() == 'admin.offer.index'){
-				$offerclasstype = 'active';
-			}
-			?>
-			<li class="dropdown {{@$offerclasstype}}">
-				<a href="{{route('admin.offer.index')}}" class="nav-link"><i data-feather="gift"></i><span>Offers</span></a>
-			</li>
-			<?php
-			if(Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.staff.index'){
-				$reguvclasstype = 'active';
-			}
-			?> 
+		?>
+		<li class="dropdown {{@$contclasstype}}">
+			<a href="{{route('admin.managecontact.index')}}" class="nav-link"><i data-feather="phone"></i><span>Manage Contacts</span></a>
+		</li>
+		<?php
+		if(Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.staff.index'){
+			$reguvclasstype = 'active';
+		}
+		?>
 			<li class="dropdown {{@$reguvclasstype}}">
 				<a href="#" class="menu-toggle nav-link has-dropdown"><i
 				data-feather="users"></i><span>Users</span></a>
