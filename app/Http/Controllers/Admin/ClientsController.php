@@ -1171,14 +1171,14 @@ class ClientsController extends Controller
 						$isFromLeadsTable = true;
 					}
 				}
-				
+				//dd($lead->id); die;
 				// Check leads table first if determined to be from there
 				if($isFromLeadsTable)
 				{
-					$lead = \App\Models\Lead::with('staffuser')->find($id);
+					$lead = \App\Models\Lead::with('staffuser')->find($id); 
 					
 					// Create a temporary Admin object with lead data for the view
-					$fetchedData = new Admin();
+					$fetchedData = new Admin(); dd($fetchedData); die;
 					$fetchedData->exists = true; // Mark as existing record
 					$fetchedData->id = $lead->id;
 					$fetchedData->first_name = $lead->first_name;
@@ -1385,61 +1385,82 @@ class ClientsController extends Controller
         {
             $encodeId = $id;
             $originalId = $id;
-            $id = $this->decodeString($id); //dd($id);
+            $id = $this->decodeString($id);
             
             // Check if decodeString returned false (invalid encoded string)
             if($id === false || empty($id))
             {
-                return Redirect::to('/admin/clients')->with('error', 'Invalid Client ID');
+                return Redirect::to('/admin/leads')->with('error', 'Invalid Lead ID');
             }
             
             // If not in admins table, check if it's a new lead in the leads table
             if(\App\Models\Lead::where('id', '=', $id)->exists())
             {
-                $lead = \App\Models\Lead::with('staffuser')->find($id);
-                
-                // Create a temporary Admin object with lead data for the view
-                $fetchedData = new Admin();
-                $fetchedData->exists = true; // Mark as existing record
-                $fetchedData->id = $lead->id;
-                $fetchedData->first_name = $lead->first_name;
-                $fetchedData->last_name = $lead->last_name;
-                $fetchedData->email = $lead->email;
-                $fetchedData->phone = $lead->phone;
-                $fetchedData->country_code = $lead->country_code;
-                $fetchedData->gender = $lead->gender;
-                $fetchedData->dob = $lead->dob;
-                $fetchedData->visa_type = $lead->visa_type ?? null;
-                $fetchedData->visa_expiry_date = $lead->visa_expiry_date;
-                $fetchedData->type = 'lead'; // Mark as lead type
-                $fetchedData->profile_img = $lead->profile_img;
-                $fetchedData->created_at = $lead->created_at;
-                $fetchedData->updated_at = $lead->updated_at;
-                $fetchedData->client_id = 'LEAD-' . str_pad($lead->id, 4, '0', STR_PAD_LEFT);
-                $fetchedData->role = 7; // Set role to 7 like other clients
-                $fetchedData->is_archived = 0;
-                $fetchedData->office_id = $lead->staffuser->office_id ?? null;
-                $fetchedData->att_email = $lead->att_email ?? null;
-                $fetchedData->att_phone = $lead->att_phone ?? null;
-                $fetchedData->martial_status = $lead->martial_status ?? null;
-                $fetchedData->passport_no = $lead->passport_no ?? null;
-                $fetchedData->address = $lead->address ?? null;
-                $fetchedData->city = $lead->city ?? null;
-                $fetchedData->state = $lead->state ?? null;
-                $fetchedData->zip = $lead->zip ?? null;
-                $fetchedData->country = $lead->country ?? null;
-                $fetchedData->nomi_occupation = $lead->nomi_occupation ?? null;
-                
-                // Add relationship for assigned user
-                if($lead->assign_to) {
-                    $fetchedData->setRelation('staffuser', $lead->staffuser);
+                $lead = \App\Models\Lead::with('staffuser')->find($id);//dd($lead); die;
+                //Check Lead is alreay exist in admins table or not 
+                $enqdata = Admin::where('lead_id', $id)->first();
+                if($enqdata){
+                    $fetchedData  = Admin::find($enqdata->id);
+                } else {
+                    //Insert new lead in admins table
+                    $obj = new Admin();
+                    $obj->lead_id = $lead->id;
+                    $obj->first_name = $lead->first_name;
+                    $obj->last_name = $lead->last_name;
+                    $obj->email = $lead->email;
+                    $obj->phone = $lead->phone;
+                    $obj->country_code = $lead->country_code;
+                    $obj->gender = $lead->gender;
+                    $obj->dob = $lead->dob;
+                    $obj->visa_type = $lead->visa_type ?? null;
+                    //$obj->visa_expiry_date = $lead->visa_expiry_date;
+                    $obj->type = 'lead'; // Mark as lead type
+                    $obj->profile_img = $lead->profile_img;
+                    $obj->created_at = $lead->created_at;
+                    $obj->updated_at = $lead->updated_at;
+                    
+                    $obj->role = 7; // Set role to 7 like other clients
+                    $obj->is_archived = 0;
+                    $obj->office_id = $lead->staffuser->office_id ?? null;
+                    $obj->att_email = $lead->att_email ?? null;
+                    $obj->att_phone = $lead->att_phone ?? null;
+                    $obj->martial_status = $lead->martial_status ?? null;
+                    //$obj->passport_no = $lead->passport_no ?? null;
+                    $obj->address = $lead->address ?? null;
+                    $obj->city = $lead->city ?? null;
+                    $obj->state = $lead->state ?? null;
+                    $obj->zip = $lead->zip ?? null;
+                    $obj->country = $lead->country ?? null;
+                    $obj->nomi_occupation = $lead->nomi_occupation ?? null;
+                    
+                    // Add relationship for assigned user
+                    if($lead->assign_to) {
+                        $obj->setRelation('staffuser', $lead->staffuser);
+                    }
+                    
+                    // Calculate age if DOB exists
+                    if(!empty($lead->dob)){
+                        $obj->age = $this->calculateAge($lead->dob);
+                    }
+                    $obj->save();
+
+                    $fetchedData = Admin::find($obj->id);
+                    if($fetchedData->client_id == '' && $fetchedData->role == 7){
+                        $objs	= 	Admin::find($obj->id);
+
+                        $first_name = substr(@$lead->first_name, 0, 4);
+                        $objs->client_id	=	strtoupper($first_name).date('ym').$objs->id;
+                        $saveds				=	$objs->save();
+                    }
                 }
-                
-                // Calculate age if DOB exists
-                if(!empty($fetchedData->dob)){
-                    $fetchedData->age = $this->calculateAge($fetchedData->dob);
+                 //Show alert box is entry is updated before 1 month ago
+                 if ($fetchedData && $fetchedData->updated_at) {
+                    $updatedAt = Carbon::parse($fetchedData->updated_at);
+                    $fourWeeksAgo = Carbon::now()->subWeeks(4);
+                    if ($updatedAt->lt($fourWeeksAgo)) {
+                        $showAlert = true;
+                    }
                 }
-                
                 return view('Admin.clients.detail', compact(['fetchedData','encodeId','showAlert']));
             }
             else
