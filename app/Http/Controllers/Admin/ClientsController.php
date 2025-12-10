@@ -1451,6 +1451,9 @@ class ClientsController extends Controller
                         $first_name = substr(@$lead->first_name, 0, 4);
                         $objs->client_id	=	strtoupper($first_name).date('ym').$objs->id;
                         $saveds				=	$objs->save();
+                        
+                        // Refresh $fetchedData after client_id is saved to ensure it's available on first load
+                        $fetchedData = Admin::find($obj->id);
                     }
                 }
                  //Show alert box is entry is updated before 1 month ago

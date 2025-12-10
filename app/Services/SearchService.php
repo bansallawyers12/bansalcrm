@@ -183,6 +183,7 @@ class SearchService
 
     /**
      * Search leads
+     * Excludes leads that already exist in admins table (prioritize clients over leads)
      */
     protected function searchLeads()
     {
@@ -190,6 +191,53 @@ class SearchService
         $dob = $this->parseDOB($query);
 
         $leads = Lead::where('converted', '=', 0)
+            // Exclude leads that already exist in admins table (via lead_id)
+            ->whereNotIn('id', function($subquery) {
+                $subquery->select('lead_id')
+                    ->from('admins')
+                    ->where('role', 7)
+                    ->whereNotNull('lead_id')
+                    ->where('lead_id', '!=', 0)
+                    ->where('lead_id', '!=', '');
+            })
+            // Also exclude by email match - if email exists in admins, don't show in leads
+            ->whereNotExists(function($subquery) {
+                $subquery->select(DB::raw(1))
+                    ->from('admins')
+                    ->where('role', 7)
+                    ->where(function($q) {
+                        // Match leads.email with admins.email or admins.att_email
+                        $q->where(function($q1) {
+                            $q1->whereColumn('admins.email', 'leads.email')
+                               ->whereNotNull('admins.email')
+                               ->where('admins.email', '!=', '')
+                               ->whereNotNull('leads.email')
+                               ->where('leads.email', '!=', '');
+                        })
+                        ->orWhere(function($q2) {
+                            $q2->whereColumn('admins.att_email', 'leads.email')
+                               ->whereNotNull('admins.att_email')
+                               ->where('admins.att_email', '!=', '')
+                               ->whereNotNull('leads.email')
+                               ->where('leads.email', '!=', '');
+                        })
+                        // Match leads.att_email with admins.email or admins.att_email
+                        ->orWhere(function($q3) {
+                            $q3->whereColumn('admins.email', 'leads.att_email')
+                               ->whereNotNull('admins.email')
+                               ->where('admins.email', '!=', '')
+                               ->whereNotNull('leads.att_email')
+                               ->where('leads.att_email', '!=', '');
+                        })
+                        ->orWhere(function($q4) {
+                            $q4->whereColumn('admins.att_email', 'leads.att_email')
+                               ->whereNotNull('admins.att_email')
+                               ->where('admins.att_email', '!=', '')
+                               ->whereNotNull('leads.att_email')
+                               ->where('leads.att_email', '!=', '');
+                        });
+                    });
+            })
             ->where(function ($q) use ($query, $dob) {
                 $q->where('email', 'LIKE', '%' . $query . '%')
                   ->orWhere('first_name', 'LIKE', '%' . $query . '%')
@@ -302,7 +350,56 @@ class SearchService
         }
 
         // Search leads
+        // Exclude leads that already exist in admins table (prioritize clients over leads)
+        // Check both by lead_id and by email match to catch all cases
         $leads = Lead::where('converted', '=', 0)
+            ->whereNotIn('id', function($subquery) {
+                // Exclude by lead_id if it exists in admins
+                $subquery->select('lead_id')
+                    ->from('admins')
+                    ->where('role', 7)
+                    ->whereNotNull('lead_id')
+                    ->where('lead_id', '!=', 0)
+                    ->where('lead_id', '!=', '');
+            })
+            // Also exclude by email match - if email exists in admins, don't show in leads
+            ->whereNotExists(function($subquery) {
+                $subquery->select(DB::raw(1))
+                    ->from('admins')
+                    ->where('role', 7)
+                    ->where(function($q) {
+                        // Match leads.email with admins.email or admins.att_email
+                        $q->where(function($q1) {
+                            $q1->whereColumn('admins.email', 'leads.email')
+                               ->whereNotNull('admins.email')
+                               ->where('admins.email', '!=', '')
+                               ->whereNotNull('leads.email')
+                               ->where('leads.email', '!=', '');
+                        })
+                        ->orWhere(function($q2) {
+                            $q2->whereColumn('admins.att_email', 'leads.email')
+                               ->whereNotNull('admins.att_email')
+                               ->where('admins.att_email', '!=', '')
+                               ->whereNotNull('leads.email')
+                               ->where('leads.email', '!=', '');
+                        })
+                        // Match leads.att_email with admins.email or admins.att_email
+                        ->orWhere(function($q3) {
+                            $q3->whereColumn('admins.email', 'leads.att_email')
+                               ->whereNotNull('admins.email')
+                               ->where('admins.email', '!=', '')
+                               ->whereNotNull('leads.att_email')
+                               ->where('leads.att_email', '!=', '');
+                        })
+                        ->orWhere(function($q4) {
+                            $q4->whereColumn('admins.att_email', 'leads.att_email')
+                               ->whereNotNull('admins.att_email')
+                               ->where('admins.att_email', '!=', '')
+                               ->whereNotNull('leads.att_email')
+                               ->where('leads.att_email', '!=', '');
+                        });
+                    });
+            })
             ->where(function ($q) use ($email) {
                 $q->where('email', 'LIKE', '%' . $email . '%')
                   ->orWhere('att_email', 'LIKE', '%' . $email . '%');
@@ -389,7 +486,54 @@ class SearchService
         }
 
         // Search leads
+        // Exclude leads that already exist in admins table (prioritize clients over leads)
         $leads = Lead::where('converted', '=', 0)
+            ->whereNotIn('id', function($subquery) {
+                $subquery->select('lead_id')
+                    ->from('admins')
+                    ->where('role', 7)
+                    ->whereNotNull('lead_id')
+                    ->where('lead_id', '!=', 0)
+                    ->where('lead_id', '!=', '');
+            })
+            // Also exclude by email match - if email exists in admins, don't show in leads
+            ->whereNotExists(function($subquery) {
+                $subquery->select(DB::raw(1))
+                    ->from('admins')
+                    ->where('role', 7)
+                    ->where(function($q) {
+                        // Match leads.email with admins.email or admins.att_email
+                        $q->where(function($q1) {
+                            $q1->whereColumn('admins.email', 'leads.email')
+                               ->whereNotNull('admins.email')
+                               ->where('admins.email', '!=', '')
+                               ->whereNotNull('leads.email')
+                               ->where('leads.email', '!=', '');
+                        })
+                        ->orWhere(function($q2) {
+                            $q2->whereColumn('admins.att_email', 'leads.email')
+                               ->whereNotNull('admins.att_email')
+                               ->where('admins.att_email', '!=', '')
+                               ->whereNotNull('leads.email')
+                               ->where('leads.email', '!=', '');
+                        })
+                        // Match leads.att_email with admins.email or admins.att_email
+                        ->orWhere(function($q3) {
+                            $q3->whereColumn('admins.email', 'leads.att_email')
+                               ->whereNotNull('admins.email')
+                               ->where('admins.email', '!=', '')
+                               ->whereNotNull('leads.att_email')
+                               ->where('leads.att_email', '!=', '');
+                        })
+                        ->orWhere(function($q4) {
+                            $q4->whereColumn('admins.att_email', 'leads.att_email')
+                               ->whereNotNull('admins.att_email')
+                               ->where('admins.att_email', '!=', '')
+                               ->whereNotNull('leads.att_email')
+                               ->where('leads.att_email', '!=', '');
+                        });
+                    });
+            })
             ->where(function ($q) use ($searchPatterns) {
                 foreach ($searchPatterns as $pattern) {
                     $q->orWhere('phone', 'LIKE', $pattern)
