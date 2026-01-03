@@ -231,18 +231,7 @@
 			</li>
 			<?php
 				}
-			if(Route::currentRouteName() == 'admin.quotations.index'){
-				$quotationclasstype = 'active';
-			}
-			?> 	
-			<?php
-					if(array_key_exists('54',  $module_access)) {
-					?>
-			<li class="dropdown {{@$quotationclasstype}}">
-				<a href="{{route('admin.quotations.index')}}" class="nav-link"><i data-feather="file-text"></i><span>Quotations</span></a>  
-			</li>
-			<?php
-					}
+			// Quotations System removed (January 2026) - Navigation link removed
 			?>
 			
 			<!-- FINANCIAL MANAGEMENT -->
@@ -310,11 +299,7 @@
 					?>
 					<li class=""><a class="nav-link" href="{{route('admin.reports.saleforecast-application')}}">Sale Forecast</a></li>
 					<?php } ?>
-					<?php
-					if(array_key_exists('68',  $module_access)) {
-					?>
-					<li class=""><a class="nav-link" href="{{route('admin.reports.personal-task-report')}}">Tasks</a></li>
-					<?php } ?>
+					{{-- Task reports removed - Task Management System removed (January 2026) --}}
 					<li class=""><a class="nav-link" href="{{URL::to('/admin/reports/visaexpires')}}">Visa Expires</a></li>
 					<li class=""><a class="nav-link" href="{{URL::to('/admin/reports/agreementexpires')}}">Agreement Expires</a></li>
 					
