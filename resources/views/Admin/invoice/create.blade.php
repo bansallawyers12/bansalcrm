@@ -57,22 +57,12 @@
 									{!! Form::button('<i class="fa fa-save"></i> Save Invoice', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-invoice")' ])  !!}
 								</div> 	 
 								<div class="row"> 
+									{{-- Tax Management System removed (January 2026) --}}
 									@if(@Auth::user()->is_business_gst == 'yes')
-										<?php
-										$que = \App\Models\TaxRate::where('user_id',Auth::user()->id);
-										$tocoun = $que->count();
-										$taxresult = $que->get();
-										
-									?>
 									<div class="col-sm-12">
 										<div class="form-group row">
 											<label for="tax" class="col-sm-3 col-form-label">Select Tax</label>
 											<label for="taxno" class="col-sm-3 col-form-label"><input checked id="taxno" class="taxrate" type="radio" name="tax" value="0">No Tax</label>
-											@if($tocoun !== 0)
-											@foreach($taxresult as $tlist)
-												<label for="tax{{$tlist->id}}" class="col-sm-3 col-form-label"><input id="tax{{$tlist->id}}" type="radio" ratename="{{$tlist->name}}" class="taxrates" ratetax="{{$tlist->rate}}" name="tax" value="{{$tlist->id}}">{{$tlist->name}}</label>
-											@endforeach
-											@endif
 										</div>
 									</div>
 									@else

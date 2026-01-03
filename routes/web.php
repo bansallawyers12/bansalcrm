@@ -143,12 +143,8 @@ Route::prefix('admin')->group(function() {
 		Route::get('/website_setting', 'Admin\AdminController@websiteSetting')->name('admin.website_setting');
 		Route::post('/website_setting', 'Admin\AdminController@websiteSetting');
 		Route::post('/get_states', 'Admin\AdminController@getStates');
+		// Tax rate routes removed - Tax Management System removed (January 2026)
 		Route::get('/settings/taxes/returnsetting', 'Admin\AdminController@returnsetting')->name('admin.returnsetting');
-		Route::get('/settings/taxes/taxrates', 'Admin\AdminController@taxrates')->name('admin.taxrates');
-		Route::get('/settings/taxes/taxrates/create', 'Admin\AdminController@taxratescreate')->name('admin.taxrates.create');
-		Route::post('/settings/taxes/taxrates/store', 'Admin\AdminController@savetaxrate')->name('admin.taxrates.store');
-		Route::get('/settings/taxes/taxrates/edit/{id}', 'Admin\AdminController@edittaxrates')->name('admin.edittaxrates');
-		Route::post('/settings/taxes/taxrates/edit', 'Admin\AdminController@edittaxrates');
 		Route::post('/settings/taxes/savereturnsetting', 'Admin\AdminController@returnsetting')->name('admin.savereturnsetting');
 		Route::get('/getsubcategories', 'Admin\AdminController@getsubcategories');
 		Route::get('/getproductbranch', 'Admin\AdminController@getproductbranch');
@@ -364,34 +360,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/branch/view/client/{id}', 'Admin\BranchesController@viewclient')->name('admin.branch.clientview'); 
 		Route::post('/branch/edit', 'Admin\BranchesController@edit');
 		 
-		//Quotations Start
-		Route::get('/quotations', 'Admin\QuotationsController@index')->name('admin.quotations.index'); 
-		
-		Route::get('/quotations/client', 'Admin\QuotationsController@client')->name('admin.quotations.client');  
-		Route::get('/quotations/client/create/{id}', 'Admin\QuotationsController@create')->name('admin.quotations.create');  
-		Route::post('/quotations/store', 'Admin\QuotationsController@store')->name('admin.quotations.store');
-		Route::get('/quotations/edit/{id}', 'Admin\QuotationsController@edit')->name('admin.quotations.edit');
-		Route::post('/quotations/edit', 'Admin\QuotationsController@edit');
-		 
-		Route::get('/quotations/template', 'Admin\QuotationsController@template')->name('admin.quotations.template.index');   
-		Route::get('/quotations/template/create', 'Admin\QuotationsController@template_create')->name('admin.quotations.template.create');  
-		Route::post('/quotations/template/store', 'Admin\QuotationsController@template_store')->name('admin.quotations.template.store');  
-		Route::get('/quotations/template/edit/{id}', 'Admin\QuotationsController@template_edit')->name('admin.quotations.template.edit');  
-		Route::post('/quotations/template/edit', 'Admin\QuotationsController@template_edit');  
-		Route::get('/quotation/detail/{id}', 'Admin\QuotationsController@quotationDetail');
-		Route::get('/quotation/preview/{id}', 'Admin\QuotationsController@quotationpreview');
-		//archived Start  
-		Route::get('quotations/archived', 'Admin\QuotationsController@archived')->name('admin.quotations.archived');
-		Route::get('quotations/changestatus', 'Admin\QuotationsController@changestatus')->name('admin.quotations.changestatus');
-		Route::post('quotations/sendmail', 'Admin\QuotationsController@sendmail')->name('admin.quotations.sendmail');
-		
-		Route::get('getpartner', 'Admin\AdminController@getpartner')->name('admin.quotations.getpartner');
-		Route::get('getpartnerbranch', 'Admin\AdminController@getpartnerbranch')->name('admin.quotations.getpartnerbranch');
-		Route::get('getsubjects', 'Admin\AdminController@getsubjects');
-		Route::get('getbranchproduct', 'Admin\AdminController@getbranchproduct')->name('admin.quotations.getbranchproduct');
-		Route::get('getproduct', 'Admin\AdminController@getproduct')->name('admin.quotations.getproduct');
-		Route::get('getbranch', 'Admin\AdminController@getbranch')->name('admin.quotations.getbranch');
-		Route::get('getnewPartnerbranch', 'Admin\AdminController@getnewPartnerbranch')->name('admin.quotations.getnewPartnerbranch');
+		//Quotations Start - Quotations System removed (January 2026)
 		 
 		
 		//Agent Start   
@@ -413,23 +382,7 @@ Route::prefix('admin')->group(function() {
 		 Route::post('/agents/edit', 'Admin\AgentController@edit');
 		 Route::get('/agents/import/business', 'Admin\AgentController@businessimport');
 		 Route::get('/agents/import/individual', 'Admin\AgentController@individualimport');
-		//Task Start 
-		Route::get('/tasks', 'Admin\TasksController@index')->name('admin.tasks.index');
-		Route::get('/tasks/archive/{id}', 'Admin\TasksController@taskArchive')->name('admin.tasks.archive');
-		Route::get('/tasks/create', 'Admin\TasksController@create')->name('admin.tasks.create'); 
-		Route::post('/tasks/store', 'Admin\TasksController@store')->name('admin.tasks.store');
-			Route::post('/tasks/groupstore', 'Admin\TasksController@groupstore')->name('admin.tasks.groupstore');
-			Route::post('/tasks/deletegroup', 'Admin\TasksController@deletegroup')->name('admin.tasks.deletegroup');
-		Route::get('/get-tasks', 'Admin\TasksController@gettasks')->name('admin.tasks.gettasks');
-		Route::get('/get-task-detail', 'Admin\TasksController@taskdetail')->name('admin.tasks.gettaskdetail');
-		Route::post('/update_task_comment', 'Admin\TasksController@update_task_comment');
-		Route::post('/update_task_description', 'Admin\TasksController@update_task_description');
-		Route::post('/update_task_status', 'Admin\TasksController@update_task_status');
-		Route::post('/update_task_priority', 'Admin\TasksController@update_task_priority');
-		Route::post('/updateduedate', 'Admin\TasksController@updateduedate');
-		Route::get('/task/change_assignee', 'Admin\TasksController@change_assignee');  
-		//Route::get('/tasks/edit/{id}', 'Admin\TasksController@edit')->name('admin.tasks.edit');
-		//Route::post('/tasks/edit', 'Admin\TasksController@edit')->name('admin.tasks.edit');
+		//Task Start - Task Management System removed (January 2026)
 		
 		//General Invoice Start 
 		Route::get('/invoice/general-invoice', 'Admin\InvoiceController@general_invoice')->name('admin.invoice.general-invoice'); 
@@ -515,15 +468,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/group-invoice/unpaid', 'Admin\InvoiceController@unpaidgroupinvoice')->name('admin.invoice.unpaidgroupinvoice');
 		Route::get('/group-invoice/paid', 'Admin\InvoiceController@paidgroupinvoice')->name('admin.invoice.paidgroupinvoice');
 		Route::get('/group-invoice/create', 'Admin\InvoiceController@creategroupinvoice')->name('admin.invoice.creategroupinvoice'); 
-		Route::get('/invoice-schedules', 'Admin\InvoiceController@invoiceschedules')->name('admin.invoice.invoiceschedules'); 
-		Route::post('/paymentschedule', 'Admin\InvoiceController@paymentschedule')->name('admin.invoice.paymentschedule'); 
-		Route::post('/setup-paymentschedule', 'Admin\InvoiceController@setuppaymentschedule'); 
-		Route::post('/editpaymentschedule', 'Admin\InvoiceController@editpaymentschedule')->name('admin.invoice.editpaymentschedule'); 
-		Route::get('/scheduleinvoicedetail', 'Admin\InvoiceController@scheduleinvoicedetail'); 
-		Route::get('/addscheduleinvoicedetail', 'Admin\InvoiceController@addscheduleinvoicedetail'); 
-		Route::get('/get-all-paymentschedules', 'Admin\InvoiceController@getallpaymentschedules'); 
-		Route::get('/deletepaymentschedule', 'Admin\InvoiceController@deletepaymentschedule'); 
-		Route::get('/applications/preview-schedules/{id}', 'Admin\InvoiceController@apppreviewschedules'); 
+		// Invoice schedule routes removed - Invoice Schedule System removed (January 2026) 
 		
 		  
 		//Product Type Start    
@@ -608,12 +553,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/checklist/edit/{id}', 'Admin\ChecklistController@edit')->name('admin.checklist.edit');
 		Route::post('/checklist/edit', 'Admin\ChecklistController@edit')->name('admin.checklist.update');
 		
-		//Enquiry Source Start
-		Route::get('/enquirysource', 'Admin\EnquirySourceController@index')->name('admin.enquirysource.index');  
-		Route::get('/enquirysource/create', 'Admin\EnquirySourceController@create')->name('admin.enquirysource.create');  
-		Route::post('enquirysource/store', 'Admin\EnquirySourceController@store')->name('admin.enquirysource.store');     
-		Route::get('/enquirysource/edit/{id}', 'Admin\EnquirySourceController@edit')->name('admin.enquirysource.edit');
-		Route::post('/enquirysource/edit', 'Admin\EnquirySourceController@edit')->name('admin.enquirysource.update');
+		//Enquiry Source Start - Enquiry Source System removed (January 2026)
 		
 		//FeeType Start
 		Route::get('/feetype', 'Admin\FeeTypeController@index')->name('admin.feetype.index');  
@@ -655,12 +595,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/deletefee', [ProductsController::class, 'deletefee']);
 		
 		
-		Route::post('/partner/addtask', [PartnersController::class, 'addtask']);
-		Route::get('/partner/get-tasks', [PartnersController::class, 'gettasks']);
-		Route::get('/partner/get-task-detail', [PartnersController::class, 'taskdetail']);
-		Route::post('/partner/savecomment', [PartnersController::class, 'savecomment']);
-		Route::get('/change-task-status', [PartnersController::class, 'changetaskstatus']);
-		Route::get('/change-task-priority', [PartnersController::class, 'changetaskpriority']);
+		// Partner task routes removed - Task Management System removed (January 2026)
 		
 		Route::post('/promotion/store', 'Admin\PromotionController@store');
 		Route::post('/promotion/edit', 'Admin\PromotionController@edit');
@@ -674,7 +609,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/applications/create', 'Admin\ApplicationsController@create')->name('admin.applications.create');  
 		Route::post('/discontinue_application', 'Admin\ApplicationsController@discontinue_application');  
 		Route::post('/revert_application', 'Admin\ApplicationsController@revert_application');  
-		Route::post('/applications-import', 'Admin\ApplicationsController@import')->name('admin.applications.import');
+		// Import route removed - Import functionality removed (January 2026)
 		//Route::post('/product-type/store', 'Admin\ProductTypeController@store')->name('admin.feature.producttype.store');   
 		//Route::get('/product-type/edit/{id}', 'Admin\ProductTypeController@edit')->name('admin.feature.producttype.edit');
 		//Route::post('/product-type/edit', 'Admin\ProductTypeController@edit')->name('admin.feature.producttype.edit');
@@ -709,8 +644,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/report/office-visit', 'Admin\ReportController@office_visit')->name('admin.reports.office-visit');
 		Route::get('/report/sale-forecast/application', 'Admin\ReportController@saleforecast_application')->name('admin.reports.saleforecast-application');  
 		Route::get('/report/sale-forecast/interested-service', 'Admin\ReportController@interested_service')->name('admin.reports.interested-service');
-		Route::get('/report/task/personal-task-report', 'Admin\ReportController@personal_task')->name('admin.reports.personal-task-report');
-		Route::get('/report/task/office-task-report', 'Admin\ReportController@office_task')->name('admin.reports.office-task-report'); 
+		// Task report routes removed - Task Management System removed (January 2026) 
 		Route::get('/reports/visaexpires', 'Admin\ReportController@visaexpires'); 
 		Route::get('/followup-dates', 'Admin\ReportController@followupdates'); 
 		Route::get('/reports/agreementexpires', 'Admin\ReportController@agreementexpires');
@@ -756,8 +690,7 @@ Route::prefix('admin')->group(function() {
 		Route::resource('/assignee', Admin\AssigneeController::class);
         Route::get('/assignee-completed', 'Admin\AssigneeController@completed'); //completed list only
 
-        Route::post('/update-task-completed', 'Admin\AssigneeController@updatetaskcompleted'); //update task to be completed
-        Route::post('/update-task-not-completed', 'Admin\AssigneeController@updatetasknotcompleted'); //update task to be not completed
+        // Task update routes removed - Task Management System removed (January 2026)
 
         Route::get('/assigned_by_me', 'Admin\AssigneeController@assigned_by_me')->name('assignee.assigned_by_me'); //assigned by me
         Route::get('/assigned_to_me', 'Admin\AssigneeController@assigned_to_me')->name('assignee.assigned_to_me'); //assigned to me
@@ -800,13 +733,7 @@ Route::prefix('admin')->group(function() {
         Route::post('/clients/update-email-verified', [ClientsController::class, 'updateemailverified']);
         
 		
-		 //Promo code
-		Route::get('/promo-code', 'Admin\PromoCodeController@index')->name('admin.feature.promocode.index');
-		Route::get('/promo-code/create', 'Admin\PromoCodeController@create')->name('admin.feature.promocode.create');
-		Route::post('/promo-code/store', 'Admin\PromoCodeController@store')->name('admin.feature.promocode.store');
-		Route::get('/promo-code/edit/{id}', 'Admin\PromoCodeController@edit')->name('admin.feature.promocode.edit');
-		Route::post('/promo-code/edit', 'Admin\PromoCodeController@edit');
-        Route::post('/promo-code/checkpromocode', 'Admin\PromoCodeController@checkpromocode');
+		 //Promo code - Promo Code System removed (January 2026)
         
         Route::post('/address_auto_populate', [ClientsController::class, 'address_auto_populate']);
   

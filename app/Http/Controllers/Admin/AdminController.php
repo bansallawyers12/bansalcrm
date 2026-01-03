@@ -15,7 +15,7 @@ use App\Models\WebsiteSetting;
 use App\Models\SeoPage;
 use App\Models\City;
 use App\Models\Contact;
-use App\Models\TaxRate;
+// TaxRate model removed - Tax Management System removed (January 2026)
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\InvoicePayment;
 use App\Models\Setting;
@@ -187,7 +187,10 @@ class AdminController extends Controller
 		return view('Admin.settings.create');
 	}
 
+	// Tax Management System removed (January 2026) - Routes removed, method disabled
 	public function edittaxrates(Request $request, $id = Null){
+		return redirect()->back()->with('error', 'Tax Management System has been removed');
+		/* Original code disabled - Tax Management System removed
 		if ($request->isMethod('post'))
 		{
 			$requestData 		= 	$request->all();

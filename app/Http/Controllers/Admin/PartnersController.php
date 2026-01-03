@@ -12,8 +12,7 @@ use App\Models\Admin;
 use App\Models\Partner;
 use App\Models\Contact;
 use App\Models\PartnerBranch;
-use App\Models\Task;
-use App\Models\TaskLog;
+// Task models removed - Task Management System removed (January 2026)
 //use App\Models\ActivitiesLog;
  
 use Auth; 
@@ -1075,7 +1074,10 @@ class PartnersController extends Controller
 		echo json_encode($response);
 	}
 	
+	// Task Management System removed (January 2026) - Routes removed, method disabled
 	public function addtask(Request $request){
+		return response()->json(['status' => false, 'message' => 'Task Management System has been removed']);
+		/* Original code disabled - Task Management System removed
 		$requestData 		= 	$request->all();
 			 if($request->hasfile('attachments')) 
 			{	
@@ -1158,9 +1160,13 @@ class PartnersController extends Controller
 			<?php
 		}
 		return ob_get_clean();
+		*/
 	}
 	
+	// Task Management System removed (January 2026) - Routes removed, method disabled
 	public function taskdetail(Request $request){
+		return ''; // Task Management System removed
+		/* Original code disabled - Task Management System removed
 		$notedetail = \App\Models\Task::where('id',$request->task_id)->where('type','partner')->first();
 		?>
 		<div class="modal-header">
@@ -1452,7 +1458,10 @@ class PartnersController extends Controller
 			echo json_encode($response);
 	}
 	
+	// Task Management System removed (January 2026) - Routes removed, method disabled
 	public function changetaskstatus(Request $request){
+		return response()->json(['status' => false, 'message' => 'Task Management System has been removed']);
+		/* Original code disabled - Task Management System removed
 		if(Task::where('id', $request->id)->exists()){
 			
 			$obj = Task::find($request->id);
@@ -1526,7 +1535,10 @@ class PartnersController extends Controller
 		echo json_encode($response);	
 	}
 	
+	// Task Management System removed (January 2026) - Routes removed, method disabled
 	public function changetaskpriority(Request $request){
+		return response()->json(['status' => false, 'message' => 'Task Management System has been removed']);
+		/* Original code disabled - Task Management System removed
 		if(Task::where('id', $request->id)->exists()){
 			
 			$obj = Task::find($request->id);

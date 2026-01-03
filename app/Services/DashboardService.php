@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Note;
-use App\Models\Task;
+// Task model removed - Task Management System removed (January 2026)
 use App\Models\CheckinLog;
 use App\Models\Contact;
 use App\Models\Partner;
@@ -41,74 +41,17 @@ class DashboardService
 
     /**
      * Get today's tasks for the user
-     *
+     * 
+     * Task Management System removed (January 2026)
+     * This method is no longer functional as Task model has been removed.
+     * 
      * @param string $dateFilter Optional date filter (today, week, month)
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getTodayTasks($dateFilter = 'today')
     {
-        try {
-            $query = Task::query();
-            
-            // Apply date filter
-            switch ($dateFilter) {
-                case 'week':
-                    $startDate = Carbon::now()->startOfWeek();
-                    $endDate = Carbon::now()->endOfWeek();
-                    $query->whereBetween('due_date', [$startDate, $endDate]);
-                    break;
-                case 'month':
-                    $query->whereMonth('due_date', Carbon::now()->month)
-                          ->whereYear('due_date', Carbon::now()->year);
-                    break;
-                case 'today':
-                default:
-                    // Use whereBetween for better index usage
-                    $startOfDay = Carbon::today()->startOfDay();
-                    $endOfDay = Carbon::today()->endOfDay();
-                    $query->whereBetween('due_date', [$startOfDay, $endOfDay]);
-                    break;
-            }
-
-            // Apply role-based filtering and eager load user relationship
-            if (Auth::user()->role == 1) {
-                $tasks = $query->select('id', 'user_id', 'status', 'due_date', 'due_time')
-                    ->with(['user' => function($q) {
-                        $q->select('id', 'first_name', 'last_name');
-                    }])
-                    ->orderBy('created_at', 'DESC')
-                    ->limit(20) // Limit to 20 tasks for performance
-                    ->get();
-            } else {
-                $tasks = $query->where(function($q) {
-                    $q->where('assignee', Auth::user()->id)
-                      ->orWhere('followers', Auth::user()->id);
-                })
-                ->select('id', 'user_id', 'status', 'due_date', 'due_time')
-                ->with(['user' => function($q) {
-                    $q->select('id', 'first_name', 'last_name');
-                }])
-                ->orderBy('created_at', 'DESC')
-                ->limit(20) // Limit to 20 tasks for performance
-                ->get();
-            }
-
-            // Pre-format dates to avoid date() calls in view
-            $tasks->transform(function($task) {
-                if ($task->due_date && $task->due_time) {
-                    $task->formatted_due_date = Carbon::parse($task->due_date . ' ' . $task->due_time)
-                        ->format('d/m/Y h:i A');
-                } else {
-                    $task->formatted_due_date = $task->due_date ? Carbon::parse($task->due_date)->format('d/m/Y') : 'N/A';
-                }
-                return $task;
-            });
-
-            return $tasks;
-        } catch (\Exception $e) {
-            \Log::error('Error getting today tasks: ' . $e->getMessage());
-            return collect([]);
-        }
+        // Task Management System removed - returning empty collection
+        return collect([]);
     }
 
     /**

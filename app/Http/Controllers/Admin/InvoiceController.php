@@ -13,12 +13,13 @@ use App\Models\Invoice;
 use App\Models\Item;
 use App\Models\InvoiceDetail;
 use App\Models\InvoicePayment;
-use App\Models\ScheduleItem;
+// ScheduleItem model removed - Invoice Schedule System removed (January 2026)
 use App\Models\InvoiceFollowup;
 use App\Models\EmailTemplate;
 use App\Models\ShareInvoice;
-use App\Models\InvoiceSchedule;
-use App\Models\TaxRate;
+// InvoiceSchedule and TaxRate models removed (January 2026)
+// use App\Models\InvoiceSchedule;
+// use App\Models\TaxRate;
 use App\Models\Currency;
 use App\Models\Contact;
 use App\Models\AttachFile;
@@ -979,7 +980,10 @@ class InvoiceController extends Controller
 		return view('Admin.invoice.invoiceschedules',compact(['lists']));  
 	}
 	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function deletepaymentschedule(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		$requestData 		= 	$request->all();
 		
 		if(InvoiceSchedule::where('id', $request->note_id)->exists()){
@@ -1134,7 +1138,10 @@ class InvoiceController extends Controller
 		} 
 	}
 	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function editpaymentschedule(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		$requestData 				= 	$request->all();
 		$obj						= 	InvoiceSchedule::find(@$requestData['id']); 
 		$obj->user_id				=	Auth::user()->id;  
@@ -1604,7 +1611,10 @@ class InvoiceController extends Controller
 		return ob_get_clean();
 	}
 	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function apppreviewschedules(Request $request, $id){
+		return redirect()->back()->with('error', 'Invoice Schedule System has been removed');
+		/* Original code disabled - Invoice Schedule System removed
 		$applications = \App\Models\Application::where('id', $id)->first();
 		$invoiceschedules = \App\Models\InvoiceSchedule::where('application_id', @$id)->get();
 		

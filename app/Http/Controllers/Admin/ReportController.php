@@ -12,7 +12,7 @@ use App\Models\Report;
 use App\Models\Application;
 use App\Models\CheckinLog;
 use App\Models\Invoice;
-use App\Models\Task;
+// Task model removed - Task Management System removed (January 2026)
  
 use Auth; 
 use Config;
@@ -88,23 +88,20 @@ class ReportController extends Controller
 		return view('Admin.reports.interested-service', compact(['lists', 'totalData']));
 		//return view('Admin.reports.sale-forecast');
 	}
+	// Task Management System removed (January 2026) - Routes removed, methods disabled
 	public function personal_task(Request $request)  
 	{	
-		$query 		= Task::where('id', '!=', '');  	  
-		$totalData 	= $query->count();	//for all data
-		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
-		
+		// Task Management System removed - returning empty data
+		$lists = collect([]);
+		$totalData = 0;
 		return view('Admin.reports.personal-task-report', compact(['lists', 'totalData']));
-		//return view('Admin.reports.tasks');
 	}
 	public function office_task(Request $request)  
 	{	
-		$query 		= Task::where('id', '!=', '');  	  
-		$totalData 	= $query->count();	//for all data
-		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
-		
+		// Task Management System removed - returning empty data
+		$lists = collect([]);
+		$totalData = 0;
 		return view('Admin.reports.office-task-report', compact(['lists', 'totalData']));
-		//return view('Admin.reports.tasks');
 	}
 	
 	public function visaexpires(Request $request)  
