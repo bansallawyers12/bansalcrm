@@ -1594,6 +1594,7 @@ class PartnersController extends Controller
 			$dat = ob_get_clean();
 			$response['data']	=	$dat;
 		echo json_encode($response);	
+		*/
 	}
 
 	public function import(Request $request){
@@ -1642,82 +1643,84 @@ class PartnersController extends Controller
 				   'level'=>$sheet->getCell( 'AE' . $row )->getValue(),
 				];*/
 				
-				 //Get master_category id
-                $master_category_val = trim($sheet->getCell( 'C' . $row )->getValue());
-                if($master_category_val){
-                    $cat_data = DB::table('categories')->select('categories.id')->where('category_name', 'like', '%'.$master_category_val.'%')->get();
-                    if(!empty($cat_data)){
-                        $master_category_id = $cat_data[0]->id;
-                    } else {
-                        $master_category_id = "";
-                    }
-                } else {
-                    $master_category_id = "";
-                }
-                //dd($master_category_id);
+				//Get master_category id
+				$master_category_val = trim($sheet->getCell( 'C' . $row )->getValue());
+				if($master_category_val){
+					$cat_data = DB::table('categories')->select('categories.id')->where('category_name', 'like', '%'.$master_category_val.'%')->get();
+					if(!empty($cat_data)){
+						$master_category_id = $cat_data[0]->id;
+					} else {
+						$master_category_id = "";
+					}
+				} else {
+					$master_category_id = "";
+				}
+				//dd($master_category_id);
 
-                //Get partner type id
-                $partner_type_val = trim($sheet->getCell( 'D' . $row )->getValue()); //dd($partner_type_val);
-                if($partner_type_val){
-                    $partner_type_data = DB::table('partner_types')->select('partner_types.id')->where('category_id', $master_category_id)->where('name', 'like', '%'.$partner_type_val.'%')->get();
-                    if(!empty($partner_type_data)){
-                        $partner_type_id = $partner_type_data[0]->id;
-                    } else {
-                        $partner_type_id = "";
-                    }
-                } else {
-                    $partner_type_id = "";
-                }
-                //dd($partner_type_id);
+				//Get partner type id
+				$partner_type_val = trim($sheet->getCell( 'D' . $row )->getValue()); //dd($partner_type_val);
+				if($partner_type_val){
+					$partner_type_data = DB::table('partner_types')->select('partner_types.id')->where('category_id', $master_category_id)->where('name', 'like', '%'.$partner_type_val.'%')->get();
+					if(!empty($partner_type_data)){
+						$partner_type_id = $partner_type_data[0]->id;
+					} else {
+						$partner_type_id = "";
+					}
+				} else {
+					$partner_type_id = "";
+				}
+				//dd($partner_type_id);
 
-                //Get service_workflow id
-                $service_workflow_val = trim($sheet->getCell( 'F' . $row )->getValue()); //dd($service_workflow_val);
-                if($service_workflow_val){
-                    $workflow_data = DB::table('workflows')->select('workflows.id')->where('name', 'like', '%'.$service_workflow_val.'%')->get();
-                    //dd($workflow_data);
-                    if(!empty($workflow_data)){
-                        $workflow_data_id = $workflow_data[0]->id;
-                    } else {
-                        $workflow_data_id = "";
-                    }
-                } else {
-                    $workflow_data_id = "";
-                }
-                //dd($workflow_data_id);
+				//Get service_workflow id
+				$service_workflow_val = trim($sheet->getCell( 'F' . $row )->getValue()); //dd($service_workflow_val);
+				if($service_workflow_val){
+					$workflow_data = DB::table('workflows')->select('workflows.id')->where('name', 'like', '%'.$service_workflow_val.'%')->get();
+					//dd($workflow_data);
+					if(!empty($workflow_data)){
+						$workflow_data_id = $workflow_data[0]->id;
+					} else {
+						$workflow_data_id = "";
+					}
+				} else {
+					$workflow_data_id = "";
+				}
+				//dd($workflow_data_id);
 
-                //Get is_regional value
-                $is_regional_val = trim($sheet->getCell( 'R' . $row )->getValue());
-                if($is_regional_val == 'Regional'){
-                    $is_regional_val_bit = 1;
-                } else {
-                    $is_regional_val_bit = 0;
-                }
-                
-                 $data[] = [
-                    'partner_name'=>$sheet->getCell( 'B' . $row )->getValue(),
-                    'master_category'=>$master_category_id,
-                    'partner_type'=>$partner_type_id,
-                    'business_reg_no'=>$sheet->getCell( 'E' . $row )->getValue(),
-                    'service_workflow'=>$workflow_data_id,
-                    'currency'=>$sheet->getCell( 'G' . $row )->getValue(),
-                    'email'=>$sheet->getCell( 'H' . $row )->getValue(),
-                    'country_code'=>$sheet->getCell( 'I' . $row )->getValue(),
-                    'phone'=>$sheet->getCell( 'J' . $row )->getValue(),
-                    'state'=>$sheet->getCell( 'K' . $row )->getValue(),
-                    'country'=>$sheet->getCell( 'L' . $row )->getValue(),
-                    'zip'=>$sheet->getCell( 'M' . $row )->getValue(),
-                    'city'=>$sheet->getCell( 'N' . $row )->getValue(),
-                    'address'=>$sheet->getCell( 'O' . $row )->getValue(),
-                    'fax'=>$sheet->getCell( 'P' . $row )->getValue(),
-                    'website'=>$sheet->getCell( 'Q' . $row )->getValue(),
-                    'is_regional'=>$is_regional_val_bit,
-                    'level'=>$sheet->getCell( 'S' . $row )->getValue(),
+				//Get is_regional value
+				$is_regional_val = trim($sheet->getCell( 'R' . $row )->getValue());
+				if($is_regional_val == 'Regional'){
+					$is_regional_val_bit = 1;
+				} else {
+					$is_regional_val_bit = 0;
+				}
+				
+				$data[] = [
+					'partner_name'=>$sheet->getCell( 'B' . $row )->getValue(),
+					'master_category'=>$master_category_id,
+					'partner_type'=>$partner_type_id,
+					'business_reg_no'=>$sheet->getCell( 'E' . $row )->getValue(),
+					'service_workflow'=>$workflow_data_id,
+					'currency'=>$sheet->getCell( 'G' . $row )->getValue(),
+					'email'=>$sheet->getCell( 'H' . $row )->getValue(),
+					'country_code'=>$sheet->getCell( 'I' . $row )->getValue(),
+					'phone'=>$sheet->getCell( 'J' . $row )->getValue(),
+					'state'=>$sheet->getCell( 'K' . $row )->getValue(),
+					'country'=>$sheet->getCell( 'L' . $row )->getValue(),
+					'zip'=>$sheet->getCell( 'M' . $row )->getValue(),
+					'city'=>$sheet->getCell( 'N' . $row )->getValue(),
+					'address'=>$sheet->getCell( 'O' . $row )->getValue(),
+					'fax'=>$sheet->getCell( 'P' . $row )->getValue(),
+					'website'=>$sheet->getCell( 'Q' . $row )->getValue(),
+					'is_regional'=>$is_regional_val_bit,
+					'level'=>$sheet->getCell( 'S' . $row )->getValue(),
 				];
 				$startcount++;
 			}
 			//dd($data);
-			DB::table('partners')->insert($data);
-            DB::table('check_partners')->insert($data);
+			if(!empty($data)) {
+				DB::table('partners')->insert($data);
+				DB::table('check_partners')->insert($data);
+			}
 		} catch (Exception $e) {
 			$error_code = $e->errorInfo[1];
 			return back()->withErrors('There was a problem uploading the data!');

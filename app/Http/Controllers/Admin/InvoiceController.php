@@ -1001,8 +1001,13 @@ class InvoiceController extends Controller
 				
 		}
 		echo json_encode($response);
+		*/
 	}
+	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function paymentschedule(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		$requestData 		= 	$request->all();
 		$obj						= 	new InvoiceSchedule; 
 		$obj->user_id				=	Auth::user()->id;  
@@ -1047,10 +1052,14 @@ class InvoiceController extends Controller
 			}
 			
 		} 
+		*/
 	}
 	
 	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function setuppaymentschedule(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		$requestData 		= 	$request->all();
 		if(isset($requestData['is_ajax']) && $requestData['is_ajax']){
 			if(\App\Models\Application::where('id', $request->application_id)->exists()){
@@ -1136,6 +1145,7 @@ class InvoiceController extends Controller
 			
 			
 		} 
+		*/
 	}
 	
 	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
@@ -1186,9 +1196,13 @@ class InvoiceController extends Controller
 				}
 			
 		} 
+		*/
 	}
 	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function getallpaymentschedules(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		$InvoiceSchedules = InvoiceSchedule::where('client_id', $request->client_id)->where('application_id', $request->appid)->get(); 
 		ob_start();
 		foreach($InvoiceSchedules as $invoiceschedule){
@@ -1245,8 +1259,13 @@ class InvoiceController extends Controller
 			<?php
 		}
 		return ob_get_clean();
+		*/
 	}
+	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function addscheduleinvoicedetail(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		ob_start();
 		$application = \App\Models\Application::where('id',$request->id)->first();
 		$cleintname = \App\Models\Admin::where('role',7)->where('id',$application->client_id)->first();
@@ -1394,8 +1413,13 @@ class InvoiceController extends Controller
 		</form>
 		<?php
 		return ob_get_clean();
+		*/
 	}
+	
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function scheduleinvoicedetail(Request $request){
+		return response()->json(['status' => false, 'message' => 'Invoice Schedule System has been removed']);
+		/* Original code disabled - Invoice Schedule System removed
 		$fetchedData = InvoiceSchedule::find($request->id);
 		ob_start();
 		?>
@@ -1609,6 +1633,7 @@ class InvoiceController extends Controller
 				</form>
 		<?php
 		return ob_get_clean();
+		*/
 	}
 	
 	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
@@ -1629,6 +1654,7 @@ class InvoiceController extends Controller
 			])->loadView('emails.paymentschedules',compact(['invoiceschedules','cleintname','applications','productdetail','PartnerBranch'])); 
 			//
 			return $pdf->stream('PaymentSchedule.pdf');
+		*/
 	}
 	
 }

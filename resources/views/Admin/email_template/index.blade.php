@@ -120,7 +120,7 @@
 					<span aria-hidden="true">&times;</span>
 				  </button>
 			</div>
-			<form action="{{route('admin.themes.index')}}" method="get">
+			<form action="{{route('admin.email.index')}}" method="get">
 				<div class="modal-body"> 
 					<div class="row">
 						<div class="col-md-6">
@@ -143,7 +143,7 @@
 					</div>
 				</div>
 				<div class="modal-footer justify-content-between">
-				  <a href="{{route('admin.themes.index')}}" class="btn btn-default" >Reset</a>
+				  <a href="{{route('admin.email.index')}}" class="btn btn-default" >Reset</a>
 				  <button type="submit" id="" class="btn btn-primary">Search</button>
 				</div>
 			</form>

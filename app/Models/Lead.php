@@ -18,12 +18,12 @@ class Lead extends Authenticatable
 	
 	public function user()
     {
-        return $this->belongsTo('App\Models\User','user_id','id');
+        return $this->belongsTo('App\Models\Admin','user_id','id');
     }
 	
 	public function agentdetail()
     {
-        return $this->belongsTo('App\Models\User','agent_id','id');
+        return $this->belongsTo('App\Models\Admin','agent_id','id');
     }
 	
 	public function staffuser()

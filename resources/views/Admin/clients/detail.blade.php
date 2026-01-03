@@ -829,9 +829,10 @@ use App\Http\Controllers\Controller;
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="conversations-tab" href="#conversations" role="tab" aria-controls="conversations" aria-selected="false">Conversations</a>
 								</li>
-								<li class="nav-item">
+								{{-- Tasks tab removed - Task Management System removed (January 2026) --}}
+								<!--<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="tasks-tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
-								</li>
+								</li>-->
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="education-tab" href="#education" role="tab" aria-controls="education" aria-selected="false">Education</a>
 								</li>
@@ -2234,14 +2235,15 @@ use App\Http\Controllers\Controller;
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+								{{-- Tasks tab content removed - Task Management System removed (January 2026) --}}
+								<!--<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
 									<div class="card-header-action text-right" style="padding-bottom:15px;">
 										<a href="javascript:;"  class="btn btn-primary opencreate_task"><i class="fa fa-plus"></i> Add</a>
 
 									</div>
 									<div class="table-responsive">
 										<table id="my-datatable" class="table-2 table text_wrap">
-											<!--<thead>
+											<thead>
 												<tr>
 													<th></th>
 													<th></th>
@@ -2250,46 +2252,26 @@ use App\Http\Controllers\Controller;
 													<th></th>
 													<th></th>
 												</tr>
-											</thead>-->
+											</thead>
 											<tbody class="taskdata ">
 											<?php
-											foreach(\App\Models\Task::where('client_id', $fetchedData->id)->orderby('created_at','Desc')->get() as $alist){
-												$admin = \App\Models\Admin::where('id', $alist->user_id)->first();
-												?>
-												<tr class="opentaskview" style="cursor:pointer;" id="{{$alist->id}}">
-													<td><?php if($alist->status == 1 || $alist->status == 2){ echo "<span class='check'><i class='fa fa-check'></i></span>"; } else{ echo "<span class='round'></span>"; } ?></td>
-													<td><b>{{$alist->category}}</b>: {{$alist->title}}</td>
-													<td><span class="author-avtar" style="font-size: .8rem;height: 24px;line-height: 24px;width: 24px;min-width: 24px;background: rgb(3, 169, 244);"><?php echo substr($admin->first_name, 0, 1); ?></span></td>
-													<td>{{$alist->priority}}</td>
-													<td><i class="fa fa-clock"></i> {{$alist->due_date}} {{$alist->due_time}}</td>
-													<td><?php
-													if($alist->status == 1){
-														echo '<span style="color: rgb(113, 204, 83); width: 84px;">Completed</span>';
-													}else if($alist->status == 2){
-														echo '<span style="color: rgb(255, 173, 0); width: 84px;">In Progress</span>';
-													}else if($alist->status == 3){
-														echo '<span style="color: rgb(156, 156, 156); width: 84px;">On Review</span>';
-													}else{
-														echo '<span style="color: rgb(255, 173, 0); width: 84px;">Todo</span>';
-													}
-													?></td>
-
-												</tr>
-												<?php
-											}
+											// Task model removed - Task Management System removed (January 2026)
+											// foreach(\App\Models\Task::where('client_id', $fetchedData->id)->orderby('created_at','Desc')->get() as $alist){
+											// 	$admin = \App\Models\Admin::where('id', $alist->user_id)->first();
+											?>
+											<tr>
+												<td colspan="6" style="text-align:center;">
+													Tasks feature has been removed.
+												</td>
+											</tr>
+											<?php
+											// }
 											?>
 
 											</tbody>
-											<!--<tbody>
-												<tr>
-													<td style="text-align:center;" colspan="10">
-														No Record found
-													</td>
-												</tr>
-											</tbody>-->
 										</table>
 									</div>
-								</div>
+								</div>-->
 								<div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
 									<div class="card-header-action" style="padding-bottom:15px;">
 										<div class="float-left">
@@ -2615,7 +2597,11 @@ use App\Http\Controllers\Controller;
 										</ul>
 										<div class="tab-content " id="clientContent" style="padding-top:15px;">
 											<div class="tab-pane fade show active" id="formprimary" role="tabpanel" aria-labelledby="formprimary-tab">
-											<?php $primarydetail = \App\Models\OnlineForm::where('type', 'primary')->where('client_id', $fetchedData->id)->first(); ?>
+											<?php 
+											// Online Forms feature removed - table online_forms doesn't exist
+											// $primarydetail = \App\Models\OnlineForm::where('type', 'primary')->where('client_id', $fetchedData->id)->first(); 
+											$primarydetail = null;
+											?>
 											<form method="post"  action="{{URL::to('/admin/saveonlineprimaryform')}}" autocomplete="off" name="saveonlineprimaryform" id="saveonlineprimaryform" enctype="multipart/form-data">
 											@csrf
 											<input type="hidden" name="client_id" value="{{$fetchedData->id}}">
@@ -2827,7 +2813,11 @@ use App\Http\Controllers\Controller;
 									</form>
 																			</div>
 										<div class="tab-pane fade" id="formsec" role="tabpanel" aria-labelledby="formsec-tab">
-									<?php $secdetail = \App\Models\OnlineForm::where('type', 'secondary')->where('client_id', $fetchedData->id)->first(); ?>
+									<?php 
+									// Online Forms feature removed - table online_forms doesn't exist
+									// $secdetail = \App\Models\OnlineForm::where('type', 'secondary')->where('client_id', $fetchedData->id)->first(); 
+									$secdetail = null;
+									?>
 									<form method="post"  action="{{URL::to('/admin/saveonlinesecform')}}" autocomplete="off" name="saveonlinesecform" id="saveonlinesecform" enctype="multipart/form-data">
 									@csrf
 									<input type="hidden" name="client_id" value="{{$fetchedData->id}}">
@@ -3039,7 +3029,11 @@ use App\Http\Controllers\Controller;
 									</form>
 																			</div>
 									<div class="tab-pane fade" id="formchild" role="tabpanel" aria-labelledby="formchild-tab">
-									<?php $childdetail = \App\Models\OnlineForm::where('type', 'child')->where('client_id', $fetchedData->id)->first(); ?>
+									<?php 
+									// Online Forms feature removed - table online_forms doesn't exist
+									// $childdetail = \App\Models\OnlineForm::where('type', 'child')->where('client_id', $fetchedData->id)->first(); 
+									$childdetail = null;
+									?>
 									<form method="post"  action="{{URL::to('/admin/saveonlinechildform')}}" autocomplete="off" name="saveonlinechildform" id="saveonlinechildform" enctype="multipart/form-data">
 									@csrf
 									<input type="hidden" name="client_id" value="{{$fetchedData->id}}">

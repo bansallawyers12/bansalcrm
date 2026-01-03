@@ -237,7 +237,7 @@
 			<!-- FINANCIAL MANAGEMENT -->
 			
 			<?php
-			if(Route::currentRouteName() == 'admin.invoice.unpaid' || Route::currentRouteName() == 'admin.invoice.paid' || Route::currentRouteName() == 'admin.account.payment' || Route::currentRouteName() == 'admin.invoice.unpaidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.paidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.invoiceschedules' || Route::currentRouteName() == 'admin.account.payableunpaid' || Route::currentRouteName() == 'admin.account.payablepaid' || Route::currentRouteName() == 'admin.account.receivableunpaid' || Route::currentRouteName() == 'admin.account.receivablepaid'){
+			if(Route::currentRouteName() == 'admin.invoice.unpaid' || Route::currentRouteName() == 'admin.invoice.paid' || Route::currentRouteName() == 'admin.account.payment' || Route::currentRouteName() == 'admin.invoice.unpaidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.paidgroupinvoice' || Route::currentRouteName() == 'admin.account.payableunpaid' || Route::currentRouteName() == 'admin.account.payablepaid' || Route::currentRouteName() == 'admin.account.receivableunpaid' || Route::currentRouteName() == 'admin.account.receivablepaid'){
 				$accountclasstype = 'active';
 			}
 			?> 	
@@ -257,7 +257,7 @@
 					<?php } ?>
 					
 					<!-- <li class="{{(Route::currentRouteName() == 'admin.invoice.unpaidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.paidgroupinvoice') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.invoice.unpaidgroupinvoice')}}">Group Invoice</a></li> -->
-					<li class="{{(Route::currentRouteName() == 'admin.invoice.invoiceschedules') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.invoice.invoiceschedules')}}">Invoice Schedule</a></li> 
+					<!-- Invoice Schedule menu item removed - Invoice Schedule System removed (January 2026) -->
 					<li class="{{(Route::currentRouteName() == 'admin.account.payableunpaid' || Route::currentRouteName() == 'admin.account.payablepaid' || Route::currentRouteName() == 'admin.account.receivableunpaid' || Route::currentRouteName() == 'admin.account.receivablepaid') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.account.payableunpaid')}}">Income Sharing</a></li> 
 				</ul>
 			</li> 
@@ -355,17 +355,12 @@
 				</ul>
 			</li>
 			<?php
-			 if(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit'){
+			// Providers menu section removed - route does not exist
+			/* if(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit'){
 				$provclasstype = 'active';
 			}
-			?> 
-			<li class="dropdown {{@$provclasstype}}">
-				<a href="#" class="menu-toggle nav-link has-dropdown"><i
-				data-feather="user"></i><span>Providers</span></a>
-				<ul class="dropdown-menu">
-					<li class="{{(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.providers.index')}}">Providers List</a></li>
-				</ul>
-			</li>
+			*/ ?> 
+			<!-- Providers menu section removed - route admin.providers.index does not exist -->
 			<?php
 			if(Route::currentRouteName() == 'admin.leads.index'){
 				$leadclasstype = 'active';
@@ -412,7 +407,7 @@
 				<a href="{{route('admin.email.index')}}" class="nav-link"><i data-feather="mail"></i><span>Email Templates</span></a>
 			</li>
 			<?php
-			if(Route::currentRouteName() == 'admin.my_profile' || Route::currentRouteName() == 'admin.change_password' || Route::currentRouteName() == 'admin.edit_api'){
+			/*if(Route::currentRouteName() == 'admin.my_profile' || Route::currentRouteName() == 'admin.change_password' || Route::currentRouteName() == 'admin.edit_api'){
 				$actsetclasstype = 'active';
 			}*/ 
 			?> 

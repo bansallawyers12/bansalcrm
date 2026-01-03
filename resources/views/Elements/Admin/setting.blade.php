@@ -23,7 +23,8 @@
 		<li class="{{(Route::currentRouteName() == 'admin.feature.source.index' || Route::currentRouteName() == 'admin.feature.source.create' || Route::currentRouteName() == 'admin.feature.source.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.feature.source.index')}}">Source</a></li>
 		<li class="{{(Route::currentRouteName() == 'admin.feature.tags.index' || Route::currentRouteName() == 'admin.feature.tags.create' || Route::currentRouteName() == 'admin.feature.tags.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.feature.tags.index')}}">Tags</a></li>
 		<li class="{{(Route::currentRouteName() == 'admin.checklist.index' || Route::currentRouteName() == 'admin.checklist.create' || Route::currentRouteName() == 'admin.checklist.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.checklist.index')}}">Checklist</a></li>
-		<li class="{{(Route::currentRouteName() == 'admin.enquirysource.index' || Route::currentRouteName() == 'admin.enquirysource.create' || Route::currentRouteName() == 'admin.enquirysource.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.enquirysource.index')}}">Enquiry Source</a></li>
+		{{-- Enquiry Source menu item removed - route admin.enquirysource.index does not exist --}}
+		{{-- <li class="{{(Route::currentRouteName() == 'admin.enquirysource.index' || Route::currentRouteName() == 'admin.enquirysource.create' || Route::currentRouteName() == 'admin.enquirysource.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.enquirysource.index')}}">Enquiry Source</a></li> --}}
 		<li class="{{(Route::currentRouteName() == 'admin.workflow.index' || Route::currentRouteName() == 'admin.workflow.create' || Route::currentRouteName() == 'admin.workflow.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.workflow.index')}}">Workflow</a></li>
 		<li class="{{(Route::currentRouteName() == 'admin.emails.index' || Route::currentRouteName() == 'admin.emails.create' || Route::currentRouteName() == 'admin.emails.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.emails.index')}}">Email</a></li>
 		<li class="{{(Route::currentRouteName() == 'admin.crmemailtemplate.index' || Route::currentRouteName() == 'admin.crmemailtemplate.create' || Route::currentRouteName() == 'admin.crmemailtemplate.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.crmemailtemplate.index')}}">Crm Email Template</a></li> 
@@ -54,7 +55,8 @@
             
             <!--<li class="{{--(Route::currentRouteName() == 'admin.feature.appointmentdisabledate.index' ) ? 'active' : ''--}}"><a class="nav-link" href="{{--route('admin.feature.appointmentdisabledate.index')--}}">Block Slot</a></li>-->
             
-            <li class="{{(Route::currentRouteName() == 'admin.feature.promocode.index' ) ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.feature.promocode.index')}}">Promo Code</a></li>
+            {{-- Promo Code menu item removed - route admin.feature.promocode.index does not exist --}}
+            {{-- <li class="{{(Route::currentRouteName() == 'admin.feature.promocode.index' ) ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.feature.promocode.index')}}">Promo Code</a></li> --}}
       
            <li class="{{(Route::currentRouteName() == 'admin.feature.documentchecklist.index' ) ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.feature.documentchecklist.index')}}">Document Checklist</a></li>
 

@@ -321,15 +321,17 @@
 
                         <input type="hidden" name="timezone" value="Australia/Melbourne">
 
-                        <div class="col-12 col-md-12 col-lg-12 nature_of_enquiry_row" id="nature_of_enquiry">
+                        {{-- Nature of Enquiry section removed - Enquiry Source System removed (January 2026) --}}
+                        <div class="col-12 col-md-12 col-lg-12 nature_of_enquiry_row" id="nature_of_enquiry" style="display: none;">
 							<div class="form-group row align-items-center">
 								<label for="noe_id" class="col-sm-3 col-form-label">Nature of Enquiry<span class="span_req">*</span></label>
                                 <div class="col-sm-9">
                                     <select class="form-control enquiry_item" name="noe_id" data-valid="required">
                                         <option value="">Select</option>
-                                        @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
+                                        {{-- NatureOfEnquiry model removed - Enquiry Source System removed (January 2026) --}}
+                                        {{-- @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
                                             <option value="{{$enquiry->id}}">{{$enquiry->title}}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
