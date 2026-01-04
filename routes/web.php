@@ -839,13 +839,6 @@ Route::prefix('admin')->group(function() {
         Route::get('/get-partner-activities', [PartnersController::class, 'activities'])->name('admin.partners.activities');
 
   
-  
-        //Update student application commission percentage
-        Route::get('/partners/updatecommissionpercentage/{partner_id}', [PartnersController::class, 'updatecommissionpercentage'])->name('admin.partners.updatecommissionpercentage');
-
-        //Update student application commission claimed and other
-        Route::get('/partners/updatecommissionclaimed/{partner_id}', [PartnersController::class, 'updatecommissionclaimed'])->name('admin.partners.updatecommissionclaimed');
-  
         //Note deadline task complete
         Route::post('/update-note-deadline-completed', 'Admin\AdminController@updatenotedeadlinecompleted');
         //Note deadline extend

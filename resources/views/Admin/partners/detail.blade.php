@@ -75,15 +75,6 @@ use App\Http\Controllers\Controller;
                             
                             <p><button type="button" style="border-radius:30px;" class="btn btn-primary btn-block openpartneraction" title="Actions"> Action</button></p>
                             
-                            <p>
-                                <a target="_blank" href="{{URL::to('/admin/partners/updatecommissionpercentage/'.$fetchedData->id) }}" class="btn btn-primary btn-block" style="border-radius:30px;">Update Commission Percentage</a>
-                            </p>
-                            
-                            <p>
-                                <a target="_blank" href="{{URL::to('/admin/partners/updatecommissionclaimed/'.$fetchedData->id) }}" class="btn btn-primary btn-block" style="border-radius:30px;">Update Commission Claimed</a>
-                            </p>
-                        
-                            
 						</div>
 					</div>
 					<div class="card">
