@@ -9,7 +9,7 @@
     
     /* Dashboard Section */
     .main-content .section {
-        padding: 2rem 0;
+        padding: 0.5rem 0;
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: calc(100vh - 100px);
     }
@@ -24,6 +24,18 @@
         background: #ffffff;
         position: relative;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Ensure cards fill available space */
+    .row > [class*="col-"] {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .row > [class*="col-"] > .dash_card {
+        flex: 1;
     }
     
     .dash_card::before {
@@ -55,8 +67,11 @@
     }
     
     .card-statistic-4 {
-        padding: 2rem;
+        padding: 1rem;
         position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
     
     /* Card Content Styling */
@@ -66,7 +81,7 @@
         color: #6b7280;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -105,8 +120,8 @@
     
     /* Card Header */
     .card_header {
-        margin-bottom: 1.25rem;
-        padding-bottom: 1rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
         border-bottom: 2px solid #f3f4f6;
     }
     
@@ -127,11 +142,24 @@
     
     /* Card Body */
     .card_body {
-        min-height: 120px;
+        min-height: 60px;
     }
     
     .card_body .text-center {
-        padding: 2.5rem 1rem;
+        padding: 1rem;
+    }
+    
+    .card_body .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .card_body table tbody tr {
+        border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .card_body table tbody tr:last-child {
+        border-bottom: none;
     }
     
     .card_body .text-muted {
@@ -139,28 +167,6 @@
         font-size: 0.875rem;
     }
     
-    /* Task Filter Dropdown */
-    #task_filter {
-        font-size: 0.75rem;
-        height: 28px;
-        padding: 4px 10px;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        background-color: #ffffff;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-weight: 500;
-    }
-    
-    #task_filter:hover {
-        border-color: #6777ef;
-    }
-    
-    #task_filter:focus {
-        outline: none;
-        border-color: #6777ef;
-        box-shadow: 0 0 0 3px rgba(103, 119, 239, 0.1);
-    }
     
     /* Empty State Styling */
     .card_body .text-center p {
@@ -206,7 +212,7 @@
     }
     
     .login-stats .stat-item {
-        padding: 0.75rem 0;
+        padding: 0.5rem 0;
         border-bottom: 1px solid #f3f4f6;
         transition: padding-left 0.2s;
     }
@@ -256,6 +262,43 @@
         border-radius: 16px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Equal height cards for Clients and Recent Activities sections */
+    .row > .col-lg-8,
+    .row > .col-lg-4 {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .row > .col-lg-8 > .card,
+    .row > .col-lg-4 > .card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .row > .col-lg-8 .card-body,
+    .row > .col-lg-4 .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    
+    .row > .col-lg-8 .table-responsive {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+    }
+    
+    .row > .col-lg-4 .recent-activities-list {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
     }
     
     .card-header {
@@ -374,6 +417,12 @@
     }
     
     /* Responsive adjustments */
+    @media (max-width: 1200px) {
+        .row > [class*="col-xl-4"] {
+            margin-bottom: 1.5rem;
+        }
+    }
+    
     @media (max-width: 768px) {
         .main-content .section {
             padding: 1rem 0;
@@ -401,6 +450,10 @@
         
         .card-body {
             padding: 1rem;
+        }
+        
+        .row > [class*="col-"] {
+            display: block;
         }
     }
     
@@ -432,20 +485,106 @@
         background: rgba(103, 119, 239, 0.1);
         color: #6777ef;
     }
+    
+    /* Recent Activities Styling */
+    .recent-activities-list {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+    
+    .recent-activities-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .recent-activities-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .recent-activities-list::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+    }
+    
+    .recent-activities-list::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+    
+    .activity-item {
+        transition: background-color 0.2s;
+    }
+    
+    .activity-item:hover {
+        background-color: #f9fafb;
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        border-radius: 6px;
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .activity-icon {
+        transition: transform 0.2s;
+    }
+    
+    .activity-item:hover .activity-icon {
+        transform: scale(1.1);
+    }
+    
+    /* Action Row Styling */
+    .action-row {
+        transition: background-color 0.2s;
+    }
+    
+    .action-row:hover {
+        background-color: #f9fafb;
+    }
+    
+    .action-row td {
+        padding: 0.5rem 0.5rem;
+        vertical-align: top;
+        font-size: 0.8125rem;
+    }
+    
+    .action-row .round {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #6777ef;
+        display: inline-block;
+        margin-top: 0.15rem;
+    }
+    
+    .action-row small {
+        display: block;
+        line-height: 1.4;
+    }
+    
+    .action-row small i {
+        margin-right: 0.25rem;
+        color: #6b7280;
+        font-size: 0.7rem;
+    }
 </style>
 
 <!-- Main Content -->
 <div class="main-content">
 	<section class="section">
 		<!-- Dashboard Header -->
-		<div class="row mb-4">
+		<div class="row mb-2">
 			<div class="col-12">
 				<div class="d-flex justify-content-between align-items-center">
 					<div>
-						<h2 class="mb-1" style="color: #1f2937; font-weight: 700; font-size: 1.875rem;">
+						<h2 class="mb-0" style="color: #1f2937; font-weight: 700; font-size: 1.875rem;">
 							Welcome back, {{ Auth::user()->first_name ?? 'User' }}!
 						</h2>
-						<p class="text-muted mb-0" style="font-size: 0.9375rem;">
+						<p class="text-muted mb-0 mt-1" style="font-size: 0.9375rem;">
 							Here's what's happening with your CRM today
 						</p>
 					</div>
@@ -460,7 +599,7 @@
 
         <div class="row">
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
 				<div class="card dash_card stat-card-login">
 					<div class="card-statistic-4">
 						<div class="align-items-center justify-content-between">
@@ -470,7 +609,7 @@
 										<h5 class="font-14">
 											<i class="fa fa-user-clock"></i> Login Statistics
 										</h5>
-										<div class="login-stats mt-3">
+										<div class="login-stats mt-2">
 											<div class="stat-item mb-2">
 												<small class="text-muted d-block">Last Login:</small>
 												<span class="font-weight-bold">{{$loginStats['last_login_formatted']}}</span>
@@ -480,24 +619,13 @@
 													</small>
 												@endif
 											</div>
-											<div class="stat-item mb-2">
-												<small class="text-muted d-block">Current Session:</small>
-												<span class="font-weight-bold" id="current_session_duration">{{$loginStats['current_session_duration_formatted']}}</span>
-												<small class="text-muted d-block mt-1">
-													Since: {{$loginStats['current_login_formatted']}}
-												</small>
-											</div>
-											<div class="stat-item">
-												<small class="text-muted d-block">Status:</small>
-												@if($loginStats['is_active'])
-													<span class="badge badge-success">Active</span>
-												@else
-													<span class="badge badge-warning">Inactive</span>
-													<small class="text-muted d-block mt-1">
-														({{$loginStats['inactivity_formatted']}})
-													</small>
-												@endif
-											</div>
+                                            <div class="stat-item">
+                                                <small class="text-muted d-block">Current Session:</small>
+                                                <span class="font-weight-bold" id="current_session_duration">{{$loginStats['current_session_duration_formatted']}}</span>
+                                                <small class="text-muted d-block mt-1">
+                                                    Since: <span id="current_login_time">{{$loginStats['current_login_formatted']}}</span>
+                                                </small>
+                                            </div>
 										</div>
 									</div>
 								</div>
@@ -509,18 +637,13 @@
 
 
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
                 <div class="card dash_card stat-card-tasks">
                     <div class="card-statistic-4">
                         <div class="card-content cus_card_content">
                             <div class="card_header">
                                 <h5 class="font-14">
-                                    <i class="fa fa-tasks"></i> My Actions 
-                                    <select id="task_filter" class="form-control form-control-sm d-inline-block" style="width: auto; display: inline-block; margin-left: 5px; padding: 2px 5px;">
-                                        <option value="today" {{$dateFilter == 'today' ? 'selected' : ''}}>Today</option>
-                                        <option value="week" {{$dateFilter == 'week' ? 'selected' : ''}}>This Week</option>
-                                        <option value="month" {{$dateFilter == 'month' ? 'selected' : ''}}>This Month</option>
-                                    </select>
+                                    <i class="fa fa-tasks"></i> My Actions
                                 </h5>
                             </div>
                             <div class="card_body">
@@ -534,22 +657,44 @@
                                                     // Get action title or description snippet
                                                     $actionTitle = $alist->title ?? 'Action';
                                                     if(empty($actionTitle) && !empty($alist->description)) {
-                                                        $actionTitle = \Illuminate\Support\Str::limit(strip_tags($alist->description), 30);
+                                                        $actionTitle = \Illuminate\Support\Str::limit(strip_tags($alist->description), 50);
                                                     }
                                                     // Client/partner name is now available directly from the service
                                                     $clientName = $alist->client_name ?? 'N/A';
+                                                    // Get message preview
+                                                    $messagePreview = '';
+                                                    if(!empty($alist->description)) {
+                                                        $messagePreview = \Illuminate\Support\Str::limit(strip_tags($alist->description), 60);
+                                                    }
                                                 @endphp
-                                                <tr style="cursor:pointer;" id="{{$alist->id}}">
+                                                <tr style="cursor:pointer;" class="action-row" data-action-id="{{$alist->id}}" 
+                                                    data-title="{{$actionTitle}}" 
+                                                    data-client="{{$clientName}}"
+                                                    data-message="{{htmlspecialchars($alist->description ?? '', ENT_QUOTES)}}"
+                                                    data-date="{{$alist->formatted_due_date ?? 'N/A'}}"
+                                                    data-type="{{$alist->type ?? 'client'}}">
                                                     <td>
                                                         <span class='round'></span>
                                                     </td>
-                                                    <td>
-                                                        <strong>{{$actionTitle}}</strong><br>
-                                                        <small class="text-muted">{{$clientName}}</small><br>
-                                                        <i class="fa fa-clock"></i> {{$alist->formatted_due_date ?? 'N/A'}}
+                                                    <td style="font-size: 0.8125rem;">
+                                                        <small class="text-muted" style="font-size: 0.75rem;">
+                                                            <i class="fa fa-user"></i> {{$clientName}}
+                                                        </small>
+                                                        @if($messagePreview)
+                                                        <br>
+                                                        <small class="text-muted" style="font-size: 0.75rem; line-height: 1.4;">
+                                                            {{$messagePreview}}
+                                                        </small>
+                                                        @endif
                                                     </td>
                                                     <td>
-                                                        <span class="task-status-todo">Active</span>
+                                                        <button class="btn btn-sm btn-success complete-action-btn" 
+                                                                data-action-id="{{$alist->id}}"
+                                                                data-client-id="{{$alist->client_id ?? ''}}"
+                                                                data-client-name="{{$clientName}}"
+                                                                style="font-size: 0.7rem; padding: 0.25rem 0.5rem;">
+                                                            <i class="fa fa-check"></i> Complete
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -558,8 +703,8 @@
                                     </div>
                                 </div>
                                 @else
-                                <div class="text-center py-3">
-                                    <p class="text-muted mb-0">No actions for {{$dateFilter == 'today' ? 'today' : ($dateFilter == 'week' ? 'this week' : 'this month')}}.</p>
+                                <div class="text-center py-2">
+                                    <p class="text-muted mb-0">No actions at the moment.</p>
                                     <small class="text-muted">All caught up!</small>
                                 </div>
                                 @endif
@@ -569,7 +714,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
                 <div class="card dash_card stat-card-checkin">
                     <div class="card-statistic-4">
                         <div class="card-content cus_card_content">
@@ -596,7 +741,7 @@
                                     </tbody>
                                 </table>
                             @else
-                                <div class="text-center py-3">
+                                <div class="text-center py-2">
                                     <p class="text-muted mb-0">No office check-in at the moment.</p>
                                 </div>
                             @endif
@@ -608,57 +753,150 @@
       	</div>  
           
           <div class="row">
-            <div class="col-md-12 mb-4">
+            <!-- Left Column: Clients with Recent Activities -->
+            <div class="col-lg-8 col-md-12 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Note Lists With Deadline</h4>
+                        <h4>Clients with Recent Activities</h4>
                         <div class="card-header-action">
                             <!-- Additional header actions can be added here -->
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Partner Name</th>
-                                        <th>Description</th>
-                                        <th>Deadline</th>
-                                        <th>Created at</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     @if($notesData->isEmpty())
-                                    <tr>
-                                        <td colspan="5" class="text-center">No record found</td>
-                                    </tr>
-                                    @else
-                                    @foreach($notesData as $note)
-                                    <tr>
-                                        <td><a href="{{URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$note->client_id)) )}}">{{ @$note->partner_name == "" ? config('constants.empty') : str_limit(@$note->partner_name, '50', '...') }}</a></td>
-                                        <td><?php echo preg_replace('/<\/?p>/', '', $note->description ); ?></td>
-                                        <td>{{ $note->formatted_deadline ?? 'N/A' }}</td>
-                                        <td>{{ $note->formatted_created_at ?? 'N/A' }}</td>
-                                        <td style="white-space: initial;">
-                                            <div class="dropdown d-inline">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item has-icon" href="javascript:;" onclick="closeNotesDeadlineAction({{$note->id}})">Close</a>
-                                                    <a class="dropdown-item has-icon btn-extend_note_deadline"  data-noteid="{{$note->id}}" data-assignnote="{{$note->description}}" data-deadlinedate="{{$note->formatted_deadline ?? ''}}" href="javascript:;">Extend</a>
+                        @if($clientsWithRecentActivities->count() > 0)
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Client Name</th>
+                                            <th>Last Activity</th>
+                                            <th>Activity Type</th>
+                                            <th>Time</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($clientsWithRecentActivities as $clientActivity)
+                                        @php
+                                            // Determine URL based on client role (7 = client, others might be partners)
+                                            if($clientActivity->client_role == 7) {
+                                                $detailUrl = URL::to('/clients/detail/'.base64_encode(convert_uuencode($clientActivity->client_id)));
+                                            } else {
+                                                // For partners or other roles
+                                                $detailUrl = URL::to('/partners/detail/'.base64_encode(convert_uuencode($clientActivity->client_id)));
+                                            }
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <a href="{{ $detailUrl }}" style="color: #6777ef; font-weight: 500; text-decoration: none;">
+                                                    {{ $clientActivity->client_name ?: 'N/A' }}
+                                                </a>
+                                                @if($clientActivity->client_email)
+                                                    <br><small class="text-muted">{{ $clientActivity->client_email }}</small>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 0.875rem; color: #4b5563;">
+                                                    {{ \Illuminate\Support\Str::limit($clientActivity->last_activity_subject, 50) }}
+                                                </span>
+                                                @if($clientActivity->activity_count > 1)
+                                                    <br><small class="text-muted">{{ $clientActivity->activity_count }} activities</small>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($clientActivity->activity_type == 'email')
+                                                    <span class="badge" style="background: #6777ef; color: #fff; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                        <i class="fa fa-envelope"></i> Email
+                                                    </span>
+                                                @elseif($clientActivity->activity_type == 'file')
+                                                    <span class="badge" style="background: #10b981; color: #fff; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                        <i class="fa fa-file"></i> File
+                                                    </span>
+                                                @elseif($clientActivity->activity_type == 'note')
+                                                    <span class="badge" style="background: #f59e0b; color: #fff; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                        <i class="fa fa-sticky-note"></i> Note
+                                                    </span>
+                                                @else
+                                                    <span class="badge" style="background: #6b7280; color: #fff; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                                        <i class="fa fa-circle"></i> Activity
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 0.875rem; color: #6b7280;">
+                                                    {{ $clientActivity->last_activity_time }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="{{ $detailUrl }}" class="btn btn-sm btn-primary">
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-center py-4">
+                                <p class="text-muted mb-0" style="font-size: 0.875rem;">No recent client activities</p>
+                                <small class="text-muted">Client activities will appear here</small>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column: Recent Activities -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Recent Activities</h4>
+                    </div>
+                    <div class="card-body" style="padding: 1rem;">
+                        @if($recentActivities->count() > 0)
+                            <div class="recent-activities-list">
+                                @foreach($recentActivities as $activity)
+                                    <div class="activity-item mb-3 pb-3" style="border-bottom: 1px solid #f3f4f6;">
+                                        <div class="d-flex align-items-start">
+                                            <div class="activity-icon me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(103, 119, 239, 0.1); flex-shrink: 0;">
+                                                @if($activity->activity_type == 'email')
+                                                    <i class="fa fa-envelope" style="color: #6777ef; font-size: 14px;"></i>
+                                                @elseif($activity->activity_type == 'file')
+                                                    <i class="fa fa-file" style="color: #6777ef; font-size: 14px;"></i>
+                                                @elseif($activity->activity_type == 'note')
+                                                    <i class="fa fa-sticky-note" style="color: #6777ef; font-size: 14px;"></i>
+                                                @else
+                                                    <i class="fa fa-circle" style="color: #6777ef; font-size: 8px;"></i>
+                                                @endif
+                                            </div>
+                                            <div class="activity-content flex-grow-1" style="min-width: 0;">
+                                                <div class="activity-text" style="font-size: 0.875rem; color: #4b5563; line-height: 1.5; margin-bottom: 0.25rem;">
+                                                    @if($activity->client)
+                                                        {{ $activity->subject ?? 'Activity' }} - {{ $activity->client->first_name ?? '' }} {{ $activity->client->last_name ?? '' }}
+                                                    @else
+                                                        {{ $activity->subject ?? 'Activity' }}
+                                                    @endif
+                                                </div>
+                                                @if($activity->activity_details && $activity->activity_details != $activity->subject)
+                                                    <div class="activity-details" style="font-size: 0.8125rem; color: #6b7280; line-height: 1.4;">
+                                                        {{ \Illuminate\Support\Str::limit($activity->activity_details, 60) }}
+                                                    </div>
+                                                @endif
+                                                <div class="activity-time mt-1" style="font-size: 0.75rem; color: #9ca3af;">
+                                                    {{ $activity->formatted_time }}
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                     @endforeach
-                                     @endif
-                                    </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <!-- Footer content can be added here -->
-                        {!! $notesData->appends(\Request::except('page'))->render() !!}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="text-center py-4">
+                                <p class="text-muted mb-0" style="font-size: 0.875rem;">No recent activities</p>
+                                <small class="text-muted">Activities will appear here</small>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -667,71 +905,113 @@
 	</section>
 </div>
 
-<!-- Action Popup Modal -->
-<div class="modal fade custom_modal" id="extend_note_popup" tabindex="-1" role="dialog" aria-labelledby="create_action_popupLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" style="padding: 20px;">
-            <div class="modal-header" style="padding-bottom: 11px;">
-                <h5 class="modal-title assignnn" id="create_action_popupLabel" style="margin: 0 -24px;">Extend Notes Deadline</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<!-- Complete Action Modal -->
+<div class="modal fade" id="completeActionModal" tabindex="-1" role="dialog" aria-labelledby="completeActionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff;">
+                <h5 class="modal-title" id="completeActionModalLabel">
+                    <i class="fa fa-check-circle"></i> Complete Action
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <input id="note_id" type="hidden" value="">
-            <div id="popover-content">
-                <div class="box-header with-border">
-                    <div class="form-group row" style="margin-bottom:12px;">
-                        <label for="inputEmail3" class="col-sm-3 control-label c6 f13" style="margin-top:8px;">Note</label>
-                        <div class="col-sm-9">
-                            <textarea id="assignnote" class="form-control" placeholder="Enter a note..."></textarea>
-                        </div>
-                        <div class="clearfix"></div>
+            <div class="modal-body">
+                <form id="completeActionForm">
+                    <input type="hidden" id="complete_action_id" name="action_id">
+                    <input type="hidden" id="complete_client_id" name="client_id">
+                    
+                    <div class="mb-3">
+                        <label class="text-muted small">Client/Partner</label>
+                        <p id="complete-action-client" style="color: #4b5563; margin: 0; font-weight: 500;">
+                            <i class="fa fa-user"></i> <span></span>
+                        </p>
                     </div>
-                </div>
-
-                <div class="form-group row note_deadline">
-                    <label for="inputSub3" class="col-sm-3 control-label c6 f13" style="margin-top:8px;">
-                        Note Deadline
-                    </label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control f13" placeholder="dd/mm/yyyy" id="note_deadline" value="<?php echo date('d/m/Y');?>" name="note_deadline">
+                    
+                    <div class="mb-3">
+                        <label for="completion_message" class="form-label">
+                            Completion Message <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" id="completion_message" name="completion_message" rows="4" 
+                                  placeholder="Enter completion message..." required></textarea>
+                        <small class="text-muted">This message will be recorded in the activities section.</small>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="box-footer" style="padding:10px 0;">
-                    <div class="row text-center">
-                        <div class="col-md-12 text-center">
-                            <button class="btn btn-danger" id="extend_deadline">Extend Deadline</button>
-                        </div>
-                    </div>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="submitCompleteAction">
+                    <i class="fa fa-check"></i> Complete Action
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
+<!-- Action Detail Modal -->
+<div class="modal fade" id="actionDetailModal" tabindex="-1" role="dialog" aria-labelledby="actionDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;">
+                <h5 class="modal-title" id="actionDetailModalLabel">
+                    <i class="fa fa-tasks"></i> Action Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="text-muted small">Title</label>
+                    <h6 id="modal-action-title" style="color: #1f2937; font-weight: 600;"></h6>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Client/Partner</label>
+                    <p id="modal-action-client" style="color: #4b5563; margin: 0;">
+                        <i class="fa fa-user"></i> <span></span>
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Due Date</label>
+                    <p id="modal-action-date" style="color: #4b5563; margin: 0;">
+                        <i class="fa fa-clock"></i> <span></span>
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Message</label>
+                    <div id="modal-action-message" style="color: #4b5563; padding: 1rem; background: #f9fafb; border-radius: 8px; min-height: 100px; white-space: pre-wrap; word-wrap: break-word;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
-<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
 <script src="{{asset('js/popover.js')}}"></script>
 <script>
 $(document).ready(function() {
-    // Task filter change handler
-    $('#task_filter').on('change', function() {
-        var filter = $(this).val();
-        window.location.href = '{{URL::to('/admin/dashboard')}}?task_filter=' + filter;
-    });
-
     // Update current session duration in real-time
-    var sessionStartSeconds = {{$loginStats['current_session_duration'] ?? 0}};
-    var sessionStartTime = new Date().getTime() - (sessionStartSeconds * 1000);
+    @if(isset($loginStats['current_login_time']) && $loginStats['current_login_time'])
+        var loginTimestamp = {{ $loginStats['current_login_time']->timestamp * 1000 }};
+    @else
+        // Fallback: use current time if no login time available
+        var loginTimestamp = new Date().getTime();
+    @endif
     
     function updateSessionDuration() {
         var now = new Date().getTime();
-        var elapsed = Math.floor((now - sessionStartTime) / 1000);
+        var elapsed = Math.floor((now - loginTimestamp) / 1000);
+        
+        // Ensure elapsed is never negative
+        if (elapsed < 0) {
+            elapsed = 0;
+        }
         
         var hours = Math.floor(elapsed / 3600);
         var minutes = Math.floor((elapsed % 3600) / 60);
@@ -745,6 +1025,9 @@ $(document).ready(function() {
             }
         } else if (minutes > 0) {
             durationText = minutes + ' minute' + (minutes != 1 ? 's' : '');
+            if (seconds > 0) {
+                durationText += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '');
+            }
         } else {
             durationText = seconds + ' second' + (seconds != 1 ? 's' : '');
         }
@@ -752,89 +1035,142 @@ $(document).ready(function() {
         $('#current_session_duration').text(durationText);
     }
     
-    // Update every minute
+    // Update session duration once when page loads
     updateSessionDuration();
-    setInterval(updateSessionDuration, 60000);
-
-    $('#note_deadline').datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true }).datepicker('setDate', new Date());
-
-    $(document).on('click', '#extend_deadline', function() {
-        $(".popuploader").show();
-        let flag = true;
-        let error = "";
-        $(".custom-error").remove();
-
-        if ($('#assignnote').val() === '') {
-            $('.popuploader').hide();
-            error = "Note field is required.";
-            $('#assignnote').after("<span class='custom-error' role='alert'>" + error + "</span>");
-            flag = false;
-        }
-        if ($('#note_deadline').val() === '') {
-            $('.popuploader').hide();
-            error = "Note Deadline is required.";
-            $('#task_group').after("<span class='custom-error' role='alert'>" + error + "</span>");
-            flag = false;
-        }
-
-        if (flag) {
-            $.ajax({
-                type: 'POST',
-                url: "{{URL::to('/')}}/admin/extenddeadlinedate",
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                data: {
-                    note_id: $('#note_id').val(),
-                    description: $('#assignnote').val(),
-                    note_deadline: $('#note_deadline').val()
-                },
-                success: function(response) {
-                    $('.popuploader').hide();
-                    $('#extend_note_popup').modal('hide');
-                    location.reload();
-                    //var obj = $.parseJSON(response);
-                }
-            });
+    
+    // Handle complete action button click
+    $(document).on('click', '.complete-action-btn', function(e) {
+        e.stopPropagation(); // Prevent row click event
+        
+        var actionId = $(this).data('action-id');
+        var clientId = $(this).data('client-id');
+        var clientName = $(this).data('client-name');
+        
+        // Set form values
+        $('#complete_action_id').val(actionId);
+        $('#complete_client_id').val(clientId);
+        $('#complete-action-client span').text(clientName || 'N/A');
+        $('#completion_message').val('');
+        
+        // Show modal
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            var modalElement = document.getElementById('completeActionModal');
+            var modal = new bootstrap.Modal(modalElement);
+            modal.show();
         } else {
-            $('.popuploader').hide();
+            $('#completeActionModal').modal('show');
         }
     });
-
-    // Handle click event on the action button
-    $(document).delegate('.btn-extend_note_deadline', 'click', function(){
-        var noteid = $(this).attr("data-noteid");
-        var assignnote = $(this).attr("data-assignnote");
-        var deadlinedate = $(this).attr("data-deadlinedate");
-        $('#note_id').val(noteid);
-        $('#assignnote').val(assignnote);
-        $('#note_deadline').val(deadlinedate);
-        $('#extend_note_popup').modal('show');
+    
+    // Handle complete action form submission
+    $('#submitCompleteAction').on('click', function() {
+        var actionId = $('#complete_action_id').val();
+        var clientId = $('#complete_client_id').val();
+        var message = $('#completion_message').val().trim();
+        
+        if (!message) {
+            alert('Please enter a completion message.');
+            return;
+        }
+        
+        // Disable button during submission
+        $(this).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Completing...');
+        
+        $.ajax({
+            url: '{{ route("admin.complete-action") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                action_id: actionId,
+                client_id: clientId,
+                completion_message: message
+            },
+            success: function(response) {
+                if (response.status) {
+                    // Close modal
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        var modalElement = document.getElementById('completeActionModal');
+                        var modal = bootstrap.Modal.getInstance(modalElement);
+                        modal.hide();
+                    } else {
+                        $('#completeActionModal').modal('hide');
+                    }
+                    
+                    // Remove the action row
+                    $('tr[data-action-id="' + actionId + '"]').fadeOut(300, function() {
+                        $(this).remove();
+                        // Check if no more actions
+                        if ($('.action-row').length === 0) {
+                            $('.taskdata_list').html('<div class="text-center py-2"><p class="text-muted mb-0">No actions at the moment.</p><small class="text-muted">All caught up!</small></div>');
+                        }
+                    });
+                    
+                    // Show success message
+                    if (typeof iziToast !== 'undefined') {
+                        iziToast.success({
+                            title: 'Success',
+                            message: response.message || 'Action completed successfully!'
+                        });
+                    } else {
+                        alert(response.message || 'Action completed successfully!');
+                    }
+                } else {
+                    alert(response.message || 'Failed to complete action. Please try again.');
+                }
+            },
+            error: function(xhr) {
+                var errorMsg = 'An error occurred. Please try again.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                alert(errorMsg);
+            },
+            complete: function() {
+                // Re-enable button
+                $('#submitCompleteAction').prop('disabled', false).html('<i class="fa fa-check"></i> Complete Action');
+            }
+        });
+    });
+    
+    // Handle action row clicks to show modal
+    $(document).on('click', '.action-row', function(e) {
+        // Don't trigger if clicking the complete button
+        if ($(e.target).closest('.complete-action-btn').length) {
+            return;
+        }
+        var actionId = $(this).data('action-id');
+        var title = $(this).data('title');
+        var client = $(this).data('client');
+        var message = $(this).data('message');
+        var date = $(this).data('date');
+        
+        // Populate modal
+        $('#modal-action-title').text(title || 'Action');
+        $('#modal-action-client span').text(client || 'N/A');
+        $('#modal-action-date span').text(date || 'N/A');
+        
+        // Format and display message (handle HTML if present)
+        var messageHtml = message || 'No message available';
+        // Decode HTML entities and handle HTML content
+        var tempDiv = $('<div>').html(messageHtml);
+        var decodedMessage = tempDiv.text();
+        
+        // If original message had HTML tags, display as HTML; otherwise as plain text
+        if (messageHtml !== decodedMessage || messageHtml.indexOf('<') !== -1) {
+            $('#modal-action-message').html(messageHtml);
+        } else {
+            $('#modal-action-message').text(messageHtml);
+        }
+        
+        // Show modal - try Bootstrap 5 first, fallback to jQuery
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            var modalElement = document.getElementById('actionDetailModal');
+            var modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        } else {
+            $('#actionDetailModal').modal('show');
+        }
     });
 });
-
-//close Notes Deadline Action
-function closeNotesDeadlineAction( noteid) {
-    var conf = confirm('Are you sure, you want to close this note deadline.');
-    if(conf){
-        if(noteid == '') {
-            alert('Please select note to close the deadline.');
-            return false;
-        } else {
-            $('.popuploader').show();
-            $.ajax({
-                type:'post',
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url:"{{URL::to('/')}}/admin/update-note-deadline-completed",
-                data:{'id': noteid},
-                success:function(resp) {
-                    $('.popuploader').hide();
-                    location.reload();
-                }
-            });
-        }
-    } else{
-        $('.popuploader').hide();
-    }
-}
 </script>
 @endsection
-

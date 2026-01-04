@@ -54,21 +54,19 @@ class AdminController extends Controller
     public function dashboard()
     {
         try {
-            // Get date filter from request (default to 'today')
-            $dateFilter = request()->get('task_filter', 'today');
-            
-            // Get dashboard data using service
-            $todayTasks = $this->dashboardService->getTodayTasks($dateFilter);
+            // Get dashboard data using service (always show today's actions)
+            $todayTasks = $this->dashboardService->getTodayTasks('today');
             $checkInQueue = $this->dashboardService->getCheckInQueue();
-            $notesData = $this->dashboardService->getNotesWithDeadlines();
+            $clientsWithRecentActivities = $this->dashboardService->getClientsWithRecentActivities(10);
             $loginStats = $this->dashboardService->getLoginStatistics();
+            $recentActivities = $this->dashboardService->getRecentActivities(10);
             
             return view('Admin.dashboard', compact([
                 'todayTasks',
                 'checkInQueue',
-                'notesData',
-                'dateFilter',
-                'loginStats'
+                'clientsWithRecentActivities',
+                'loginStats',
+                'recentActivities'
             ]));
         } catch (\Exception $e) {
             \Log::error('Dashboard error: ' . $e->getMessage());
@@ -78,10 +76,88 @@ class AdminController extends Controller
             return view('Admin.dashboard', [
                 'todayTasks' => collect([]),
                 'checkInQueue' => ['total' => 0, 'items' => collect([])],
-                'notesData' => new \Illuminate\Pagination\LengthAwarePaginator([], 0, config('constants.limit', 10)),
-                'dateFilter' => 'today',
-                'loginStats' => $this->dashboardService->getLoginStatistics()
+                'clientsWithRecentActivities' => collect([]),
+                'loginStats' => $this->dashboardService->getLoginStatistics(),
+                'recentActivities' => collect([])
             ])->with('error', 'An error occurred while loading the dashboard. Some data may not be available.');
+        }
+    }
+
+    /**
+     * Complete an action (note)
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function completeAction(Request $request)
+    {
+        try {
+            $request->validate([
+                'action_id' => 'required|integer|exists:notes,id',
+                'completion_message' => 'required|string|min:1'
+            ]);
+
+            $note = Note::find($request->action_id);
+            
+            if (!$note) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Action not found'
+                ], 404);
+            }
+
+            // Check if already completed
+            if ($note->status == 1) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'This action is already completed'
+                ], 400);
+            }
+
+            // Get client_id from request or note
+            $clientId = $request->input('client_id', $note->client_id);
+            
+            if (!$clientId) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Client ID is required'
+                ], 400);
+            }
+
+            // Update note status to completed
+            $note->status = 1;
+            $note->save();
+
+            // Create activity log entry
+            $activity = new ActivitiesLog();
+            $activity->client_id = $clientId;
+            $activity->created_by = Auth::user()->id;
+            $activity->subject = 'Completed action';
+            $activity->description = '<span class="text-semi-bold">Action Completed</span><p>' . htmlspecialchars($request->completion_message) . '</p>';
+            $activity->task_status = 0; // Activity, not task
+            $activity->pin = 0;
+            $activity->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Action completed successfully!'
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed: ' . implode(', ', array_map(function($errors) {
+                    return is_array($errors) ? implode(', ', $errors) : $errors;
+                }, $e->errors()))
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Error completing action: ' . $e->getMessage());
+            \Log::error('Error trace: ' . $e->getTraceAsString());
+            
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while completing the action. Please try again.'
+            ], 500);
         }
     }
 

@@ -119,6 +119,7 @@ Route::prefix('admin')->group(function() {
 	
 	//General
         Route::get('/dashboard', 'Admin\AdminController@dashboard')->name('admin.dashboard');
+        Route::post('/admin/complete-action', 'Admin\AdminController@completeAction')->name('admin.complete-action');
 		Route::get('/get_customer_detail', 'Admin\AdminController@CustomerDetail')->name('admin.get_customer_detail');
 		Route::get('/my_profile', 'Admin\AdminController@myProfile')->name('admin.my_profile');
 		Route::post('/my_profile', 'Admin\AdminController@myProfile');
