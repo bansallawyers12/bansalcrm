@@ -1130,7 +1130,10 @@ class PartnersController extends Controller
 			echo json_encode($response);
 	}
 	
+	// Task Management System removed (January 2026) - Routes removed, method disabled
 	public function gettasks(Request $request){
+		return ''; // Task Management System removed
+		/* Original code disabled - Task Management System removed
 		$client_id = $request->clientid;
 		
 		$notelist = \App\Models\Task::where('client_id',$client_id)->where('type','partner')->orderby('created_at', 'DESC')->get();

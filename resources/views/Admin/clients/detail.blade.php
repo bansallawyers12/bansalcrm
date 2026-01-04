@@ -833,9 +833,10 @@ use App\Http\Controllers\Controller;
 								<!--<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="tasks-tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
 								</li>-->
-								<li class="nav-item">
+								{{-- Education tab removed (January 2026) --}}
+								<!--<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="education-tab" href="#education" role="tab" aria-controls="education" aria-selected="false">Education</a>
-								</li>
+								</li>-->
 								<!--<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="other_info-tab" href="#other_info" role="tab" aria-controls="other_info" aria-selected="false">Other Information</a>
 								</li>-->
@@ -2041,9 +2042,6 @@ use App\Http\Controllers\Controller;
 											<li class="nav-item">
 												<a class="nav-link active" data-toggle="tab" id="email-tab" href="#email" role="tab" aria-controls="email" aria-selected="true">Email</a>
 											</li>
-											<li class="nav-item">
-												<a class="nav-link" data-toggle="tab" id="sms-tab" href="#sms" role="tab" aria-controls="sms" aria-selected="false">SMS</a>
-											</li>
 
 										</ul>
 										<div class="tab-content" id="conversationContent">
@@ -2225,9 +2223,6 @@ use App\Http\Controllers\Controller;
 											<?php } ?>
 											</div>
 											</div>
-											</div>
-											<div class="tab-pane fade" id="sms" role="tabpanel" aria-labelledby="sms-tab">
-												<span>sms</span>
 											</div>
 										</div>
 									</div>

@@ -44,11 +44,6 @@ use App\Http\Controllers\Controller;
 						<div class="card-header">
 							<h4>Partner Detail</h4>
 							<div class="card-header-action">
-                              
-                                <a target="_blank" href="{{URL::to('/admin/partners/updatecommissionpercentage/'.$fetchedData->id) }}" class="btn btn-primary">Update Commission Percentage</a>
-
-                                <a target="_blank" href="{{URL::to('/admin/partners/updatecommissionclaimed/'.$fetchedData->id) }}" class="btn btn-primary">Update Commission Claimed</a>
-
 								<a href="{{route('admin.partners.index')}}" class="btn btn-primary">Partner List</a>
 							</div>
 						</div>
@@ -79,6 +74,14 @@ use App\Http\Controllers\Controller;
 							</div>
                             
                             <p><button type="button" style="border-radius:30px;" class="btn btn-primary btn-block openpartneraction" title="Actions"> Action</button></p>
+                            
+                            <p>
+                                <a target="_blank" href="{{URL::to('/admin/partners/updatecommissionpercentage/'.$fetchedData->id) }}" class="btn btn-primary btn-block" style="border-radius:30px;">Update Commission Percentage</a>
+                            </p>
+                            
+                            <p>
+                                <a target="_blank" href="{{URL::to('/admin/partners/updatecommissionclaimed/'.$fetchedData->id) }}" class="btn btn-primary btn-block" style="border-radius:30px;">Update Commission Claimed</a>
+                            </p>
                         
                             
 						</div>
@@ -1036,9 +1039,6 @@ use App\Http\Controllers\Controller;
                                                 <a class="nav-link" data-toggle="tab" id="sent-tab" href="#sent" role="tab" aria-controls="sent" aria-selected="false">Sent</a>
                                             </li>
 
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" id="sms-tab" href="#sms" role="tab" aria-controls="sms" aria-selected="false">SMS</a>
-                                            </li>
 										</ul>
 										<div class="tab-content" id="conversationContent">
 											<div class="tab-pane fade show active" id="inbox" role="tabpanel" aria-labelledby="inbox-tab">
@@ -1222,9 +1222,6 @@ use App\Http\Controllers\Controller;
                                                 <?php } ?>
                                             </div>
 
-                                            <div class="tab-pane fade" id="sms" role="tabpanel" aria-labelledby="sms-tab">
-                                                <span>sms</span>
-                                            </div>
 										</div>
 									</div>
 								</div>
@@ -1248,33 +1245,7 @@ use App\Http\Controllers\Controller;
 												</tr>
 											</thead>
 											<tbody class="taskdata ">
-											<?php
-											foreach(\App\Models\Task::where('client_id', $fetchedData->id)->where('type','partner')->orderby('created_at','Desc')->get() as $alist){
-												$admin = \App\Models\Admin::where('id', $alist->user_id)->first();
-												?>
-												<tr class="opentaskview" style="cursor:pointer;" id="{{$alist->id}}">
-													<td></td> 
-													<td><b>{{$alist->category}}</b>: {{$alist->title}}</td>
-													<td><span class="author-avtar" style="font-size: .8rem;height: 24px;line-height: 24px;width: 24px;min-width: 24px;background: rgb(3, 169, 244);"><?php echo substr($admin->first_name, 0, 1); ?></span></td>
-													<td>{{$alist->priority}}</td> 
-													<td><i class="fa fa-clock"></i> {{$alist->due_date}} {{$alist->due_time}}</td>
-													<td><?php
-													if($alist->status == 3){
-														echo '<span style="color: rgb(113, 204, 83); width: 84px;">Completed</span>';
-													}else if($alist->status == 1){
-														echo '<span style="color: rgb(3, 169, 244); width: 84px;">In Progress</span>';
-													}else if($alist->status == 2){
-														echo '<span style="color: rgb(156, 156, 156); width: 84px;">On Review</span>';
-													}else{
-														echo '<span style="color: rgb(255, 173, 0); width: 84px;">Todo</span>';
-													}
-													?></td> 
-													
-												</tr>
-												<?php
-											}
-											?>											
-												
+											{{-- Task Management System removed (January 2026) - Task model no longer exists --}}
 											</tbody>
 											<!--<tbody>
 												<tr>
