@@ -862,25 +862,6 @@ class AdminController extends Controller
 									$message = 'ID does not exist, please check it once again.';
 								}
 							}else
-							if($requestData['table'] == 'templates'){
-								$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
-								if($isexist){
-									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-									DB::table('template_infos')->where('quotation_id', @$requestData['id'])->delete();
-
-									if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = Config::get('constants.server_error');
-									}
-								}else{
-									$message = 'ID does not exist, please check it once again.';
-								}
-							}else
 							if($requestData['table'] == 'invoice_schedules'){
 								$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
 								DB::table('schedule_items')->where('schedule_id', @$requestData['id'])->delete();
@@ -916,7 +897,6 @@ class AdminController extends Controller
 									$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
 									if($isexist){
 									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-									DB::table('template_infos')->where('quotation_id', @$requestData['id'])->delete();
 
 									if($response)
 									{
@@ -945,7 +925,6 @@ class AdminController extends Controller
 									$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
 									if($isexist){
 									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-									DB::table('template_infos')->where('quotation_id', @$requestData['id'])->delete();
 
 									if($response)
 									{

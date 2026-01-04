@@ -45,6 +45,7 @@ Over the past three weeks, the Bansal CRM2 has undergone significant modernizati
 - **Removed Invoice Schedule feature** - Complete removal of payment schedule functionality
 - **Removed Commission buttons** - Removed from Partners detail page
 - **Completed Product Detail Tab Removal** - Removed Documents, Fees, Requirements, and Other Information tabs from Product detail view (~582 lines removed)
+- **Removed ProductAreaLevel model** - Product academic requirements feature removed (January 2026)
 - **Enhanced Client and Partner Controllers** - Added follow-up and status fields with default values
 - **Improved Document Upload** - Added document upload handlers and enhanced user interaction
 - **Enhanced Note Model** - Added mobile_number to fillable attributes
@@ -112,6 +113,7 @@ Over the past three weeks, the Bansal CRM2 has undergone significant modernizati
 - `ApplicationNote.php`
 - `InvoiceSchedule.php`
 - `ScheduleItem.php`
+- `ProductAreaLevel.php` (January 2026)
 
 **Controller Methods Removed:**
 - `ApplicationsController::detail()` - Applications detail page method
@@ -247,6 +249,13 @@ Over the past three weeks, the Bansal CRM2 has undergone significant modernizati
 **Database Tables:**
 - **Note:** Quotation-related tables are **preserved** (not removed)
 
+**Models Removed (January 2026):**
+- `app/Models/Template.php` - Quotation template model removed
+- `app/Models/TemplateInfo.php` - Quotation template info model removed
+- **Reason:** Models were not used after quotations feature removal (no imports found in codebase)
+- **Cleanup:** Removed template_infos cleanup code from `AdminController@deleteAction` method
+- **Note:** Database tables `templates` and `template_infos` are preserved (verify empty before removal)
+
 ### 4. Enquiry System (December 29, 2025)
 **Removed:**
 - `EnquirySource` model and controller
@@ -297,10 +306,29 @@ Over the past three weeks, the Bansal CRM2 has undergone significant modernizati
 - Currency references and management
 - Currency-related models and controllers
 
-### 9. Academic Requirements (January 1, 2026)
+### 9. Product Academic Requirements (January 2026)
 **Removed:**
-- Academic requirement functionality
-- Related models and controllers
+- `ProductAreaLevel` model - Product academic requirements feature
+- Product academic requirements (subject area, subject, degree level) functionality
+- Related controller methods and routes
+
+**Controller Methods Removed:**
+- `ProductsController::saveotherinfo()` - Save product academic requirements (replaced with error response)
+- `ProductsController::getotherinfo()` - Get product academic requirements (replaced with error response)
+
+**Routes Removed:**
+- `/admin/saveotherinfo` - Save product academic requirements route (commented out)
+- `/admin/product/getotherinfo` - Get product academic requirements route (commented out)
+
+**Files Removed:**
+- `app/Models/ProductAreaLevel.php` - Model file deleted
+
+**UI Elements Affected:**
+- Product detail view - "Other Information" tab functionality removed
+- Product academic requirements forms in modals (forms still exist but backend disabled)
+
+**Database Tables:**
+- **Note:** `product_area_levels` table is **preserved** (not removed)
 
 ### 10. Promo Code System (December 27, 2025)
 **Removed:**

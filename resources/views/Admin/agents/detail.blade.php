@@ -133,9 +133,6 @@ use App\Http\Controllers\Controller;
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="accounts-tab" href="#accounts" role="tab" aria-controls="accounts" aria-selected="false">Accounts</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" id="represent_partner-tab" href="#represent_partner" role="tab" aria-controls="represent_partner" aria-selected="false">Representing Partners</a>
-								</li>
 							</ul> 
 							<div class="tab-content" id="agentContent" style="padding-top:15px;">
 								<div class="tab-pane fade show active" id="noteterm" role="tabpanel" aria-labelledby="noteterm-tab">
@@ -337,43 +334,6 @@ use App\Http\Controllers\Controller;
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane fade" id="represent_partner" role="tabpanel" aria-labelledby="represent_partner-tab">
-									<div class="card-header-action text-right if_applicationdetail" style="padding-bottom:15px;">
-										<a href="javascript:;" data-toggle="modal" data-target=".add_represent_partner" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a>
-									</div>	
-									<div class="table-responsive if_partnerdetail"> 
-										<table class="table text_wrap table-2">
-											<thead>
-												<tr>
-													<th>Partner Name</th>
-													<th>Email</th>
-													<th>Branch</th>
-													<th>Workflow</th>
-													<th>Action</th>
-												</tr> 
-											</thead>
-											<tbody class="partnerdata">
-												<?php 
-													$representpartnerlists = \App\Models\RepresentingPartner::where('agent_id', $fetchedData->id)->orderby('created_at', 'DESC')->with(['partners'])->get();
-													foreach($representpartnerlists as $partnertlist){
-													$PartnerBranch = \App\Models\PartnerBranch::select('name')->where('partner_id', $partnertlist->partner_id)->get();
-													$branch = '';
-													foreach($PartnerBranch as $pb){
-														$branch .= $pb->name.',';
-													}
-												?> 
-												<tr id="id_{{$partnertlist->id}}">
-													<td><?php echo $partnertlist->partners->partner_name; ?></td>
-													<td><?php echo $partnertlist->partners->email; ?></td>
-													<td><?php echo rtrim($branch, ','); ?></td>  
-													<td><?php echo $partnertlist->partners->workflow->name; ?></td>
-													<td><a onclick="deleteAction({{$partnertlist->id}}, 'representing_partners')" href="javascript:;"><i class="fa fa-link"></i></a></td>
-												</tr>
-												<?php } ?>
-											</tbody>
-										</table>
-									</div>	
-								</div>	
 							</div> 
 						</div>
 					</div>

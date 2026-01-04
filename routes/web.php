@@ -367,7 +367,6 @@ Route::prefix('admin')->group(function() {
 		Route::get('/agents/create', 'Admin\AgentController@create')->name('admin.agents.create'); 
 		Route::post('/agents/store', 'Admin\AgentController@store')->name('admin.agents.store'); 
 		Route::get('/agent/detail/{id}', 'Admin\AgentController@detail')->name('admin.agents.detail'); 
-		Route::post('/agents/savepartner', 'Admin\AgentController@savepartner'); 
 		 Route::get('/agents/edit/{id}', 'Admin\AgentController@edit')->name('admin.agents.edit');
 		 Route::post('/agents/edit', 'Admin\AgentController@edit');
 		//Task Start - Task Management System removed (January 2026)
@@ -572,14 +571,15 @@ Route::prefix('admin')->group(function() {
 		Route::get('/getbranchdetail', [PartnersController::class, 'getbranchdetail']);
 		Route::get('/deletebranch', [PartnersController::class, 'deletebranch']);
 		
-		Route::post('/saveotherinfo', [ProductsController::class, 'saveotherinfo']);
-		Route::get('/product/getotherinfo', [ProductsController::class, 'getotherinfo']);
-		Route::get('/get-all-fees', [ProductsController::class, 'getallfees']);
-		Route::post('/savefee', [ProductsController::class, 'savefee']);
-		
-		Route::get('/getfeeoptionedit', [ProductsController::class, 'editfee']);
-		Route::post('/editfee', [ProductsController::class, 'editfeeform']);
-		Route::get('/deletefee', [ProductsController::class, 'deletefee']);
+		// ProductAreaLevel routes removed - Feature deprecated (ProductAreaLevel model removed)
+		// Route::post('/saveotherinfo', [ProductsController::class, 'saveotherinfo']);
+		// Route::get('/product/getotherinfo', [ProductsController::class, 'getotherinfo']);
+		// FeeOption routes removed - Feature deprecated (replaced by ApplicationFeeOption)
+		// Route::get('/get-all-fees', [ProductsController::class, 'getallfees']);
+		// Route::post('/savefee', [ProductsController::class, 'savefee']);
+		// Route::get('/getfeeoptionedit', [ProductsController::class, 'editfee']);
+		// Route::post('/editfee', [ProductsController::class, 'editfeeform']);
+		// Route::get('/deletefee', [ProductsController::class, 'deletefee']);
 		
 		
 		// Partner task routes removed - Task Management System removed (January 2026)

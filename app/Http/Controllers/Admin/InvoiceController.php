@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Admin;
 use App\Models\Invoice;
-use App\Models\Item;
 use App\Models\InvoiceDetail;
 use App\Models\InvoicePayment;
 // ScheduleItem model removed - Invoice Schedule System removed (January 2026)
@@ -22,7 +21,6 @@ use App\Models\ShareInvoice;
 // use App\Models\TaxRate;
 use App\Models\Currency;
 use App\Models\Contact;
-use App\Models\AttachFile;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Auth; 
 use Config;

@@ -141,7 +141,7 @@ class AdminLoginController extends Controller
         $errors = [$this->username() => trans('auth.failed')];
   
         // Load user from database
-        $user = \App\Models\User::where($this->username(), $request->{$this->username()})->first();
+        $user = \App\Models\Admin::where($this->username(), $request->{$this->username()})->first();
     
         if ($user && !\Hash::check($request->password, $user->password)) {
             $errors = ['password' => 'Wrong password'];
@@ -151,7 +151,7 @@ class AdminLoginController extends Controller
             return response()->json($errors, 422);
         }
        
-         if(! \App\Models\UserLog::where('ip_address', '=', $request->getClientIp() )->exists())
+         if($user && ! \App\Models\UserLog::where('ip_address', '=', $request->getClientIp() )->exists())
          {
            $message  = '<html><body>';
            $message .= '<p>Dear Admin,</p>';
@@ -169,7 +169,7 @@ class AdminLoginController extends Controller
        
 		$obj = new \App\Models\UserLog;
 		$obj->level = 'critical';
-		$obj->user_id = @$user;
+		$obj->user_id = @$user ? $user->id : null;
 		$obj->ip_address = $request->getClientIp();
 		$obj->user_agent = $_SERVER['HTTP_USER_AGENT'];
 		$obj->message = 'Invalid Email or Password !';

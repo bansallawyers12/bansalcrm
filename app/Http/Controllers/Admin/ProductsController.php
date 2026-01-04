@@ -11,8 +11,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Admin;
 use App\Models\Product;
 use App\Models\ProductAreaLevel;
-use App\Models\FeeOption;
-use App\Models\FeeOptionType;
  
 use Auth;
 use Config;
@@ -377,290 +375,36 @@ class ProductsController extends Controller
 	
 	
 	public function savefee(Request $request){
-		$requestData = $request->all();
-		$obj = new FeeOption;
-		$obj->user_id = Auth::user()->id;
-		$obj->product_id = $requestData['product_id'];
-		$obj->name = $requestData['fee_option_name'];
-		$obj->country = $requestData['country_residency'];
-		$obj->installment_type = $requestData['degree_level'];
-		$saved = $obj->save();
-		if($saved){
-			$course_fee_type = $requestData['course_fee_type'];
-			for($i = 0; $i< count($course_fee_type); $i++){
-				$objs = new FeeOptionType;
-				$objs->fee_id = $obj->id;
-				$objs->fee_type = $requestData['course_fee_type'][$i];
-				$objs->inst_amt = $requestData['installment_amount'][$i];
-				$objs->installment = $requestData['installment'][$i];
-				$objs->total_fee = $requestData['total_fee'][$i];
-				$objs->claim_term = $requestData['claimable_terms'][$i];
-				$objs->commission = $requestData['commission'][$i];
-				$objs->quotation = @$requestData['add_quotation'][$i];
-				$saved = $objs->save();
-				$response['status'] 	= 	true;
-				$response['message']	=	'Fee Option added successfully';
-			}
-		}else{
-			$response['status'] 	= 	false;
-			$response['message']	=	'Record not found';
-		}
-		
-		echo json_encode($response);	
+		// Feature removed - fee_options table no longer exists
+		// Replaced by ApplicationFeeOption for application-specific fees
+		$response['status'] = false;
+		$response['message'] = 'Feature removed - fee_options table no longer exists. Please use Application Fee Options instead.';
+		return response()->json($response);
 	}
 	
 	public function getallfees(Request $request){
-		$feeoptions = FeeOption::where('product_id', $request->clientid)->orderby('created_at', 'DESC')->get();
-		ob_start();
-		foreach($feeoptions as $feeoption){
-			
-	?>
-		<div class="feeitem">
-			<div class="row">
-				<div class="col-md-10">
-					<h4 class="text-info"><?php echo $feeoption->name; ?></h4>
-				</div>
-				<div class="col-md-2">
-					<a href="javascript:;" class="editfeeoption" data-id="<?php echo $feeoption->id; ?>"><i class="fa fa-edit"></i></a>
-					<a href="javascript:;" class="deletenote" data-href="deletefee" data-id="<?php echo $feeoption->id; ?>"><i class="fa fa-trash"></i></a>
-				</div>
-				<div class="col-md-2">
-					<div class="validfor">
-						<span>Valid For</span><br>
-						<div class=""><b><?php echo $feeoption->country; ?></b></div>
-					</div>
-					<div class="installmenttype">
-						<span>Installment Type</span><br>
-						<div class=""><b><?php echo $feeoption->installment_type; ?></b></div>
-					</div>
-				</div>
-				<?php
-				$feeoptiontype = \App\Models\FeeOptionType::where('fee_id', $feeoption->id)->get();
-				
-				?>
-				<div class="col-md-8">
-					<div class="validfor">
-						<span>Fee Breakdown</span><br>
-					<?php $totlfee = 0; foreach($feeoptiontype as $feeoptiontyp){
-						$totlfee += $feeoptiontyp->total_fee;
-						?>
-						<div class="">
-							<span><b><?php echo $feeoptiontyp->fee_type; ?></b></span><span> <?php echo $feeoptiontyp->installment; ?> Per Month @ AUD <?php echo $feeoptiontyp->inst_amt; ?></span><span style="margin-left: 24px;"><b>AUD <?php echo $feeoptiontyp->total_fee; ?></b></span>
-							
-						</div>
-					<?php } ?>
-					</div>
-					
-				</div>
-				
-				<div class="col-md-2">
-					<div class="validfor">
-						<span>Total Fees</span><br>
-						<div class="text-info"><h4>AUD</h4></div>
-					
-						<div class="text-info"><h4><?php echo number_format($totlfee,2,'.',''); ?></h4></div>
-					</div>
-					
-				</div>
-			</div>
-			<hr>
-		</div>
-	<?php }
-return ob_get_clean();	
+		// Feature removed - fee_options table no longer exists
+		// Return empty collection
+		return '';
 	}
 	
 	public function editfee(Request $request){
-		$fetchedData = FeeOption::where('id', $request->id)->first();
-		if($fetchedData){
-			ob_start();
-			?>
-			<form method="post" action="<?php echo \URL::to('/admin/editfee'); ?>" name="editfeeform" id="editfeeform" autocomplete="off" enctype="multipart/form-data">
-				<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-				<input type="hidden" name="id" value="<?php echo $fetchedData->id; ?>">
-				<input type="hidden" name="product_id" value="<?php echo $fetchedData->product_id; ?>">
-					<div class="row">
-						<div class="col-12 col-md-4 col-lg-4">
-							<div class="form-group">
-								<label for="fee_option_name">Fee Option Name <span class="span_req">*</span></label> 	
-								<input type="text" value="<?php echo $fetchedData->name; ?>" class="form-control selectedappsubject" data-valid="required" placeholder="Enter Fee Option Name" name="fee_option_name">
-								
-								<span class="custom-error feeoption_name_error" role="alert">
-									<strong></strong>
-								</span> 
-							</div>
-						</div>
-						<div class="col-12 col-md-4 col-lg-4">
-							<div class="form-group">
-								<label for="country_residency">Country of Residency <span class="span_req">*</span></label> 
-								<select class="form-control residencyelect2" name="country_residency" data-valid="required">
-								<option value="">Select Country</option>
-								<?php
-									foreach(\App\Models\Country::all() as $list){
-										?>
-										<option <?php if($fetchedData->country == $list->name){ echo 'selected'; } ?> value="<?php echo @$list->name; ?>"><?php echo @$list->name; ?></option>
-										<?php
-									}
-									?>
-								</select>
-								<span class="custom-error country_residency_error" role="alert">
-									<strong></strong>
-								</span> 
-							</div>
-						</div>
-						<div class="col-12 col-md-4 col-lg-4">
-							<div class="form-group"> 
-								<label for="degree_level">Installment Type <span class="span_req">*</span></label> 
-								<select data-valid="required" class="form-control degree_level edit_installment_type select2" name="degree_level">
-									<option value="">Select Type</option>
-									<option value="Full Fee" <?php if($fetchedData->installment_type == "Full Fee"){ echo 'selected'; } ?>>Full Fee</option>
-									<option value="Per Year" <?php if($fetchedData->installment_type == "Per Year"){ echo 'selected'; } ?>>Per Year</option>
-									<option value="Per Month" <?php if($fetchedData->installment_type == "Per Month"){ echo 'selected'; } ?>>Per Month</option>
-									<option value="Per Term" <?php if($fetchedData->installment_type == "Per Term"){ echo 'selected'; } ?>>Per Term</option>
-									<option value="Per Trimester" <?php if($fetchedData->installment_type == "Per Trimester"){ echo 'selected'; } ?>>Per Trimester</option>
-									<option value="Per Semester" <?php if($fetchedData->installment_type == "Per Semester"){ echo 'selected'; } ?>>Per Semester</option>
-									<option value="Per Week" <?php if($fetchedData->installment_type == "Per Week"){ echo 'selected'; } ?>>Per Week</option>
-									<option value="Installment" <?php if($fetchedData->installment_type == "Installment"){ echo 'selected'; } ?>>Installment</option>
-								</select>
-								<span class="custom-error degree_level_error" role="alert">
-									<strong></strong>
-								</span> 
-							</div>
-						</div>
-						<div class="col-12 col-md-12 col-lg-12">
-							<div class="table-responsive"> 
-								<table class="table text_wrap" id="productitemview">
-									<thead>
-										<tr> 
-											<th>Fee Type <span class="span_req">*</span></th>
-											<th>Installment Amount <span class="span_req">*</span></th>
-											<th>Installments <span class="span_req">*</span></th>
-											<th>Total Fee</th>
-											<th>Claimable Terms</th>
-											<th>Commission %</th>
-											<th>Add in quotation</th>
-										</tr> 
-									</thead>
-									<tbody class="tdata">
-									<?php
-									$total_fee = 0;
-									$i = 0;
-											$feeoptiontypes = \App\Models\FeeOptionType::where('fee_id', $fetchedData->id)->get();
-												foreach($feeoptiontypes as $feeoptiontype){
-													$total_fee += $feeoptiontype->total_fee;
-									?>
-										<tr class="add_fee_option cus_fee_option">
-											<td>
-												<select data-valid="required" class="form-control course_fee_type " name="course_fee_type[]">
-													<option value="">Select Type</option>
-													<?php foreach(\App\Models\FeeType::all() as $feetypes){ ?>
-													<option <?php if($feeoptiontype->fee_type == $feetypes->name){ echo 'selected'; } ?> value="<?php echo $feetypes->name; ?>"><?php echo $feetypes->name; ?></option>
-													<?php } ?>
-												
-												</select>
-											</td>
-											<td>
-												<input type="number" value="<?php echo $feeoptiontype->inst_amt; ?>" class="form-control installment_amount" name="installment_amount[]">
-											</td>
-											<td>
-												<input type="number" value="<?php echo $feeoptiontype->installment; ?>" class="form-control installment" name="installment[]">
-											</td>
-											<td class="total_fee"><span><?php echo $feeoptiontype->total_fee; ?></span><input type="hidden"  class="form-control total_fee_am" value="<?php echo $feeoptiontype->total_fee; ?>" name="total_fee[]"></td>
-											<td>
-												<input type="number" value="<?php echo $feeoptiontype->claim_term; ?>" class="form-control claimable_terms" name="claimable_terms[]">
-											</td>
-											<td>
-												<input type="number" value="<?php echo $feeoptiontype->commission; ?>" class="form-control commission" name="commission[]">
-											</td>
-											<td>
-												<input value="1" <?php if($feeoptiontype->quotation == 1){ echo 'checked'; } ?> class="add_quotation" type="checkbox" name="add_quotation[]">
-												<?php if($i != 0){ ?>
-												<a href="javascript:;" class="removefeetype"><i class="fa fa-trash"></i></a>
-												<?php } ?>
-											</td>
-									
-										</tr>
-										<?php $i++; } ?>
-									</tbody>
-									<tfoot>
-										<tr>
-											
-											<td colspan="3" style="text-align: right;"><b>Net Total</b></td>
-											<td class="net_totl text-info"><?php echo number_format($total_fee,2,'.',''); ?></td>
-											<td colspan="3"></td>
-										</tr>
-									</tfoot>
-								</table>	
-							</div>
-							<div class="fee_option_addbtn">
-								<a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add Fee</a>
-							</div>
-							
-						</div>
-						<div class="col-12 col-md-12 col-lg-12">
-							<button onclick="customValidate('editfeeform')" type="button" class="btn btn-primary">Save</button>
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</form>
-			<?php
-			return ob_get_clean();
-		}else{
-			echo '<h4>Record Not FOund</h4>';
-		}
-		die;
+		// Feature removed - fee_options table no longer exists
+		return '<h4>Record Not Found - Feature removed</h4>';
 	}
 	
 	
 	public function editfeeform(Request $request){
-		$requestData = $request->all();
-		$obj = FeeOption::find($request->id);
-		$obj->name = $requestData['fee_option_name'];
-		$obj->country = $requestData['country_residency'];
-		$obj->installment_type = $requestData['degree_level'];
-		$saved = $obj->save();
-		if($saved){
-			FeeOptionType::where('fee_id',$request->id)->delete();
-			$course_fee_type = $requestData['course_fee_type'];
-			for($i = 0; $i< count($course_fee_type); $i++){
-				$objs = new FeeOptionType;
-				$objs->fee_id = $obj->id;
-				$objs->fee_type = $requestData['course_fee_type'][$i];
-				$objs->inst_amt = $requestData['installment_amount'][$i];
-				$objs->installment = $requestData['installment'][$i];
-				$objs->total_fee = $requestData['total_fee'][$i];
-				$objs->claim_term = $requestData['claimable_terms'][$i];
-				$objs->commission = $requestData['commission'][$i];
-				$objs->quotation = @$requestData['add_quotation'][$i];
-				$saved = $objs->save();
-				$response['status'] 	= 	true;
-				$response['message']	=	'Fee Option updated successfully';
-			}
-		}else{
-			$response['status'] 	= 	false;
-			$response['message']	=	'Record not found';
-		}
-		
-		echo json_encode($response);	
+		// Feature removed - fee_options table no longer exists
+		$response['status'] = false;
+		$response['message'] = 'Feature removed - fee_options table no longer exists. Please use Application Fee Options instead.';
+		return response()->json($response);
 	}
 	
 	public function deletefee(Request $request){
-		$note_id = $request->note_id;
-		if(FeeOption::where('id',$note_id)->exists()){
-
-			$res = DB::table('fee_options')->where('id', @$note_id)->delete();
-			
-			if($res){
-				DB::table('fee_option_types')->where('fee_id', @$note_id)->delete();
-				$response['status'] 	= 	true;
-				$response['data']	=	'Fee removed successfully';
-			}else{
-				$response['status'] 	= 	false;
-				$response['message']	=	'Please try again';
-		}
-		}else{
-				$response['status'] 	= 	false;
-				$response['message']	=	'Please try again';
-		}
-		echo json_encode($response);
+		// Feature removed - fee_options table no longer exists
+		$response['status'] = false;
+		$response['message'] = 'Feature removed - fee_options table no longer exists';
+		return response()->json($response);
 	}
 }

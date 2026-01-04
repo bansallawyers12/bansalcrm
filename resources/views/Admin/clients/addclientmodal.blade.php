@@ -505,17 +505,6 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-12 col-lg-12" id="promo_code_used" style="display: none;">
-							<div class="form-group row align-items-center">
-								<label for="promo_code" class="col-sm-3 col-form-label">Promo Code</label>
-                                <div class="col-sm-9">
-								    <input type="text" class="form-control" id="promo_code" placeholder="Enter Promo Code" name="promocode_used" />
-                                    <input type="hidden" name="promocode_id" id="promocode_id" value="">
-                                </div>
-                            </div>
-                            <span id="promo_msg" style="display: none;"></span>
-						</div>
-
 						<!--<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="invites">Invitees</label>

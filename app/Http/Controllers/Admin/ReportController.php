@@ -66,9 +66,7 @@ class ReportController extends Controller
 		$totalData 	= $query->count();	//for all data
 		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
 		
-		return view('Admin.reports.office-task-report', compact(['lists', 'totalData']));
-		// return view('Admin.reports.office-visit', compact(['lists', 'totalData']));
-		//return view('Admin.reports.office-visit');
+		return view('Admin.reports.office-visit', compact(['lists', 'totalData']));
 	}
 	public function saleforecast_application(Request $request)  
 	{	
@@ -88,27 +86,6 @@ class ReportController extends Controller
 		return view('Admin.reports.interested-service', compact(['lists', 'totalData']));
 		//return view('Admin.reports.sale-forecast');
 	}
-	// Task Management System removed (January 2026) - Routes removed, methods disabled
-	// Task report view files removed to match bansalcrm2
-	/*
-	public function personal_task(Request $request)  
-	{	
-		$query 		= Task::query();  	  
-		$totalData 	= $query->count();	//for all data
-		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
-		
-		//return view('Admin.reports.tasks');
-	}
-	public function office_task(Request $request)  
-	{	
-		$query 		= Task::query();  	  
-		$totalData 	= $query->count();	//for all data
-		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
-		
-		return view('Admin.reports.office-task-report', compact(['lists', 'totalData']));
-		//return view('Admin.reports.tasks');
-	}
-	*/
 	
 	public function visaexpires(Request $request)  
 	{	
