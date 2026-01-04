@@ -89,20 +89,26 @@ class ReportController extends Controller
 		//return view('Admin.reports.sale-forecast');
 	}
 	// Task Management System removed (January 2026) - Routes removed, methods disabled
+	// Task report view files removed to match bansalcrm2
+	/*
 	public function personal_task(Request $request)  
 	{	
-		// Task Management System removed - returning empty data
-		$lists = collect([]);
-		$totalData = 0;
-		return view('Admin.reports.personal-task-report', compact(['lists', 'totalData']));
+		$query 		= Task::query();  	  
+		$totalData 	= $query->count();	//for all data
+		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
+		
+		//return view('Admin.reports.tasks');
 	}
 	public function office_task(Request $request)  
 	{	
-		// Task Management System removed - returning empty data
-		$lists = collect([]);
-		$totalData = 0;
+		$query 		= Task::query();  	  
+		$totalData 	= $query->count();	//for all data
+		$lists		= $query->sortable(['id' => 'desc'])->paginate(20);
+		
 		return view('Admin.reports.office-task-report', compact(['lists', 'totalData']));
+		//return view('Admin.reports.tasks');
 	}
+	*/
 	
 	public function visaexpires(Request $request)  
 	{	

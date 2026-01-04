@@ -143,11 +143,14 @@
 			 $discoun = ($subtotal * $invoicedetail->discount) / 100; 
 			 $finaltotal = $subtotal - $discoun;
 			} 
-			 if(@$invoicedetail->tax != 0)
+			// Tax Management System removed (January 2026) - TaxRate model removed
+			// Use stored tax_amount if available
+			if(@$invoicedetail->tax != 0 && @$invoicedetail->tax_amount > 0)
 			{
-				$cure = \App\Models\TaxRate::where('id',@$invoicedetail->tax)->first(); 
-				$taxcal = ($finaltotal * $cure->rate) / 100;
+				$taxcal = @$invoicedetail->tax_amount;
 				$finaltotal = $finaltotal + $taxcal;
+			} else {
+				$taxcal = 0;
 			}
 			$amount_rec = \App\Models\InvoicePayment::where('invoice_id',$invoicedetail->id)->get()->sum("amount_rec");
 			$ispaymentexist = \App\Models\InvoicePayment::where('invoice_id',$invoicedetail->id)->exists();
@@ -175,17 +178,11 @@
 								<td id="tmp_total" valign="middle" style="width:110px;">(-) <?php echo $discoun; ?></td>
 							</tr>
 							<?php } ?>
-							@if(@$invoicedetail->tax != 0)
-							<?php
-								
-								$isex = \App\Models\TaxRate::where('id',@$invoicedetail->tax)->exists(); 
-								if($isex){
-							?>
+							@if(@$invoicedetail->tax != 0 && @$invoicedetail->tax_amount > 0)
 							<tr>
-								<td valign="middle"><b>{{@$cure->name}} [{{@$cure->rate}}%]</b></td>
+								<td valign="middle"><b>Tax</b></td>
 								<td id="tmp_total" valign="middle" style="width:110px;"><b>{{number_format($taxcal,$currencydata->decimal)}}</b></td>
 							</tr>
-							<?php } ?>
 						@endif
 							<tr>
 								<td valign="middle"><b>Total</b></td>

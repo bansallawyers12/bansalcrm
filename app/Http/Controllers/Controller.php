@@ -14,7 +14,7 @@ use App\Mail\InvoiceEmailManager;
 use App\Mail\MultipleattachmentEmailManager;
 
 use App\Models\UserRole;
-use App\Models\WebsiteSetting;
+// WebsiteSetting model import removed - Website Settings Feature removed (January 2026)
 
 use Auth;
 use Mail;
@@ -32,8 +32,8 @@ class Controller extends BaseController
 	
 	public function __construct()
     {
-		$siteData = WebsiteSetting::where('id', '!=', '')->first();
-		\View::share('siteData', $siteData);
+		// WebsiteSetting removed - Website Settings Feature removed (January 2026)
+		// No views were using $siteData from WebsiteSetting
         //$this->middleware('guest:admin')->except('logout');
 	//	exec('php public_html/development/artisan view:clear');
     }

@@ -361,7 +361,8 @@ $workflow = \App\Models\Workflow::where('id', $fetchData->workflow)->first();
 				</div>
 				<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
 				</div>
-				<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+				{{-- Tasks tab content removed - Task Management System removed (January 2026) --}}
+				<!--<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
 					<div id="taskaccordion">
 					<?php
 					$stagesquery = \App\Models\WorkflowStage::where('w_id', $fetchData->workflow)->get();
@@ -381,7 +382,7 @@ $workflow = \App\Models\Workflow::where('id', $fetchData->workflow)->first();
 					<?php } ?>
 						
 					</div>
-				</div>
+				</div>-->
 				{{-- Payment Schedule tab content removed - Invoice Schedule System removed (January 2026) --}} 
 			</div>
 		</div>

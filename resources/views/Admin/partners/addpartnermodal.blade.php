@@ -596,7 +596,8 @@
 	</div>
 </div>
 
-<!-- Task Modal -->
+{{-- Task Modal removed - Task Management System removed (January 2026) --}}
+<!-- Task Modal removed - Task Management System removed (January 2026)
 <div class="modal fade custom_modal" id="opentaskview" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content taskview">
@@ -847,6 +848,7 @@
 		</div>
 	</div>
 </div>
+Task Modal removed - Task Management System removed (January 2026) -->
 
 <!-- Education Modal -->
 <div class="modal fade create_education custom_modal" tabindex="-1" role="dialog" aria-labelledby="create_educationModalLabel" aria-hidden="true">

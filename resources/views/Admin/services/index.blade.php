@@ -173,7 +173,6 @@
 										$partnerdetail = \App\Models\Partner::where('id', $servlist->partner)->first();								
 										$PartnerBranch = \App\Models\PartnerBranch::where('id', $servlist->branches)->first();	
 										$workflow = \App\Models\Workflow::where('id', $partnerdetail->service_workflow)->first();  
-										$acreq = \App\Models\AcademicRequirement::where('id', $servlist->id)->first();  
 								?>
 											<div class="service_column">
 												<div class="service_left">
@@ -187,8 +186,8 @@
 														<div class="course_details">
 															<div class="course_row">
 																<div class="course_column">
-																	<span class="label">Degree Level</span>
-																	<span class="value"><?php echo @$acreq->degree; ?></span>
+																	<span class="label">Subject Area</span>
+																	<span class="value">-</span>
 																</div>
 																<div class="course_column">
 																	<span class="label">Subject Area</span>
@@ -314,20 +313,6 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="academic_require_list custom_require_list">
-					<h6>Academic Requirement</h6>
-					<div class="require_row">
-						<div class="require_col require_col3">
-							<span class="span_label">Required Degree Level</span>
-							<span class="span_value">-</span>
-						</div>
-						<div class="require_col require_col3">
-							<span class="span_label">Required Score</span>
-							<span class="span_value">-</span>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-				</div>
 				<div class="englishtest_require_list custom_require_list">
 					<h6>English Test Scores Requirements</h6>
 					<div class="require_row">

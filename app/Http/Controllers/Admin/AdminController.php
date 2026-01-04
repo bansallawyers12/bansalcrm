@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Lead;
 use App\Models\Admin;
-use App\Models\WebsiteSetting;
+// WebsiteSetting model import removed - Website Settings Feature removed (January 2026)
 use App\Models\SeoPage;
 use App\Models\City;
 use App\Models\Contact;
@@ -172,99 +172,8 @@ class AdminController extends Controller
 			return view('Admin.settings.returnsetting');
 		}
 	}
-	public function taxrates(Request $request){
-		if ($request->isMethod('post'))
-		{
-
-		}else{
-			$query = TaxRate::where('user_id',Auth::user()->id);
-			$totalData = $query->count();
-			$lists = $query->get();
-			return view('Admin.settings.taxrates', compact(['lists','totalData']));
-		}
-	}
-	public function taxratescreate(Request $request){
-		return view('Admin.settings.create');
-	}
-
-	// Tax Management System removed (January 2026) - Routes removed, method disabled
-	public function edittaxrates(Request $request, $id = Null){
-		return redirect()->back()->with('error', 'Tax Management System has been removed');
-		/* Original code disabled - Tax Management System removed
-		if ($request->isMethod('post'))
-		{
-			$requestData 		= 	$request->all();
-
-			$this->validate($request, [
-										'name' => 'required|max:255'
-									  ]);
-
-
-			$obj				= 	TaxRate::find($requestData['id']);
-
-			$obj->name			=	@$requestData['name'];
-			$obj->rate			=	@$requestData['rate'];
-
-			$saved				=	$obj->save();
-
-			if(!$saved)
-			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
-			}
-			else
-			{
-				return Redirect::to('/admin/settings/taxes/taxrates/edit/'.base64_encode(convert_uuencode(@$requestData['id'])))->with('success', 'Tax updated Successfully');
-			}
-		}
-		else
-		{
-			if(isset($id) && !empty($id))
-			{
-				$id = $this->decodeString($id);
-				if(TaxRate::where('id', '=', $id)->where('user_id', '=', Auth::user()->id)->exists())
-				{
-					$fetchedData = TaxRate::find($id);
-
-					return view('Admin.settings.edit', compact(['fetchedData']));
-				}
-				else
-				{
-					return Redirect::to('/admin/settings/taxes/taxrates')->with('error', 'Tax Not Exist');
-				}
-			}
-			else
-			{
-				return Redirect::to('/admin/settings/taxes/taxrates')->with('error', Config::get('constants.unauthorized'));
-			}
-		}
-	}
-
-	public function savetaxrate(Request $request){
-		if ($request->isMethod('post'))
-		{
-			$this->validate($request, [
-										'name' => 'required|max:255'
-									  ]);
-
-			$requestData 		= 	$request->all();
-
-			$obj				= 	new TaxRate;
-			$obj->user_id	=	Auth::user()->id;
-			$obj->name	=	@$requestData['name'];
-			$obj->rate	=	@$requestData['rate'];
-
-			$saved				=	$obj->save();
-
-			if(!$saved)
-			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
-			}
-			else
-			{
-				return Redirect::to('/admin/settings/taxes/taxrates/edit/'.base64_encode(convert_uuencode(@$obj->id)))->with('success', 'Tax added Successfully');
-			}
-		}
-	}
+	// Tax Management System removed (January 2026) - All methods removed
+	// taxrates(), taxratescreate(), edittaxrates(), and savetaxrate() methods have been removed
 	public function myProfile(Request $request)
 	{
 		/* Get all Select Data */
@@ -416,76 +325,7 @@ class AdminController extends Controller
 		}
 	}
 
-	public function websiteSetting(Request $request)
-	{
-		//check authorization start
-			$check = $this->checkAuthorizationAction('Admin', $request->route()->getActionMethod(), Auth::user()->role);
-			if($check)
-			{
-				return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
-			}
-		//check authorization end
-
-		if ($request->isMethod('post'))
-		{
-			$requestData 		= 	$request->all();
-
-			$this->validate($request, [
-										'phone' => 'required|max:20',
-										'ofc_timing' => 'nullable|max:255',
-										'email' => 'required|max:255'
-									  ]);
-
-			/* Logo Upload Function Start */
-				if($request->hasfile('logo'))
-				{
-					/* Unlink File Function Start */
-						if(@$requestData['logo'] != '')
-							{
-								$this->unlinkFile(@$requestData['old_logo'], Config::get('constants.logo'));
-							}
-					/* Unlink File Function End */
-
-					$logo = $this->uploadFile($request->file('logo'), Config::get('constants.logo'));
-				}
-				else
-				{
-					$logo = @$requestData['old_logo'];
-				}
-			/* Logoe Upload Function End */
-
-			if(!empty(@$requestData['id']))
-			{
-				$obj				= 	WebsiteSetting::find(@$requestData['id']);
-			}
-			else
-			{
-				$obj				= 	new WebsiteSetting;
-			}
-			$obj->phone				=	@$requestData['phone'];
-			$obj->ofc_timing		=	@$requestData['ofc_timing'];
-			$obj->email				=	@$requestData['email'];
-			$obj->logo				=	@$logo;
-
-			$saved							=	$obj->save();
-
-			if(!$saved)
-			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
-			}
-			else
-			{
-				return Redirect::to('/admin/website_setting')->with('success', 'Website Setting has been edited successfully.');
-			}
-		}
-		else
-		{
-			$fetchedData = WebsiteSetting::where('id', '!=', '')->first();
-
-			return view('Admin.website_setting', compact(['fetchedData']));
-		}
-	}
-
+	// Website settings method removed - Website Settings Feature removed (January 2026)
 
 	public function editapi(Request $request)
 	{

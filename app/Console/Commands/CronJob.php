@@ -11,7 +11,7 @@ use App\Models\InvoicePayment;
 use App\Models\InvoiceFollowup;
 use App\Models\EmailTemplate;
 use App\Models\ShareInvoice;
-use App\Models\TaxRate;
+// TaxRate model removed - Tax Management System removed (January 2026)
 use App\Models\Currency;
  use PDF;
  use DateTime;

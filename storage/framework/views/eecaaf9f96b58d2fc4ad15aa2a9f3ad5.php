@@ -231,24 +231,13 @@
 			</li>
 			<?php
 				}
-			if(Route::currentRouteName() == 'admin.quotations.index'){
-				$quotationclasstype = 'active';
-			}
-			?> 	
-			<?php
-					if(array_key_exists('54',  $module_access)) {
-					?>
-			<li class="dropdown <?php echo e(@$quotationclasstype); ?>">
-				<a href="<?php echo e(route('admin.quotations.index')); ?>" class="nav-link"><i data-feather="file-text"></i><span>Quotations</span></a>  
-			</li>
-			<?php
-					}
+			// Quotations System removed (January 2026) - Navigation link removed
 			?>
 			
 			<!-- FINANCIAL MANAGEMENT -->
 			
 			<?php
-			if(Route::currentRouteName() == 'admin.invoice.unpaid' || Route::currentRouteName() == 'admin.invoice.paid' || Route::currentRouteName() == 'admin.account.payment' || Route::currentRouteName() == 'admin.invoice.unpaidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.paidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.invoiceschedules' || Route::currentRouteName() == 'admin.account.payableunpaid' || Route::currentRouteName() == 'admin.account.payablepaid' || Route::currentRouteName() == 'admin.account.receivableunpaid' || Route::currentRouteName() == 'admin.account.receivablepaid'){
+			if(Route::currentRouteName() == 'admin.invoice.unpaid' || Route::currentRouteName() == 'admin.invoice.paid' || Route::currentRouteName() == 'admin.account.payment' || Route::currentRouteName() == 'admin.invoice.unpaidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.paidgroupinvoice' || Route::currentRouteName() == 'admin.account.payableunpaid' || Route::currentRouteName() == 'admin.account.payablepaid' || Route::currentRouteName() == 'admin.account.receivableunpaid' || Route::currentRouteName() == 'admin.account.receivablepaid'){
 				$accountclasstype = 'active';
 			}
 			?> 	
@@ -268,7 +257,7 @@
 					<?php } ?>
 					
 					<!-- <li class="<?php echo e((Route::currentRouteName() == 'admin.invoice.unpaidgroupinvoice' || Route::currentRouteName() == 'admin.invoice.paidgroupinvoice') ? 'active' : ''); ?>"><a class="nav-link" href="<?php echo e(route('admin.invoice.unpaidgroupinvoice')); ?>">Group Invoice</a></li> -->
-					<li class="<?php echo e((Route::currentRouteName() == 'admin.invoice.invoiceschedules') ? 'active' : ''); ?>"><a class="nav-link" href="<?php echo e(route('admin.invoice.invoiceschedules')); ?>">Invoice Schedule</a></li> 
+					<!-- Invoice Schedule menu item removed - Invoice Schedule System removed (January 2026) -->
 					<li class="<?php echo e((Route::currentRouteName() == 'admin.account.payableunpaid' || Route::currentRouteName() == 'admin.account.payablepaid' || Route::currentRouteName() == 'admin.account.receivableunpaid' || Route::currentRouteName() == 'admin.account.receivablepaid') ? 'active' : ''); ?>"><a class="nav-link" href="<?php echo e(route('admin.account.payableunpaid')); ?>">Income Sharing</a></li> 
 				</ul>
 			</li> 
@@ -310,11 +299,7 @@
 					?>
 					<li class=""><a class="nav-link" href="<?php echo e(route('admin.reports.saleforecast-application')); ?>">Sale Forecast</a></li>
 					<?php } ?>
-					<?php
-					if(array_key_exists('68',  $module_access)) {
-					?>
-					<li class=""><a class="nav-link" href="<?php echo e(route('admin.reports.personal-task-report')); ?>">Tasks</a></li>
-					<?php } ?>
+					
 					<li class=""><a class="nav-link" href="<?php echo e(URL::to('/admin/reports/visaexpires')); ?>">Visa Expires</a></li>
 					<li class=""><a class="nav-link" href="<?php echo e(URL::to('/admin/reports/agreementexpires')); ?>">Agreement Expires</a></li>
 					
@@ -370,35 +355,30 @@
 				</ul>
 			</li>
 			<?php
-			 if(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit'){
+			// Providers menu section removed - route does not exist
+			/* if(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit'){
 				$provclasstype = 'active';
 			}
-			?> 
-			<li class="dropdown {{@$provclasstype}}">
-				<a href="#" class="menu-toggle nav-link has-dropdown"><i
-				data-feather="user"></i><span>Providers</span></a>
-				<ul class="dropdown-menu">
-					<li class="{{(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.providers.index')}}">Providers List</a></li>
-				</ul>
-			</li>
+			*/ ?> 
+			<!-- Providers menu section removed - route admin.providers.index does not exist -->
 			<?php
 			if(Route::currentRouteName() == 'admin.leads.index'){
 				$leadclasstype = 'active';
 			}
 			?> 
-			<li class="dropdown {{@$leadclasstype}}">
-				<a href="{{route('admin.leads.index')}}" class="nav-link"><i data-feather="briefcase"></i><span>Leads</span></a>
+			<li class="dropdown <?php echo e(@$leadclasstype); ?>">
+				<a href="<?php echo e(route('admin.leads.index')); ?>" class="nav-link"><i data-feather="briefcase"></i><span>Leads</span></a>
 			</li>
 			<?php
 			if(Route::currentRouteName() == 'admin.invoice.index'){
 				$invclasstype = 'active';
 			}
 			?> 
-			<li class="dropdown {{@$invclasstype}}">
+			<li class="dropdown <?php echo e(@$invclasstype); ?>">
 				<a href="#" class="menu-toggle nav-link has-dropdown"><i
 				data-feather="briefcase"></i><span>Invoices</span></a>
 				<ul class="dropdown-menu">
-					<li class="{{(Route::currentRouteName() == 'admin.invoice.index') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.invoice.index')}}">Invoices</a></li>
+					<li class="<?php echo e((Route::currentRouteName() == 'admin.invoice.index') ? 'active' : ''); ?>"><a class="nav-link" href="<?php echo e(route('admin.invoice.index')); ?>">Invoices</a></li>
 					<li><a class="nav-link" href="#">Payment Received</a></li>
 				</ul>
 			</li>
@@ -407,27 +387,27 @@
 				$contclasstype = 'active';
 			}
 		?>
-	<li class="dropdown {{@$contclasstype}}">
-		<a href="{{route('admin.managecontact.index')}}" class="nav-link"><i data-feather="phone"></i><span>Manage Contacts</span></a>
+	<li class="dropdown <?php echo e(@$contclasstype); ?>">
+		<a href="<?php echo e(route('admin.managecontact.index')); ?>" class="nav-link"><i data-feather="phone"></i><span>Manage Contacts</span></a>
 	</li>
 	<?php
 	if(Route::currentRouteName() == 'admin.staff.index'){
 		$staffclasstype = 'active';
 	}
 	?>
-		<li class="dropdown {{@$staffclasstype}}">
-			<a href="{{route('admin.staff.index')}}" class="nav-link"><i data-feather="users"></i><span>Staffs</span></a>
+		<li class="dropdown <?php echo e(@$staffclasstype); ?>">
+			<a href="<?php echo e(route('admin.staff.index')); ?>" class="nav-link"><i data-feather="users"></i><span>Staffs</span></a>
 		</li>
 		<?php
 		if(Route::currentRouteName() == 'admin.email.index'){
 			$emtemclasstype = 'active';
 		}
 		?>
-			<li class="dropdown {{@$emtemclasstype}}">
-				<a href="{{route('admin.email.index')}}" class="nav-link"><i data-feather="mail"></i><span>Email Templates</span></a>
+			<li class="dropdown <?php echo e(@$emtemclasstype); ?>">
+				<a href="<?php echo e(route('admin.email.index')); ?>" class="nav-link"><i data-feather="mail"></i><span>Email Templates</span></a>
 			</li>
 			<?php
-			if(Route::currentRouteName() == 'admin.my_profile' || Route::currentRouteName() == 'admin.change_password' || Route::currentRouteName() == 'admin.edit_api'){
+			/*if(Route::currentRouteName() == 'admin.my_profile' || Route::currentRouteName() == 'admin.change_password' || Route::currentRouteName() == 'admin.edit_api'){
 				$actsetclasstype = 'active';
 			}*/ 
 			?> 

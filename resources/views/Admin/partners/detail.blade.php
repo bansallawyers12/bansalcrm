@@ -234,9 +234,10 @@ use App\Http\Controllers\Controller;
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="conversations-tab" href="#conversations" role="tab" aria-controls="conversations" aria-selected="false">Conversations</a>
 								</li>
-								<li class="nav-item">
+								{{-- Tasks tab removed - Task Management System removed (January 2026) --}}
+								<!--<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="tasks-tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
-								</li>
+								</li>-->
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="other_info-tab" href="#other_info" role="tab" aria-controls="other_info" aria-selected="false">Other Information</a>
 								</li>
@@ -1229,7 +1230,8 @@ use App\Http\Controllers\Controller;
 								</div>
                       
                       
-								<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+								{{-- Tasks tab content removed - Task Management System removed (January 2026) --}}
+								<!--<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
 									<div class="card-header-action text-right" style="padding-bottom:15px;">
 										<a href="javascript:;"  class="btn btn-primary opencreate_task"><i class="fa fa-plus"></i> Add</a>
 									</div>
@@ -1283,7 +1285,7 @@ use App\Http\Controllers\Controller;
 											</tbody>-->
 										</table> 
 									</div>
-								</div>
+								</div>-->
 								<div class="tab-pane fade" id="other_info" role="tabpanel" aria-labelledby="other_info-tab">
 									<span>other_info</span>
 								</div>
@@ -3593,14 +3595,14 @@ jQuery(document).ready(function($){
         width: "100%"
     });
 
-	$(document).delegate('.opencreate_task', 'click', function () {
-        $('#tasktermclientform')[0].reset();
-        $('#tasktermclientform select').val('').trigger('change');
-        $('.create_task').modal('show');
-        $('.ifselecttask').hide();
-        $('.ifselecttask select').attr('data-valid', '');
-
-    });
+	// Task Management System removed (January 2026) - opencreate_task handler removed
+	// $(document).delegate('.opencreate_task', 'click', function () {
+    //     $('#tasktermclientform')[0].reset();
+    //     $('#tasktermclientform select').val('').trigger('change');
+    //     $('.create_task').modal('show');
+    //     $('.ifselecttask').hide();
+    //     $('.ifselecttask select').attr('data-valid', '');
+    // });
   
 	$(document).delegate('.addpaymentmodal','click', function(){
 		var v = $(this).attr('data-invoiceid');
@@ -3733,19 +3735,20 @@ jQuery(document).ready(function($){
   
    
   
-	$(document).delegate('.opentaskview', 'click', function(){
-		$('#opentaskview').modal('show');
-		var v = $(this).attr('id');
-		$.ajax({
-			url: site_url+'/admin/partner/get-task-detail',
-			type:'GET',
-			data:{task_id:v},
-			success: function(responses){
-				
-				$('.taskview').html(responses);
-			}
-		});
-	});
+	// Task Management System removed (January 2026) - opentaskview handler removed
+	// $(document).delegate('.opentaskview', 'click', function(){
+	// 	$('#opentaskview').modal('show');
+	// 	var v = $(this).attr('id');
+	// 	$.ajax({
+	// 		url: site_url+'/admin/partner/get-task-detail',
+	// 		type:'GET',
+	// 		data:{task_id:v},
+	// 		success: function(responses){
+	// 			
+	// 			$('.taskview').html(responses);
+	// 		}
+	// 	});
+	// });
 	function getallnotes(){
 	$.ajax({
 		url: site_url+'/admin/get-notes',
@@ -5258,49 +5261,46 @@ $(document).delegate('#notes-tab', 'click', function(){
 		});
   });
   
-  $(document).delegate('.changeprioritystatus', 'click', function(){
-	  var statusname = $(this).attr('data-statusname');
-	  var did = $(this).attr('data-id');
-	  var dstatus = $(this).attr('data-status');
-	  $('.prioritystatus').html(statusname+' <i class="fa fa-angle-down"></i>');
-	  $('.popuploader').show();
-	  $.ajax({
-			url: '{{URL::to('/admin/change-task-priority')}}',
-			type:'GET',
-			data:{id:did, status:statusname},
-			success:function(response){
-				$('.popuploader').hide();
-				var obj = $.parseJSON(response);
-				if(obj.status){
-					$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-					$('.tasklogs').html(obj.data);
-					$.ajax({
-							url: site_url+'/admin/partner/get-tasks',
-							type:'GET',
-							data:{clientid:'{{$fetchedData->id}}'},
-							success: function(responses){
-								 $('#my-datatable').DataTable().destroy();
-								$('.taskdata').html(responses);
-								$('#my-datatable').DataTable({
-									"searching": false,
-									"lengthChange": false,
-								  "columnDefs": [
-									{ "sortable": false, "targets": [0, 2, 3] }
-								  ],
-								  order: [[1, "desc"]] //column indexes is zero based
-
-									
-								}).draw();
-								
-							}
-						});
-				}else{
-					$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
-					
-				}
-			}
-		});
-  });
+  // Task Management System removed (January 2026) - changeprioritystatus handler removed
+  // $(document).delegate('.changeprioritystatus', 'click', function(){
+	//   var statusname = $(this).attr('data-statusname');
+	//   var did = $(this).attr('data-id');
+	//   var dstatus = $(this).attr('data-status');
+	//   $('.prioritystatus').html(statusname+' <i class="fa fa-angle-down"></i>');
+	//   $('.popuploader').show();
+	//   $.ajax({
+	// 		url: '{{URL::to('/admin/change-task-priority')}}',
+	// 		type:'GET',
+	// 		data:{id:did, status:statusname},
+	// 		success:function(response){
+	// 			$('.popuploader').hide();
+	// 			var obj = $.parseJSON(response);
+	// 			if(obj.status){
+	// 				$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
+	// 				$('.tasklogs').html(obj.data);
+	// 				$.ajax({
+	// 						url: site_url+'/admin/partner/get-tasks',
+	// 						type:'GET',
+	// 						data:{clientid:'{{$fetchedData->id}}'},
+	// 						success: function(responses){
+	// 							 $('#my-datatable').DataTable().destroy();
+	// 							$('.taskdata').html(responses);
+	// 							$('#my-datatable').DataTable({
+	// 								"searching": false,
+	// 								"lengthChange": false,
+	// 							  "columnDefs": [
+	// 								{ "sortable": false, "targets": [0, 2, 3] }
+	// 							  ],
+	// 							  order: [[1, "desc"]] //column indexes is zero based
+	// 							}).draw();
+	// 						}
+	// 					});
+	// 			}else{
+	// 				$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
+	// 			}
+	// 		}
+	// 	});
+  // });
   $(document).delegate('.savecomment', 'click', function(){
 	  var flag = false;
 	  if($('#comment').val() == ''){

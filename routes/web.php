@@ -101,15 +101,16 @@ Route::post('/reset_link', 'HomeController@resetLink')->name('reset_link');	 */
 // Route::get('/invoice/download/{id}', 'InvoiceController@customer_invoice_download')->name('invoice.customer_invoice_download'); 
 // Route::get('/invoice/print/{id}', 'InvoiceController@customer_invoice_print')->name('invoice.customer_invoice_print');
 
-//Thank you page after email verification (KEEP - used by client self-update feature)
-Route::get('thankyou', 'HomeController@thankyou')->name('thankyou');
+//Thank you page after email verification - REMOVED (HomeController deleted, will be recreated in future)
+//Route::get('thankyou', 'HomeController@thankyou')->name('thankyou');
 
 //Root login routes - same as admin login
 Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('login');
 Route::post('/', 'Auth\AdminLoginController@login');
 
 /*---------------Agent Route-------------------*/
-require __DIR__ . '/agent.php';
+// Agent routes disabled - agents don't have login access (they exist only as records)
+// require __DIR__ . '/agent.php';
 /*********************Admin Panel Start ***********************/
 Route::prefix('admin')->group(function() {
 	
@@ -140,8 +141,7 @@ Route::prefix('admin')->group(function() {
 		
 		Route::post('/add_ckeditior_image', 'Admin\AdminController@addCkeditiorImage')->name('add_ckeditior_image');
 		Route::post('/get_chapters', 'Admin\AdminController@getChapters')->name('admin.get_chapters');
-		Route::get('/website_setting', 'Admin\AdminController@websiteSetting')->name('admin.website_setting');
-		Route::post('/website_setting', 'Admin\AdminController@websiteSetting');
+		// Website settings routes removed - Website Settings Feature removed (January 2026)
 		Route::post('/get_states', 'Admin\AdminController@getStates');
 		// Tax rate routes removed - Tax Management System removed (January 2026)
 		Route::get('/settings/taxes/returnsetting', 'Admin\AdminController@returnsetting')->name('admin.returnsetting');
@@ -303,14 +303,9 @@ Route::prefix('admin')->group(function() {
 
   
          Route::post('/not-picked-call', [ClientsController::class, 'notpickedcall'])->name('admin.clients.notpickedcall');
-		//prospects Start  
-		Route::get('/prospects', [ClientsController::class, 'prospects'])->name('admin.clients.prospects');
 		Route::get('/viewnotedetail', [ClientsController::class, 'viewnotedetail']);
 		Route::get('/viewapplicationnote', [ClientsController::class, 'viewapplicationnote']);
 		Route::post('/saveprevvisa', [ClientsController::class, 'saveprevvisa']);	
-		Route::post('/saveonlineprimaryform', [ClientsController::class, 'saveonlineform']);	
-		Route::post('/saveonlinesecform', [ClientsController::class, 'saveonlineform']);	
-		Route::post('/saveonlinechildform', [ClientsController::class, 'saveonlineform']);	
 		//archived Start  
 		Route::get('/archived', [ClientsController::class, 'archived'])->name('admin.clients.archived');
 		Route::get('/change-client-status', [ClientsController::class, 'updateclientstatus'])->name('admin.clients.updateclientstatus');
@@ -584,7 +579,6 @@ Route::prefix('admin')->group(function() {
 		Route::get('/getbranchdetail', [PartnersController::class, 'getbranchdetail']);
 		Route::get('/deletebranch', [PartnersController::class, 'deletebranch']);
 		
-		Route::post('/saveacademic', [ProductsController::class, 'saveacademic']);
 		Route::post('/saveotherinfo', [ProductsController::class, 'saveotherinfo']);
 		Route::get('/product/getotherinfo', [ProductsController::class, 'getotherinfo']);
 		Route::get('/get-all-fees', [ProductsController::class, 'getallfees']);
@@ -914,16 +908,16 @@ Route::prefix('admin')->group(function() {
         Route::post('/download-document', [ClientsController::class, 'download_document']);
 });     
 
-	//Email verfiy link in send email (KEEP - Client Self-Update Feature)
-    Route::post('email-verify', 'HomeController@emailVerify')->name('emailVerify');
-    Route::get('email-verify-token/{token}', 'HomeController@emailVerifyToken')->name('emailVerifyToken');
+	//Email verify and client self-update routes - REMOVED (HomeController deleted, will be recreated in future)
+    //Route::post('email-verify', 'HomeController@emailVerify')->name('emailVerify');
+    //Route::get('email-verify-token/{token}', 'HomeController@emailVerifyToken')->name('emailVerifyToken');
 
-    //Client edit form link in send email (KEEP - Client Self-Update Feature)
-    Route::get('/verify-dob/{encoded_id}', 'HomeController@showDobForm');
-    Route::post('/verify-dob', 'HomeController@verifyDob');
+    //Client edit form link in send email - REMOVED (HomeController deleted, will be recreated in future)
+    //Route::get('/verify-dob/{encoded_id}', 'HomeController@showDobForm');
+    //Route::post('/verify-dob', 'HomeController@verifyDob');
     //Route::get('/editclient/{id}', 'HomeController@editclient')->name('editclient');
-    Route::get('/editclient/{encoded_id}', 'HomeController@editClient')->middleware('checkDobSession');
-	Route::post('/editclient', 'HomeController@editclient')->name('editclient');
+    //Route::get('/editclient/{encoded_id}', 'HomeController@editClient')->middleware('checkDobSession');
+	//Route::post('/editclient', 'HomeController@editclient')->name('editclient');
 
 
 	//Route::get('/pr-points', 'PRPointsController@index')->name('pr-points.index');
