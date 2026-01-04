@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use App\Imports\ImportUser;
 use App\Models\Admin;
 use App\Models\Agent;
 use App\Models\RepresentingPartner;
@@ -274,22 +273,5 @@ class AgentController extends Controller
 				return Redirect::to('/admin/agent/detail/'.base64_encode(convert_uuencode(@$requestData['client_id'])))->with('success', 'Partner Added Successfully');
 			}				
 		}	 
-	}
-	
-	
-	public function businessimport(Request $request){
-		if ($request->isMethod('post')) 
-		{
-			
-			 Excel::import(new ImportUser, 
-                      $request->file('uploadfile')->store('files'), $request);
-			return redirect()->back()->with('success', 'Agents Imported successfully');
-		}else{
-			return view('Admin.agents.importbusiness');
-		}
-	}
-	
-	public function individualimport(Request $request){
-		return view('Admin.agents.importindividual');
 	}
 }

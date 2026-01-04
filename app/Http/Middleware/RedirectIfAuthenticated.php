@@ -23,11 +23,6 @@ class RedirectIfAuthenticated
 						return redirect()->route('admin.dashboard');
 					}
 					break;
-				case 'agents' :
-					if (Auth::guard($guard)->check()) {	
-						return redirect()->route('agent.dashboard');
-					}
-					break;
 				default:
 					if (Auth::guard($guard)->check()) {
 						return redirect()->route('dashboard.index');

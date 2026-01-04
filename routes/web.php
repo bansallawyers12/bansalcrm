@@ -108,9 +108,6 @@ Route::post('/reset_link', 'HomeController@resetLink')->name('reset_link');	 */
 Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('login');
 Route::post('/', 'Auth\AdminLoginController@login');
 
-/*---------------Agent Route-------------------*/
-// Agent routes disabled - agents don't have login access (they exist only as records)
-// require __DIR__ . '/agent.php';
 /*********************Admin Panel Start ***********************/
 Route::prefix('admin')->group(function() {
 	
@@ -327,7 +324,6 @@ Route::prefix('admin')->group(function() {
 		Route::post('/products/store', [ProductsController::class, 'store'])->name('admin.products.store');
 		Route::get('/products/edit/{id}', [ProductsController::class, 'edit'])->name('admin.products.edit');
 		Route::post('/products/edit', [ProductsController::class, 'edit']);
-		Route::post('/products-import', [ProductsController::class, 'import'])->name('admin.products.import');
 
 		
 		Route::get('/products/detail/{id}', [ProductsController::class, 'detail'])->name('admin.products.detail');	 
@@ -369,14 +365,11 @@ Route::prefix('admin')->group(function() {
 		Route::get('/agents/inactive', 'Admin\AgentController@inactive')->name('admin.agents.inactive');  
 		Route::get('/agents/show/{id}', 'Admin\AgentController@show')->name('admin.agents.show'); 
 		Route::get('/agents/create', 'Admin\AgentController@create')->name('admin.agents.create'); 
-		Route::get('/agents/import', 'Admin\AgentController@import')->name('admin.agents.import'); 
 		Route::post('/agents/store', 'Admin\AgentController@store')->name('admin.agents.store'); 
 		Route::get('/agent/detail/{id}', 'Admin\AgentController@detail')->name('admin.agents.detail'); 
 		Route::post('/agents/savepartner', 'Admin\AgentController@savepartner'); 
 		 Route::get('/agents/edit/{id}', 'Admin\AgentController@edit')->name('admin.agents.edit');
 		 Route::post('/agents/edit', 'Admin\AgentController@edit');
-		 Route::get('/agents/import/business', 'Admin\AgentController@businessimport');
-		 Route::get('/agents/import/individual', 'Admin\AgentController@individualimport');
 		//Task Start - Task Management System removed (January 2026)
 		
 		//General Invoice Start 
@@ -572,7 +565,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/get-contacts', [PartnersController::class, 'getcontacts']);
 		Route::get('/deletecontact', [PartnersController::class, 'deletecontact']);
 		Route::get('/getcontactdetail', [PartnersController::class, 'getcontactdetail']);
-		Route::post('/partners-import', [PartnersController::class, 'import'])->name('admin.partners.import');
+
 		
 		Route::post('/partner/create-branch', [PartnersController::class, 'createbranch']);
 		Route::get('/get-branches', [PartnersController::class, 'getbranch']);
@@ -591,11 +584,7 @@ Route::prefix('admin')->group(function() {
 		
 		// Partner task routes removed - Task Management System removed (January 2026)
 		
-		Route::post('/promotion/store', 'Admin\PromotionController@store');
-		Route::post('/promotion/edit', 'Admin\PromotionController@edit');
-		Route::get('/get-promotions', 'Admin\PromotionController@getpromotions');
-		Route::get('/getpromotioneditform', 'Admin\PromotionController@getpromotioneditform');
-		Route::get('/change-promotion-status', 'Admin\PromotionController@changepromotionstatus');
+		// Promotion routes removed - Promo Code System removed (January 2026)
 		
 		
 		//Applications Start    
@@ -927,4 +916,5 @@ Route::prefix('admin')->group(function() {
 // Route::get('/{slug}', 'HomeController@Page')->name('page.slug');
 // Auth::routes(); // Removed - already defined above
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Home route - REMOVED (HomeController deleted, will be recreated in future)
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

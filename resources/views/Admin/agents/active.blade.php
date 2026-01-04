@@ -19,7 +19,6 @@
 							<h4>All Agents</h4>
 							<div class="card-header-action">
 								<a href="{{route('admin.agents.create')}}" class="btn btn-primary">Create Agent</a>
-								<a href="javascript:;" class="btn btn-primary openimportmodal">Import</a>
 							</div>
 						</div>
 						<div class="card-body">
@@ -218,35 +217,10 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade custom_modal" id="openimportmodal" tabindex="-1" role="dialog" aria-labelledby="create_interestModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="interestModalLabel">Import Agents</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				 <div class="col-md-12">	
-					<h5>Business</h5>
-					<a href="{{URL::to('admin/agents/import/business')}}" style="background-color: transparent;color: #9c9c9c;fill: #9c9c9c;width: 48%;border: 1px solid #9c9c9c;display: inline-flex;" class="btn btn-info defaultButton ghostButton">Import Business Agents</a>
-				 </div>
-				  <div class="col-md-12" style="margin-top: 20px!important;">
-				  <h5>Individual</h5>
-					<a href="{{URL::to('admin/agents/import/individual')}}" style="background-color: transparent;color: #9c9c9c;fill: #9c9c9c;width: 48%;border: 1px solid #9c9c9c;display: inline-flex;" class="btn btn-info defaultButton ghostButton">Import Individual Agents</a>
-				 </div>
-			</div>
-		</div>
-	</div>
-</div>
 @endsection
 @section('scripts')
 <script>
 jQuery(document).ready(function($){
-	$(document).delegate('.openimportmodal','click', function(){
-		$('#openimportmodal').modal('show');
-	});
 	$("[data-checkboxes]").each(function () {
   var me = $(this),
     group = me.data('checkboxes'),

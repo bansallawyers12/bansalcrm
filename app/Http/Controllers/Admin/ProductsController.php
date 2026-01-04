@@ -663,42 +663,4 @@ return ob_get_clean();
 		}
 		echo json_encode($response);
 	}
-
-	public function import(Request $request){
-		$the_file = $request->file('uploaded_file');
-		try{
-			$spreadsheet = IOFactory::load($the_file->getRealPath());
-			$sheet        = $spreadsheet->getActiveSheet();
-			$row_limit    = $sheet->getHighestDataRow();
-			$column_limit = $sheet->getHighestDataColumn();
-			$row_range    = range( 2, $row_limit );
-			$column_range = range( 'L', $column_limit );
-			$startcount = 2;
-			$data = array();
-			
-			foreach ( $row_range as $row ) {
-				$data[] = [
-											   'name'=>$sheet->getCell( 'B' . $row )->getValue(),
-											   'partner'=>$sheet->getCell( 'C' . $row )->getValue(),
-											   'branches'=>$sheet->getCell( 'D' . $row )->getValue(),
-											   'product_type'=>$sheet->getCell( 'E' . $row )->getValue(),
-											   'revenue_type'=>$sheet->getCell( 'F' . $row )->getValue(),
-											   'duration'=>$sheet->getCell( 'G' . $row )->getValue(),
-											   'intake_month'=>$sheet->getCell( 'H' . $row )->getValue(),
-											   'description'=>$sheet->getCell( 'I' . $row )->getValue(),
-											   'note'=>$sheet->getCell( 'J' . $row )->getValue(),
-											   'created_at'=>$sheet->getCell( 'K' . $row )->getValue(),
-											   'updated_at'=>$sheet->getCell( 'L' . $row )->getValue(),
-				];
-				$startcount++;
-			}
-			DB::connection()->getPdo()->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
-			DB::table('check_products')->insert($data);
-			DB::connection()->getPdo()->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
-		} catch (Exception $e) {
-			$error_code = $e->errorInfo[1];
-			return back()->withErrors('There was a problem uploading the data!');
-		} 
-		return back()->withSuccess('Great! Data has been successfully uploaded.');
-	}
 }

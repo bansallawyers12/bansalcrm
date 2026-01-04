@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Partners')
 
-@section('content')
+<?php $__env->startSection('title', 'Partners'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
     .filter_panel {background: #f7f7f7;margin-bottom: 10px;border: 1pxsolid #eee;display: none;}
 .card .card-body .filter_panel { padding: 20px;}
@@ -12,7 +12,7 @@
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('../Elements/flash-message')
+				<?php echo $__env->make('../Elements/flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -22,9 +22,10 @@
 						<div class="card-header">
 							<h4 class="is_checked_clientn">All Active Partners</h4>
 							<div class="card-header-action is_checked_clientn">
-								<a href="{{route('admin.partners.create')}}" class="btn btn-primary">Create Partner</a>
+								<a href="<?php echo e(route('admin.partners.create')); ?>" class="btn btn-primary">Create Partner</a>
 							</div>
 							<div class="card-header-action is_checked_clientn">
+								<a href="#" class="btn btn-primary importmodal"> Import csv</a>
 							</div>
 							<div class="card-header-action is_checked_client" style="display:none;">
 								<a class="btn btn-primary emailmodal" id=""  href="javascript:;"  >Send Mail</a>
@@ -34,39 +35,43 @@
 						<div class="card-body">
                             <ul class="nav nav-pills" id="partner_tabs" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link" id="partners-tab"  href="{{URL::to('/admin/partners')}}" >Active</a>
+									<a class="nav-link" id="partners-tab"  href="<?php echo e(URL::to('/admin/partners')); ?>" >Active</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" id="partners-inactive-tab"  href="{{URL::to('/admin/partners-inactive')}}" >Inactive</a>
+									<a class="nav-link" id="partners-inactive-tab"  href="<?php echo e(URL::to('/admin/partners-inactive')); ?>" >Inactive</a>
 								</li>
 							</ul>
                           
 						    <div class="filter_panel">
 								<h4>Search By Details</h4>								
-								<form action="{{URL::to('/admin/partners')}}" method="get">
+								<form action="<?php echo e(URL::to('/admin/partners')); ?>" method="get">
 									<div class="row">
 										<div class="col-md-3">
 											<div class="form-group">
 												<label for="ass_id" class="col-form-label">Name</label>
-												{!! Form::text('name', Request::get('name'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Name', 'id' => 'name' ))  !!}
+												<?php echo Form::text('name', Request::get('name'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Name', 'id' => 'name' )); ?>
+
 											</div>
 										</div>				
 										<div class="col-md-3">
 											<div class="form-group">
 												<label for="" class="col-form-label">Email</label>
-												{!! Form::text('email', Request::get('email'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Email', 'id' => 'email' ))  !!}
+												<?php echo Form::text('email', Request::get('email'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Email', 'id' => 'email' )); ?>
+
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-group">
 												<label for="" class="col-form-label">Reginal code</label>
-												{!! Form::text('reginal_code', Request::get('reginal_code'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Reginal code', 'id' => 'reginal_code' ))  !!}
+												<?php echo Form::text('reginal_code', Request::get('reginal_code'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Reginal code', 'id' => 'reginal_code' )); ?>
+
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-group">
 												<label for="level" class="col-form-label">Level</label>
-												{!! Form::text('level', Request::get('level'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Level', 'id' => 'level' ))  !!}
+												<?php echo Form::text('level', Request::get('level'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Level', 'id' => 'level' )); ?>
+
 											</div>
 										</div>		
 										
@@ -74,8 +79,9 @@
 									<div class="row">
 										<div class="col-md-12 text-center">
 									
-											{!! Form::submit('Search', ['class'=>'btn btn-primary btn-theme-lg' ])  !!}
-											<a class="btn btn-info" href="{{URL::to('/admin/clients')}}">Reset</a>
+											<?php echo Form::submit('Search', ['class'=>'btn btn-primary btn-theme-lg' ]); ?>
+
+											<a class="btn btn-info" href="<?php echo e(URL::to('/admin/clients')); ?>">Reset</a>
 										</div>
 									</div>
 								</form>
@@ -92,7 +98,7 @@
 											</th>
 											<th>Sno.</th>
 											<!--<th>ID</th>-->
-											<th>@sortablelink('partner_name','Name')</th>
+											<th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('partner_name','Name'));?></th>
                                             <th>No Of Students</th>
 											<th>Note</th>
 											<th>Level</th>
@@ -106,9 +112,9 @@
 										</tr> 
 									</thead>
 									<tbody class="tdata">	
-										@if(@$totalData !== 0)
+										<?php if(@$totalData !== 0): ?>
 										<?php $i=0; ?>
-										@foreach (@$lists as $list)
+										<?php $__currentLoopData = @$lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 										<?php 
 											$partnertype = \App\Models\PartnerType::where('id', $list->partner_type)->first();	
 											$workflow = \App\Models\Workflow::where('id', $list->service_workflow)->first();
@@ -119,22 +125,22 @@
 
 
 										?>	
-										<tr id="id_{{@$list->id}}">
+										<tr id="id_<?php echo e(@$list->id); ?>">
 											<td style="white-space: initial;" class="text-center">
 												<div class="custom-checkbox custom-control">
-													<input data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->partner_name}}" type="checkbox" data-checkboxes="mygroup" class="cb-element custom-control-input" id="checkbox-{{$i}}">
-													<label for="checkbox-{{$i}}" class="custom-control-label">&nbsp;</label>
+													<input data-id="<?php echo e(@$list->id); ?>" data-email="<?php echo e(@$list->email); ?>" data-name="<?php echo e(@$list->partner_name); ?>" type="checkbox" data-checkboxes="mygroup" class="cb-element custom-control-input" id="checkbox-<?php echo e($i); ?>">
+													<label for="checkbox-<?php echo e($i); ?>" class="custom-control-label">&nbsp;</label>
 												</div>
 											</td>
-											<td style="white-space: initial;">{{@$i+1}}</td>
-											<!--<td style="white-space: initial;">{{--@$list->id--}}</td>-->
+											<td style="white-space: initial;"><?php echo e(@$i+1); ?></td>
+											<!--<td style="white-space: initial;"></td>-->
 											<td style="white-space: initial;">
-                                              <a href="{{URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->partner_name == "" ? config('constants.empty') : str_limit(@$list->partner_name, '50', '...') }}</a>
+                                              <a href="<?php echo e(URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$list->id)))); ?>"><?php echo e(@$list->partner_name == "" ? config('constants.empty') : str_limit(@$list->partner_name, '50', '...')); ?></a>
                                               <!--<br/>-->
-                                              <!--<a data-id="{{--@$list->id--}}" data-email="{{--@$list->email--}}" data-name="{{--@$list->partner_name--}}" href="javascript:;" class="partneremail">{{--@$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...')--}}</a>-->
+                                              <!--<a data-id="" data-email="" data-name="" href="javascript:;" class="partneremail"></a>-->
                                           </td> 
 											
-                                          <td style="white-space: initial;">{{ $list->student_count }}</td> <!-- Display student count -->
+                                          <td style="white-space: initial;"><?php echo e($list->student_count); ?></td> <!-- Display student count -->
                                             
                                           <!--<td style="white-space: initial;">
 											<?php
@@ -152,9 +158,9 @@
                                                    //echo $latestnote->title;
                                                    ?>
 
-                                                    <div class="note_col" id="note_id_{{$latestnote->id}}" style="width: 100%;float: left;margin-bottom: 20px;border-radius: 4px;box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .08), 0 1px 2px 0 rgba(0, 0, 0, .1);">
+                                                    <div class="note_col" id="note_id_<?php echo e($latestnote->id); ?>" style="width: 100%;float: left;margin-bottom: 20px;border-radius: 4px;box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .08), 0 1px 2px 0 rgba(0, 0, 0, .1);">
                                                         <div class="note_content" style="background: #f4f4f4;padding: 10px;">
-                                                            <h4 style="font-size: 14px;line-height: 18px;color: #000;margin: 0px 0px 5px;"><a class="viewnote" data-id="{{$latestnote->id}}" href="javascript:;">{{ @$latestnote->title == "" ? config('constants.empty') : str_limit(@$latestnote->title, '19', '...') }}</a></h4>
+                                                            <h4 style="font-size: 14px;line-height: 18px;color: #000;margin: 0px 0px 5px;"><a class="viewnote" data-id="<?php echo e($latestnote->id); ?>" href="javascript:;"><?php echo e(@$latestnote->title == "" ? config('constants.empty') : str_limit(@$latestnote->title, '19', '...')); ?></a></h4>
                                                         </div>
                                                         <div class="extra_content" style="background: #fcfcfc;padding: 10px 5px;border-top: 1px solid #ccc;float: left;width: 100%;">
                                                             <p><?php echo @$latestnote->description == "" ? config('constants.empty') : str_limit(@$latestnote->description, '15', '...'); ?></p>
@@ -164,18 +170,18 @@
                                                                 //$adminInfo = \App\Models\Admin::select('first_name')->where('id', $latestnote->user_id)->first();
                                                                 ?>
                                                                 <div class="author">
-                                                                    <a href="#">{{--substr($adminInfo->first_name, 0, 1)--}}</a>
+                                                                    <a href="#"></a>
                                                                 </div>
                                                                 <div class="note_modify">
-                                                                    <small>Last Modified <span>{{--date('Y-m-d', strtotime($latestnote->updated_at))--}}</span></small>
+                                                                    <small>Last Modified <span></span></small>
                                                                 </div>
                                                             </div>
                                                             <div class="right">
                                                                 <div class="dropdown d-inline dropdown_ellipsis_icon">
                                                                     <a class="dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                                     <div class="dropdown-menu">
-                                                                        <a class="dropdown-item opennoteform" data-id="{{--$latestnote->id--}}" href="javascript:;">Edit</a>
-                                                                        <a data-id="{{--$latestnote->id--}}" data-href="deletenote" class="dropdown-item deletenote" href="javascript:;" >Delete</a>
+                                                                        <a class="dropdown-item opennoteform" data-id="" href="javascript:;">Edit</a>
+                                                                        <a data-id="" data-href="deletenote" class="dropdown-item deletenote" href="javascript:;" >Delete</a>
                                                                         <?php //if($latestnote->pin == 1){
                                                                             ?>
                                                                             <a data-id="<?php //echo $latestnote->id; ?>"  class="dropdown-item pinnote" href="javascript:;" >UnPin</a>
@@ -195,19 +201,19 @@
                                                 }
                                                 ?>
                                             </td>
-											<td style="white-space: initial;">@if($list->level===0)
-											<span class="badge badge-danger">{{@$list->level}}</span>
-											@elseif($list->level===1)
-											<span class="badge badge-success">{{@$list->level}}</span>
-											@else
-											<span class="badge badge-info">{{@$list->level}}</span>
-											@endif
+											<td style="white-space: initial;"><?php if($list->level===0): ?>
+											<span class="badge badge-danger"><?php echo e(@$list->level); ?></span>
+											<?php elseif($list->level===1): ?>
+											<span class="badge badge-success"><?php echo e(@$list->level); ?></span>
+											<?php else: ?>
+											<span class="badge badge-info"><?php echo e(@$list->level); ?></span>
+											<?php endif; ?>
 											</td>
-											<!--<td style="white-space: initial;">{{--@$workflow->name--}}</td>
-											<td style="white-space: initial;">{{--@$partnertype->name--}}</td>-->
+											<!--<td style="white-space: initial;"></td>
+											<td style="white-space: initial;"></td>-->
 											
-											<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...') }}<br/>{{ @$list->country == "" ? config('constants.empty') : str_limit(@$list->country, '50', '...') }}</td> 
-											<td style="white-space: initial;">{{$product}}</td> 
+											<td style="white-space: initial;"><?php echo e(@$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...')); ?><br/><?php echo e(@$list->country == "" ? config('constants.empty') : str_limit(@$list->country, '50', '...')); ?></td> 
+											<td style="white-space: initial;"><?php echo e($product); ?></td> 
 											
 											<!--<td><span class="ag-label--circular" style="color: #6777ef" >In Progress</span></td>-->	
 											<td>
@@ -215,18 +221,18 @@
 													<button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
 													<div class="dropdown-menu"> 
 														<!-- Email option removed - January 2026 -->
-														<a class="dropdown-item has-icon" href="{{URL::to('/admin/partners/edit/'.base64_encode(convert_uuencode(@$list->id)))}}"><i class="far fa-edit"></i> Edit</a>
-														<a class="dropdown-item has-icon" href="javascript:;" onClick="deleteAction({{@$list->id}}, 'partners')"><i class="fas fa-trash"></i> Delete</a>
-                                                      <a class="dropdown-item has-icon" href="javascript:;" onclick="partnerchangetoinactive({{$list->id}}, 'partners')"><i class="fas fa-trash"></i> Inactive</a>
+														<a class="dropdown-item has-icon" href="<?php echo e(URL::to('/admin/partners/edit/'.base64_encode(convert_uuencode(@$list->id)))); ?>"><i class="far fa-edit"></i> Edit</a>
+														<a class="dropdown-item has-icon" href="javascript:;" onClick="deleteAction(<?php echo e(@$list->id); ?>, 'partners')"><i class="fas fa-trash"></i> Delete</a>
+                                                      <a class="dropdown-item has-icon" href="javascript:;" onclick="partnerchangetoinactive(<?php echo e($list->id); ?>, 'partners')"><i class="fas fa-trash"></i> Inactive</a>
 													
 													</div>
 												</div>								  
 											</td>
 										</tr>	
 										<?php $i++; ?>
-										@endforeach	
+										<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>	
 									</tbody>
-									@else
+									<?php else: ?>
 									<tbody>
 										<tr>
 											<td style="text-align:center;" colspan="10">
@@ -234,18 +240,49 @@
 											</td>
 										</tr>
 									</tbody>
-									@endif
+									<?php endif; ?>
 								</table> 
 							</div>
 						</div>
 						<div class="card-footer">
-							{!! $lists->appends(\Request::except('page'))->render() !!} 
+							<?php echo $lists->appends(\Request::except('page'))->render(); ?> 
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+</div>
+<div id="importmodal"  data-backdrop="static" data-keyboard="false" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="importmodalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="importmodalLabel">Import CSV</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="<?php echo e(URL::to('/admin/partners-import')); ?>"  enctype="multipart/form-data">
+				<?php echo csrf_field(); ?>
+					<div class="row">
+						<div class="col-12 col-md-6 col-lg-6">
+							<div class="form-group">
+								<label for="import">Select Import File<span class="span_req">*</span></label>
+								<input type="file" required class="form-control" name="uploaded_file" id="uploaded_file">
+								<small class="warning text-muted">Please upload only CSV file</small>
+							</div>
+						</div>
+						
+						<div class="col-12 col-md-12 col-lg-12">
+							<button  type="submit" class="btn btn-primary">Import</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div id="emailmodal"  data-backdrop="static" data-keyboard="false" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="partnerModalLabel" aria-hidden="true">
@@ -258,8 +295,8 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form method="post" name="sendmail" action="{{URL::to('/admin/sendmail')}}" autocomplete="off" enctype="multipart/form-data">
-				@csrf
+				<form method="post" name="sendmail" action="<?php echo e(URL::to('/admin/sendmail')); ?>" autocomplete="off" enctype="multipart/form-data">
+				<?php echo csrf_field(); ?>
 				<input type ="hidden" value="partner" name="type">
 					<div class="row">
 						<div class="col-12 col-md-6 col-lg-6">
@@ -276,11 +313,11 @@
 									
 									?>
 								</select>
-								@if ($errors->has('email_from'))
+								<?php if($errors->has('email_from')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('email_from') }}</strong>
+										<strong><?php echo e(@$errors->first('email_from')); ?></strong>
 									</span> 
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-lg-6">
@@ -288,11 +325,11 @@
 								<label for="email_to">To <span class="span_req">*</span></label>
 								<select data-valid="required" class="js-data-example-ajax" name="email_to[]"></select>
 								
-								@if ($errors->has('email_to'))
+								<?php if($errors->has('email_to')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('email_to') }}</strong>
+										<strong><?php echo e(@$errors->first('email_to')); ?></strong>
 									</span> 
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-lg-6">
@@ -300,11 +337,11 @@
 								<label for="email_cc">CC </label>
 								<select data-valid="" class="js-data-example-ajaxcc" name="email_cc[]"></select>
 								
-								@if ($errors->has('email_cc'))
+								<?php if($errors->has('email_cc')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('email_cc') }}</strong>
+										<strong><?php echo e(@$errors->first('email_cc')); ?></strong>
 									</span> 
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 						
@@ -313,9 +350,9 @@
 								<label for="template">Templates </label>
 								<select data-valid="" class="form-control select2 selecttemplate" name="template">
 									<option value="">Select</option>
-									@foreach(\App\Models\CrmEmailTemplate::all() as $list)
-										<option value="{{$list->id}}">{{$list->name}}</option>
-									@endforeach
+									<?php $__currentLoopData = \App\Models\CrmEmailTemplate::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+										<option value="<?php echo e($list->id); ?>"><?php echo e($list->name); ?></option>
+									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								</select>
 								
 							</div>
@@ -323,23 +360,24 @@
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
 								<label for="subject">Subject <span class="span_req">*</span></label>
-								{!! Form::text('subject', '', array('class' => 'form-control selectedsubject', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Subject' ))  !!}
-								@if ($errors->has('subject'))
+								<?php echo Form::text('subject', '', array('class' => 'form-control selectedsubject', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Subject' )); ?>
+
+								<?php if($errors->has('subject')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('subject') }}</strong>
+										<strong><?php echo e(@$errors->first('subject')); ?></strong>
 									</span> 
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
 								<label for="message">Message <span class="span_req">*</span></label>
 								<textarea class="summernote-simple selectedmessage" name="message"></textarea>
-								@if ($errors->has('message'))
+								<?php if($errors->has('message')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('message') }}</strong>
+										<strong><?php echo e(@$errors->first('message')); ?></strong>
 									</span>  
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 						<div class="col-12 col-md-12 col-lg-12">
@@ -356,8 +394,8 @@
 
 
 
-@endsection
-@section('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
 <script>
  function partnerchangetoinactive( id, table ) {
     var conf = confirm('Do you want to change status to inactive?');
@@ -464,6 +502,10 @@ $('.cb-element').change(function () {
 	}
 });
 
+$(document).delegate('.importmodal', 'click', function(){
+
+$('#importmodal').modal('show');
+});
 
 $(document).delegate('.emailmodal', 'click', function(){
 
@@ -521,7 +563,7 @@ $(document).delegate('.emailmodal', 'click', function(){
 $(document).delegate('.selecttemplate', 'change', function(){
 	var v = $(this).val();
 	$.ajax({
-		url: '{{URL::to('/admin/get-templates')}}',
+		url: '<?php echo e(URL::to('/admin/get-templates')); ?>',
 		type:'GET',
 		datatype:'json',
 		data:{id:v},
@@ -540,7 +582,7 @@ $(document).delegate('.selecttemplate', 'change', function(){
 		 closeOnSelect: false,
 		dropdownParent: $('#emailmodal'),
 		  ajax: {
-			url: '{{URL::to('/admin/partners/get-recipients')}}',
+			url: '<?php echo e(URL::to('/admin/partners/get-recipients')); ?>',
 			dataType: 'json',
 			processResults: function (data) {
 			  // Transforms the top-level key of the response object from 'items' to 'results'
@@ -561,7 +603,7 @@ $('.js-data-example-ajaxcc').select2({
 		 closeOnSelect: false,
 		dropdownParent: $('#emailmodal'),
 		  ajax: {
-			url: '{{URL::to('/admin/partners/get-recipients')}}',
+			url: '<?php echo e(URL::to('/admin/partners/get-recipients')); ?>',
 			dataType: 'json',
 			processResults: function (data) {
 			  // Transforms the top-level key of the response object from 'items' to 'results'
@@ -670,4 +712,5 @@ $('.filter_btn').on('click', function(){
 	});
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansalcrm\resources\views/Admin/partners/index.blade.php ENDPATH**/ ?>

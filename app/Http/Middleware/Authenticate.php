@@ -19,10 +19,6 @@ class Authenticate extends Middleware
             return route('admin.login');
         }
         
-        if ($request->is('agent*')) {
-            return route('agent.login');
-        }
-        
         // Default to admin login if no match
         return route('admin.login');
     }

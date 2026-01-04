@@ -11,7 +11,6 @@ class Agent extends Authenticatable
 {
     use Notifiable;
 	use Sortable;
-	protected $guard = 'agents';
     /**
      * The attributes that are mass assignable.
      *
