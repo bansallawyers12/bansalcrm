@@ -11,7 +11,7 @@ class UserLog extends Authenticatable
 	use Sortable;
 
 	protected $fillable = [
-        'id', 'created_at', 'updated_at'
+        'id', 'user_id', 'level', 'message', 'ip_address', 'user_agent', 'created_at', 'updated_at'
     ];
 	
 	public $sortable = ['id'];

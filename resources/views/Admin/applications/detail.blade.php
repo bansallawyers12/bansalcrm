@@ -198,9 +198,6 @@
 									<a class="nav-link" data-toggle="tab" id="education-tab" href="#education" role="tab" aria-controls="education" aria-selected="false">Education</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" id="other_info-tab" href="#other_info" role="tab" aria-controls="other_info" aria-selected="false">Other Information</a>
-								</li>
-								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="checkinlogs-tab" href="#checkinlogs" role="tab" aria-controls="checkinlogs" aria-selected="false">Check-In Logs</a>
 								</li>
 							</ul> 
@@ -1370,9 +1367,6 @@
 											<div class="edu_test_col overal_block"><strong>5.99</strong></div>
 										</div>
 									</div>
-								</div>
-								<div class="tab-pane fade" id="other_info" role="tabpanel" aria-labelledby="other_info-tab">
-									<span>other_info</span>
 								</div>
 								<div class="tab-pane fade" id="checkinlogs" role="tabpanel" aria-labelledby="checkinlogs-tab">
 									<div class="table-responsive"> 

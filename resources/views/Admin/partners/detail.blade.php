@@ -233,9 +233,6 @@ use App\Http\Controllers\Controller;
 									<a class="nav-link" data-toggle="tab" id="tasks-tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
 								</li>-->
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" id="other_info-tab" href="#other_info" role="tab" aria-controls="other_info" aria-selected="false">Other Information</a>
-								</li>
-								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" id="promotions-tab" href="#promotions" role="tab" aria-controls="promotions" aria-selected="false">Promotions</a>
 								</li>
                               
@@ -1248,9 +1245,6 @@ use App\Http\Controllers\Controller;
 										</table> 
 									</div>
 								</div>-->
-								<div class="tab-pane fade" id="other_info" role="tabpanel" aria-labelledby="other_info-tab">
-									<span>other_info</span>
-								</div>
 								<div class="tab-pane fade" id="promotions" role="tabpanel" aria-labelledby="promotions-tab">
 									<div class="card-header-action text-right" style="padding-bottom:15px;">
 										<a href="javascript:;"  class="btn btn-primary add_promotion"><i class="fa fa-plus"></i> Add</a>
