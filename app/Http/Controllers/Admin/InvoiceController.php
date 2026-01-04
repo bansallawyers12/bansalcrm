@@ -972,10 +972,14 @@ class InvoiceController extends Controller
 	public function creategroupinvoice(){
 		return view('Admin.invoice.creategroupinvoice');  
 	} 
+	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled
 	public function invoiceschedules(){
+		return redirect()->back()->with('error', 'Invoice Schedule System has been removed');
+		/* Original code disabled - Invoice Schedule System removed
 		$query 		= InvoiceSchedule::where('id', '!=', '');
 		$lists		= $query->orderby('id','desc')->paginate(20);
-		return view('Admin.invoice.invoiceschedules',compact(['lists']));  
+		return view('Admin.invoice.invoiceschedules',compact(['lists']));
+		*/
 	}
 	
 	// Invoice Schedule System removed (January 2026) - Routes removed, method disabled

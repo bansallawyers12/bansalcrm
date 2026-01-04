@@ -114,6 +114,8 @@ Over the past three weeks, the Bansal CRM2 has undergone significant modernizati
 - `InvoiceSchedule.php`
 - `ScheduleItem.php`
 - `ProductAreaLevel.php` (January 2026)
+- `Template.php` (January 2026) - Quotation template model
+- `TemplateInfo.php` (January 2026) - Quotation template info model
 
 **Controller Methods Removed:**
 - `ApplicationsController::detail()` - Applications detail page method

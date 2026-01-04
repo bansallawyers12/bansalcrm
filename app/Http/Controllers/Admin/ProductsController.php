@@ -10,7 +10,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use App\Models\Admin;
 use App\Models\Product;
-use App\Models\ProductAreaLevel;
  
 use Auth;
 use Config;
@@ -272,105 +271,16 @@ class ProductsController extends Controller
 	
 	
 	public function saveotherinfo(Request $request){
-		$requestData 		= 	$request->all();
-			 if(ProductAreaLevel::where('product_id', @$requestData['client_id'])->exists()){
-				 $ac = ProductAreaLevel::where('product_id', @$requestData['client_id'])->first();
-				 $obj				= 	 ProductAreaLevel::find($ac->id); 
-			 }else{
-				$obj				= 	new ProductAreaLevel;  
-			 }
-			
-			$obj->subject_area			=	@$requestData['subject_area'];
-			$obj->subject	=	@$requestData['subject'];
-			$obj->degree	=	@$requestData['degree_level'];
-		
-			$obj->product_id	=	@$requestData['client_id'];
-			$saved				=	$obj->save();  
-			
-			
-			if(!$saved)
-			{
-				
-				$response['status'] 	= 	false;
-			$response['message']	=	'Please try again';
-		
-			}
-			else
-			{
-				$subjectarea = \App\Models\SubjectArea::where('id', $obj->subject_area)->first();
-				$subject = \App\Models\Subject::where('id', $obj->subject)->first();
-				$data = '<div class="row"><div class="col-md-4"><strong>Subject Area</strong><p>'.$subjectarea->name.'</p></div><div class="col-md-4"><strong>Subject</strong><p>'.$subject->name.'</p></div><div class="col-md-4"><strong>Degree Level</strong><p>'.$obj->degree.'</p></div></div>';
-				$response['status'] 	= 	true;
-				$response['message']	=	'You’ve successfully added a Subject Area.';
-					$response['data']	=	$data;
-			}	
-			echo json_encode($response);	
+		// Feature removed - ProductAreaLevel model no longer exists
+		$response['status'] = false;
+		$response['message'] = 'Feature removed - ProductAreaLevel model no longer exists. Product academic requirements feature has been removed.';
+		return response()->json($response);
 	}
 	
 	
 	public function getotherinfo(Request $request){
-		$ac = ProductAreaLevel::where('product_id', @$request->id)->first();
-		ob_start();
-		?>
-		<div class="col-12 col-md-6 col-lg-6">
-						<div class="form-group">
-							<label for="degree_level">Subject Area <span class="span_req">*</span></label> 	
-							<select data-valid="" class="form-control subject_area select2" id="subjectlist" name="subject_area">
-									<option value="">Please Select Subject Area</option>
-									<?php
-									foreach(\App\Models\SubjectArea::all() as $sublist){
-										?>
-										<option <?php if($ac->subject_area == $sublist->id){ echo 'selected'; } ?> value="<?php echo $sublist->id; ?>"><?php echo $sublist->name; ?></option>
-										<?php
-									}
-									?>
-								</select>
-							<span class="custom-error degree_level_error" role="alert">
-								<strong></strong>
-							</span> 
-						</div>
-					</div>
-					<div class="col-12 col-md-6 col-lg-6">
-						<div class="form-group">
-							<label for="degree_level">Subject<span class="span_req">*</span></label> 	
-							<select data-valid="" class="form-control subject select2" id="subject" name="subject">
-									<option value="">Please Select Subject</option>
-									<?php
-									foreach(\App\Models\Subject::where('subject_area',$ac->subject_area) ->orderby('name','ASC')->get() as $sublist){
-										?>
-										<option <?php if($ac->subject == $sublist->id){ echo 'selected'; } ?> value="<?php echo $sublist->id; ?>"><?php echo $sublist->name; ?></option>
-										<?php
-									}
-									?>
-								</select>
-							<span class="custom-error degree_level_error" role="alert">
-								<strong></strong>
-							</span> 
-						</div>
-					</div>
-					<div class="col-12 col-md-6 col-lg-6">
-						<div class="form-group">
-							<label for="degree_level">Degree Level</label> 	
-							<select data-valid="required" class="form-control degree_level select2" name="degree_level">
-								<option value=""></option>
-								<option <?php if($ac->degree == 'Bachelor'){ echo 'selected'; } ?> value="Bachelor">Bachelor</option>
-									<option value="Certificate" <?php if($ac->degree == 'Certificate'){ echo 'selected'; } ?>>Certificate</option>
-									<option value="Diploma" <?php if($ac->degree == 'Diploma'){ echo 'selected'; } ?>>Diploma</option>
-									<option value="High School" <?php if($ac->degree == 'High School'){ echo 'selected'; } ?>>High School</option>
-									<option value="Master" <?php if($ac->degree == 'Master'){ echo 'selected'; } ?>>Master</option>
-							</select>
-							<span class="custom-error degree_level_error" role="alert">
-								<strong></strong>
-							</span> 
-						</div>
-					</div>
-					<div class="col-12 col-md-12 col-lg-12">
-						<button onclick="customValidate('editsubjectarea')" type="button" class="btn btn-primary">Save</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
-		<?php
-		return ob_get_clean();
-		
+		// Feature removed - ProductAreaLevel model no longer exists
+		return '<h4>Feature removed - ProductAreaLevel model no longer exists</h4>';
 	}
 	
 	

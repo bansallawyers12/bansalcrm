@@ -38,17 +38,6 @@
 											</div>
 										</div>
 									</div>
-									<?php $attmet = \App\Models\Attachment::where('leade_id',$list->id)->get(); ?>
-									@foreach(@$attmet as $al)
-									<div class="form-group row">
-									<div class="col-sm-12">
-									<label for="email_to" class="col-form-label col-sm-2">Attachments</label>
-										<div class="col-sm-10">
-											<a download href="{{URL::to('public/img/attacment_file/')}}/{{$al->file}}" target="_blank">{{@$al->file}}</a>
-										</div>
-										</div>
-									</div>
-									@endforeach
 								</div>
 							</div>
 						</div>

@@ -820,28 +820,19 @@ class AdminController extends Controller
 							{
 								$message = Config::get('constants.server_error');
 							}
-							}else if($requestData['table'] == 'quotations'){
-								/* if($requestData['current_status'] == 0)
+							// Quotations System removed (January 2026)
+							/* }else if($requestData['table'] == 'quotations'){
+								$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['is_archive' => 1]);
+								if($response)
 								{
-									$updated_status = 1;
+									$status = 1;
 									$message = 'Record has been enabled successfully.';
 								}
 								else
 								{
-									$updated_status = 0;
-									$message = 'Record has been disabled successfully.';
-								}	 */
-
-							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['is_archive' => 1]);
-							if($response)
-							{
-								$status = 1;
-								$message = 'Record has been enabled successfully.';
-							}
-							else
-							{
-								$message = Config::get('constants.server_error');
-							}
+									$message = Config::get('constants.server_error');
+								}
+							*/
 							}
 							else
 							if($requestData['table'] == 'currencies'){
