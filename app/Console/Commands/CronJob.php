@@ -7,7 +7,6 @@ use App\Models\Admin;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\InvoicePayment;
-use App\Models\InvoiceFollowup;
 use App\Models\EmailTemplate;
 use App\Models\ShareInvoice;
 // TaxRate model removed - Tax Management System removed (January 2026)
@@ -101,12 +100,6 @@ class CronJob extends Command
 					//sends email to customer with the invoice pdf attached
 					$issuccess = $this->send_attachment_email_template($replace, $replace_with, 'invoice-reminder', $invoice->customer->contact_email,$subContent,'info@crm.travelsdata.com',$array);
 					unlink($array['file']);
-					$objf				= 	new InvoiceFollowup;
-				$objf->invoice_id	=	$invoice->id;
-				$objf->user_id	=	$invoice->user_id;
-				$objf->followup_type	=	'invoice_email';
-				$objf->comment	=	"Payment reminder sent to ".$invoice->customer->contact_email;
-				$followupsaved				=	$objf->save(); 
 				}else if(strtotime($today) == strtotime($invoice->due_date)){
 					$amount_rec = InvoicePayment::where('invoice_id',$invoice->id)->get()->sum("amount_rec");
 				$baldue = $invoice->amount - $amount_rec;
@@ -144,12 +137,6 @@ class CronJob extends Command
 					//sends email to customer with the invoice pdf attached
 					$issuccess = self::send_attachment_email_template($replace, $replace_with, 'invoice-reminder', $invoice->customer->contact_email,$subContent,'info@crm.travelsdata.com',$array);
 					unlink($array['file']);
-					$objf				= 	new InvoiceFollowup;
-				$objf->invoice_id	=	$invoice->id;
-				$objf->user_id	=	$invoice->user_id;
-				$objf->followup_type	=	'invoice_email';
-				$objf->comment	=	"Payment reminder sent to ".$invoice->customer->contact_email;
-				$followupsaved				=	$objf->save(); 
 				}else{}
 			}
 			

@@ -51,7 +51,6 @@
 			?>
 			<li class="{{(Route::currentRouteName() == 'admin.userrole.index' || Route::currentRouteName() == 'admin.userrole.create' || Route::currentRouteName() == 'admin.userrole.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.userrole.index')}}">Roles</a></li>
 			<?php } ?>
-			<li class="{{(Route::currentRouteName() == 'admin.gensettings.index' ) ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.gensettings.index')}}">Gen Settings</a></li>
 			<li class="{{(Route::currentRouteName() == 'admin.upload_checklists.index' ) ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.upload_checklists.index')}}">Upload Checklists</a></li>
             
             <!--<li class="{{--(Route::currentRouteName() == 'admin.feature.appointmentdisabledate.index' ) ? 'active' : ''--}}"><a class="nav-link" href="{{--route('admin.feature.appointmentdisabledate.index')--}}">Block Slot</a></li>-->

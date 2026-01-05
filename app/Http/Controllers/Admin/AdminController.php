@@ -18,7 +18,6 @@ use App\Models\Contact;
 // TaxRate model removed - Tax Management System removed (January 2026)
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\InvoicePayment;
-use App\Models\Setting;
 use Auth;
 use Config;
 use App\Models\ActivitiesLog;
@@ -1665,29 +1664,6 @@ class AdminController extends Controller
 
 		echo json_encode($agents);
 	}
-
-	public function gensettings(Request $request){
-	   $setting = Setting::where('office_id', Auth::user()->office_id)->first();
-		return view('Admin.gensettings.index', compact('setting'));
-	}
-
-    public function gensettingsupdate(Request $request){
-        if(Setting::where('office_id', Auth::user()->office_id)->exists()){
-           $setting = Setting::where('office_id', Auth::user()->office_id)->first();
-            $objs = Setting::find($setting->id);
-            $objs->date_format = $request->date_format;
-             $objs->time_format = $request->time_format;
-            $objs->save();
-        }else{
-             $objs = new Setting;
-            $objs->date_format = $request->date_format;
-            $objs->office_id = Auth::user()->office_id;
-             $objs->time_format = $request->time_format;
-            $objs->save();
-        }
-
-        	return Redirect::to('/admin/gen-settings')->with('success', 'Record updated successfully');
-    }
 
     public function checkclientexist(Request $request){
         if($request->type == 'email'){
