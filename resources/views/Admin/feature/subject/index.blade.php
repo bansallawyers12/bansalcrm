@@ -40,12 +40,12 @@
 								<tbody class="tdata">	
 								@foreach (@$lists as $list)
 								<?php
-								$SubjectArea = \App\Models\SubjectArea::where('id', '=', $list->subject_area)->first();
+								// SubjectArea removed - subject_areas table dropped (January 2026)
 								?>
 									<tr id="id_{{@$list->id}}">
 										
 										<td>{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '50', '...') }}</td> 	
-										<td>{{$SubjectArea->name}}</td>	
+										<td>N/A</td>	
 										<td>
 											<div class="dropdown d-inline">
 												<button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>

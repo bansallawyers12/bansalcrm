@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\FollowupController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StaffController;
-use App\Http\Controllers\Admin\ServicesController;
+// use App\Http\Controllers\Admin\ServicesController; // Removed - services table dropped
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\PartnersController;
@@ -145,17 +145,18 @@ Route::prefix('admin')->group(function() {
 		Route::post('/get_chapters', 'Admin\AdminController@getChapters')->name('admin.get_chapters');
 		Route::get('/website_setting', 'Admin\AdminController@websiteSetting')->name('admin.website_setting');
 		Route::post('/website_setting', 'Admin\AdminController@websiteSetting');
-		Route::post('/get_states', 'Admin\AdminController@getStates');
-		Route::get('/settings/taxes/returnsetting', 'Admin\AdminController@returnsetting')->name('admin.returnsetting');
-		Route::get('/settings/taxes/taxrates', 'Admin\AdminController@taxrates')->name('admin.taxrates');
-		Route::get('/settings/taxes/taxrates/create', 'Admin\AdminController@taxratescreate')->name('admin.taxrates.create');
-		Route::post('/settings/taxes/taxrates/store', 'Admin\AdminController@savetaxrate')->name('admin.taxrates.store');
-		Route::get('/settings/taxes/taxrates/edit/{id}', 'Admin\AdminController@edittaxrates')->name('admin.edittaxrates');
-		Route::post('/settings/taxes/taxrates/edit', 'Admin\AdminController@edittaxrates');
-		Route::post('/settings/taxes/savereturnsetting', 'Admin\AdminController@returnsetting')->name('admin.savereturnsetting');
+		// Route::post('/get_states', 'Admin\AdminController@getStates'); // Removed - states table dropped
+		// Tax routes removed - taxes and tax_rates tables dropped (January 2026)
+		// Route::get('/settings/taxes/returnsetting', 'Admin\AdminController@returnsetting')->name('admin.returnsetting');
+		// Route::get('/settings/taxes/taxrates', 'Admin\AdminController@taxrates')->name('admin.taxrates');
+		// Route::get('/settings/taxes/taxrates/create', 'Admin\AdminController@taxratescreate')->name('admin.taxrates.create');
+		// Route::post('/settings/taxes/taxrates/store', 'Admin\AdminController@savetaxrate')->name('admin.taxrates.store');
+		// Route::get('/settings/taxes/taxrates/edit/{id}', 'Admin\AdminController@edittaxrates')->name('admin.edittaxrates');
+		// Route::post('/settings/taxes/taxrates/edit', 'Admin\AdminController@edittaxrates');
+		// Route::post('/settings/taxes/savereturnsetting', 'Admin\AdminController@returnsetting')->name('admin.savereturnsetting');
 		Route::get('/getsubcategories', 'Admin\AdminController@getsubcategories');
 		Route::get('/getproductbranch', 'Admin\AdminController@getproductbranch');
-		Route::get('/getservicemodal', [ServicesController::class, 'servicemodal']);
+		// Route::get('/getservicemodal', [ServicesController::class, 'servicemodal']); // Removed - services table dropped
 		Route::get('/getassigneeajax', 'Admin\AdminController@getassigneeajax');
 		Route::get('/getpartnerajax', 'Admin\AdminController@getpartnerajax');
 	Route::get('/checkclientexist', 'Admin\AdminController@checkclientexist');
@@ -203,12 +204,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/userrole/edit/{id}', 'Admin\UserroleController@edit')->name('admin.userrole.edit');
 		Route::post('/userrole/edit', 'Admin\UserroleController@edit');
 		
-	//Services Start
-		Route::get('/services', [ServicesController::class, 'index'])->name('admin.services.index');
-		Route::get('/services/create', [ServicesController::class, 'create'])->name('admin.services.create'); 
-		Route::post('/services/store', [ServicesController::class, 'store'])->name('admin.services.store');
-		Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('admin.services.edit');
-		Route::post('/services/edit', [ServicesController::class, 'edit']);
+	//Services routes removed - services table dropped (January 2026)
 			     
 	  //Manage Contacts Start   
 		Route::get('/contact', [ContactController::class, 'index'])->name('admin.managecontact.index'); 
@@ -451,14 +447,7 @@ Route::prefix('admin')->group(function() {
 		Route::get('/getintrestedservice', [ClientsController::class, 'getintrestedservice']); 	 
 		Route::post('/application/saleforcastservice', [ClientsController::class, 'saleforcastservice']);
 		Route::get('/getintrestedserviceedit', [ClientsController::class, 'getintrestedserviceedit']); 	 
-		Route::post('/saveeducation', 'Admin\EducationController@store'); 	 
-		Route::post('/editeducation', 'Admin\EducationController@edit'); 	 
-		Route::get('/get-educations', 'Admin\EducationController@geteducations'); 	 
-		Route::get('/getEducationdetail', 'Admin\EducationController@getEducationdetail'); 	 
-			 
-		Route::get('/delete-education', 'Admin\EducationController@deleteeducation'); 	 
-		Route::post('/edit-test-scores', 'Admin\EducationController@edittestscores'); 	 
-		Route::post('/other-test-scores', 'Admin\EducationController@othertestscores'); 	 
+		//Education routes removed - education table dropped (January 2026) 	 
 		Route::post('/create-invoice', 'Admin\InvoiceController@createInvoice'); 	 
 		Route::get('/application/invoice/{client_id}/{application}/{invoice_type}', 'Admin\InvoiceController@getInvoice'); 	 
 		Route::get('/invoice/view/{id}', 'Admin\InvoiceController@show'); 	 
@@ -576,12 +565,7 @@ Route::prefix('admin')->group(function() {
 		// Route::get('/tax/edit/{id}', 'Admin\TaxController@edit')->name('admin.feature.tax.edit');
 		// Route::post('/tax/edit', 'Admin\TaxController@edit');
 		
-		//Subject Area Start  	
-		Route::get('/subjectarea', 'Admin\SubjectAreaController@index')->name('admin.feature.subjectarea.index');  
-		Route::get('/subjectarea/create', 'Admin\SubjectAreaController@create')->name('admin.feature.subjectarea.create');  
-		Route::post('/subjectarea/store', 'Admin\SubjectAreaController@store')->name('admin.feature.subjectarea.store');  
-		Route::get('/subjectarea/edit/{id}', 'Admin\SubjectAreaController@edit')->name('admin.feature.subjectarea.edit');
-		Route::post('/subjectarea/edit', 'Admin\SubjectAreaController@edit');
+		//Subject Area routes removed - subject_areas table dropped (January 2026)
 		
 		//Subject Start  
 		Route::get('/subject', 'Admin\SubjectController@index')->name('admin.feature.subject.index');

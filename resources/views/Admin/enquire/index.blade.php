@@ -29,9 +29,11 @@
 							</ul> 
 							<div class="tab-content" id="clientContent">
 								<div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active-tab">									
+									{{-- DEPRECATED: Enquiries feature removed - enquiries table dropped (January 2026) --}}
 									<?php
-										$query =\App\Models\Enquiry::where('status',0)->where('is_archived',0)->orderby('created_at','Desc');
-										$totalcount = $query->count();
+										// $query =\App\Models\Enquiry::where('status',0)->where('is_archived',0)->orderby('created_at','Desc');
+										// $totalcount = $query->count();
+										$totalcount = 0;
 										$enqs = $query->get();
 										if($totalcount !== 0){
 									?>

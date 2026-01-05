@@ -394,7 +394,9 @@ class AdminController extends Controller
 
 		$contactexist = Contact::where('id', $request->customer_id)->where('user_id', Auth::user()->id)->exists();
 		if($contactexist){
-			$contact = Contact::where('id', $request->customer_id)->with(['currencydata'])->first();
+			// Currency relationship removed - currencies table dropped (January 2026)
+			$contact = Contact::where('id', $request->customer_id)->first();
+			// ->with(['currencydata'])->first();
 			return json_encode(array('success' => true, 'contactdetail' => $contact));
 		}else{
 			return json_encode(array('success' => false, 'message' => 'ID not exist'));
@@ -1087,53 +1089,7 @@ class AdminController extends Controller
 		die;
 	}
 
-	public function getStates(Request $request)
-	{
-		$status 			= 	0;
-		$data				=	array();
-		$method 			= 	$request->method();
-
-		if ($request->isMethod('post'))
-		{
-			$requestData 	= 	$request->all();
-
-			$requestData['id'] = trim($requestData['id']);
-
-			if(isset($requestData['id']) && !empty($requestData['id']))
-			{
-				$recordExist = Country::where('id', $requestData['id'])->exists();
-
-				if($recordExist)
-				{
-					$data 	= 	State::where('country_id', '=', $requestData['id'])->get();
-
-					if($data)
-					{
-						$status = 1;
-						$message = 'Record has been fetched successfully.';
-					}
-					else
-					{
-						$message = Config::get('constants.server_error');
-					}
-				}
-				else
-				{
-					$message = 'ID does not exist, please check it once again.';
-				}
-			}
-			else
-			{
-				$message = 'ID does not exist, please check it once again.';
-			}
-		}
-		else
-		{
-			$message = Config::get('constants.post_method');
-		}
-		echo json_encode(array('status'=>$status, 'message'=>$message, 'data'=>$data));
-		die;
-	}
+	// getStates method removed - states table dropped (January 2026)
 
 	public function getChapters(Request $request)
 	{
@@ -1201,33 +1157,10 @@ class AdminController extends Controller
 			print_r($requestData);die;
 
 
-			if(isset($requestData['id']) && !empty($requestData['id']))
-			{
-				$recordExist = Country::where('id', $requestData['id'])->exists();
-
-				if($recordExist)
-				{
-					$data 	= 	State::where('country_id', '=', $requestData['id'])->get();
-
-					if($data)
-					{
-						$status = 1;
-						$message = 'Record has been fetched successfully.';
-					}
-					else
-					{
-						$message = Config::get('constants.server_error');
-					}
-				}
-				else
-				{
-					$message = 'ID does not exist, please check it once again.';
-				}
-			}
-			else
-			{
-				$message = 'ID does not exist, please check it once again.';
-			}
+			// States functionality removed - states table dropped (January 2026)
+			$status = 0;
+			$message = 'States feature has been removed';
+			$data = [];
 		}
 		else
 		{

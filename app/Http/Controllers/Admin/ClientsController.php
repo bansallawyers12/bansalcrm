@@ -4379,27 +4379,7 @@ class ClientsController extends Controller
                 }
             }
 
-
-            //quotations
-            $quotations = DB::table('quotations')->where('client_id', $request->merge_from)->get(); //dd($quotations);
-            if(!empty($quotations)){
-                foreach($quotations as $quotekey=>$quoteval){
-                    DB::table('quotations')->insert(
-                        [
-                            'client_id' => $request->merge_into,
-                            'user_id'=> $quoteval->user_id,
-                            'total_fee' => $quoteval->total_fee,
-                            'status' => $quoteval->status,
-                            'due_date' => $quoteval->due_date,
-                            'created_by' => $quoteval->created_by,
-                            'created_at' => $quoteval->created_at,
-                            'updated_at' => $quoteval->updated_at,
-                            'currency' => $quoteval->currency,
-                            'is_archive' => $quoteval->is_archive
-                        ]
-                    );
-                }
-            }
+            //quotations - Removed (quotations table dropped January 2026)
 
             //accounts
             $accounts = DB::table('invoices')->where('client_id', $request->merge_from)->get(); //dd($accounts);
@@ -4491,29 +4471,7 @@ class ClientsController extends Controller
                 }
             }
 
-            //Education
-            $educations = DB::table('education')->where('client_id', $request->merge_from)->get(); //dd($educations);
-            if(!empty($educations)){
-                foreach($educations as $edukey=>$eduval){
-                    DB::table('education')->insert(
-                        [
-                             'user_id' => $eduval->user_id,
-                             'client_id' => $request->merge_into,
-                             'degree_title' => $eduval->degree_title,
-                             'degree_level' => $eduval->degree_level,
-                             'institution' => $eduval->institution,
-                             'course_start' => $eduval->course_start,
-                             'course_end' => $eduval->course_end,
-                             'subject_area' => $eduval->subject_area,
-                             'subject' => $eduval->subject,
-                             'ac_score' => $eduval->ac_score,
-                             'score' => $eduval->score,
-                             'created_at' => $eduval->created_at,
-                             'updated_at' => $eduval->updated_at
-                        ]
-                    );
-                }
-            }
+            //Education - Removed (education table dropped January 2026)
 
             //CheckinLogs
             $checkinLogs = DB::table('checkin_logs')->where('client_id', $request->merge_from)->get(); //dd($checkinLogs);
@@ -4740,18 +4698,7 @@ class ClientsController extends Controller
                 }
             }
 
-            //Education
-            $educations = DB::table('education')->where('client_id', $request->merge_from)->get(); //dd($educations);
-            if(!empty($educations)){
-                foreach($educations as $edukey=>$eduval){
-                    DB::table('education')
-                    ->where('client_id', $request->merge_from)
-                    ->update([
-                        'client_id' => $request->merge_into,
-                        'updated_at' => now()
-                    ]);
-                }
-            }
+            //Education - Removed (education table dropped January 2026)
 
             //CheckinLogs
             $checkinLogs = DB::table('checkin_logs')->where('client_id', $request->merge_from)->get(); //dd($checkinLogs);

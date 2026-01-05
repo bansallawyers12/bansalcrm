@@ -64,9 +64,11 @@
 													<th></th>
 												</tr> 
 											</thead>
+											{{-- DEPRECATED: Enquiries feature removed - enquiries table dropped (January 2026) --}}
 											<?php
-										$query =\App\Models\Enquiry::where('is_archived',1)->orderby('created_at','Desc');
-										$totalcount = $query->count();
+										// $query =\App\Models\Enquiry::where('is_archived',1)->orderby('created_at','Desc');
+										// $totalcount = $query->count();
+										$totalcount = 0;
 										$enqs = $query->get();
 										if($totalcount !== 0){
 									?>

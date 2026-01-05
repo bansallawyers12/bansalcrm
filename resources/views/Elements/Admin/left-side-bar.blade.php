@@ -38,14 +38,15 @@
 			<a href="{{route('admin.leads.index')}}" class="nav-link"><i data-feather="user"></i><span>Lead Manager</span></a>
 		</li>
 
-			<?php
+			{{-- Enquiries feature removed - enquiries table dropped (January 2026) --}}
+			{{-- <?php
 			if(Route::currentRouteName() == 'admin.enquiries.index' || Route::currentRouteName() == 'admin.enquiries.archived'){
 				$cheenquiriestype = 'active';
 			}
 			?>
 			<li class="dropdown {{@$cheenquiriestype}}">
 				<a href="{{route('admin.enquiries.index')}}" class="nav-link"><i data-feather="user-check"></i><span>Queries</span></a>
-			</li>
+			</li> --}}
 
 			<?php
 			if( Route::currentRouteName() == 'assignee.activities' || Route::currentRouteName() == 'assignee.activities_completed' ){

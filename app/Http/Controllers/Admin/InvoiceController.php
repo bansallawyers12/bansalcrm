@@ -20,7 +20,8 @@ use App\Models\ShareInvoice;
 // InvoiceSchedule and TaxRate models removed (January 2026)
 // use App\Models\InvoiceSchedule;
 // use App\Models\TaxRate;
-use App\Models\Currency;
+// Currency model removed - currencies table dropped (January 2026)
+// use App\Models\Currency;
 use App\Models\Contact;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Auth; 

@@ -145,10 +145,8 @@
 												</td>
 												<td>
 													<select name="tax_code[]" class="form-control tax_per">
-														<option value="0">Select A Tax Code</option>
-														@foreach(\App\Models\Tax::all() as $taxlist)
-															<option value="{{$taxlist->amount}}" @if($taxlist->amount=='10'){{'selected'}}@endif>{{$taxlist->name}}</option>
-														@endforeach
+														<option value="0">No Tax</option>
+														{{-- Tax Management System removed - taxes table dropped (January 2026) --}}
 													</select>
 												</td>
 												<td>

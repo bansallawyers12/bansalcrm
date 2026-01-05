@@ -188,10 +188,8 @@
 												</td>
 												<td>
 													<select name="tax[]" class="form-control tax_amt">
-														<option value="0">Select A Tax Code</option>
-														@foreach(\App\Models\Tax::all() as $taxlist)
-															<option <?php if($invoiceitemdetail->tax == $taxlist->amount){ echo 'selected'; } ?> value="{{$taxlist->amount}}">{{$taxlist->name}}</option>
-														@endforeach
+														<option value="0">No Tax</option>
+														{{-- Tax Management System removed - taxes table dropped (January 2026) --}}
 													</select>
 												</td>
 												<td>
@@ -566,10 +564,8 @@
 													</div>
 													<div class="input_field ifcheckedtax" style="display:none;">
 														<select id="taxget" class="form-control">
-														    <option value="">Select Tax</option>
-														 	@foreach(\App\Models\Tax::all() as $taxlist)
-															<option value="{{$taxlist->amount}}">{{$taxlist->name}}</option>
-														@endforeach   
+														    <option value="">No Tax</option>
+														 	{{-- Tax Management System removed - taxes table dropped (January 2026) --}}   
 														</select>
 													</div>
 												</div>

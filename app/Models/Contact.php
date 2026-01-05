@@ -23,10 +23,11 @@ class Contact extends Authenticatable
   
 	public $sortable = ['id', 'created_at', 'updated_at'];
  
-	 public function currencydata() 
-    {
-        return $this->belongsTo('App\Models\Currency','currency','id');
-    }
+	 // Currency relationship removed - currencies table dropped (January 2026)
+	 // public function currencydata() 
+    // {
+    //     return $this->belongsTo('App\Models\Currency','currency','id');
+    // }
 	
 	public function company()
     {

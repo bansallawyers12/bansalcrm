@@ -2251,63 +2251,12 @@ use App\Http\Controllers\Controller;
 										</table>
 									</div>
 								</div>-->
+								{{-- Education tab removed - education table dropped (January 2026) --}}
+								<!--<div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+									Education Background section removed - education table dropped
+								</div>-->
 								<div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
-									<div class="card-header-action" style="padding-bottom:15px;">
-										<div class="float-left">
-											<h5>Education Background</h5>
-										</div>
-										<div class="float-right">
-											<a href="javascript:;" data-toggle="modal" data-target=".create_education" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-									<div class="divider"></div>
-
-									<div class="education_list">
-									<?php
-									$totalecount = \App\Models\Education::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->count();
-									if($totalecount == 0){
-									?>
-									<div class="edu_note">
-										<span>* Click add button to fill education background </span>
-									</div>
-									<?php } ?>
-										<?php
-										$edulists = \App\Models\Education::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
-
-										foreach($edulists as $edulist){
-											$subjectdetail = \App\Models\Subject::where('id',$edulist->subject)->first();
-											$subjectareadetail = \App\Models\SubjectArea::where('id',$edulist->subject_area)->first();
-											?>
-											<div class="education_item" id="edu_id_<?php echo $edulist->id; ?>">
-										<div class="row">
-											<div class="col-md-5">
-												<div class="title_desc">
-													<h6>{{@$edulist->degree_title}}</h6>
-													<p>{{@$edulist->institution}}</p>
-												</div>
-											</div>
-											<div class="col-md-7">
-												<div class="education_info">
-													<div class="edu_date"><?php echo date('M Y',strtotime(@$edulist->course_start)); ?><span>-</span><?php echo date('M Y',strtotime(@$edulist->course_end)); ?></div>
-													<div class="edu_score"><span>Score: {{@$edulist->score}} {{@$edulist->ac_score}} </span></div>
-													<div class="edu_study_area">
-														<span>{{@$edulist->degree_level}}</span>
-														<span>{{@$subjectareadetail->name}}</span>
-														<span>{{@$subjectdetail->name}}</span>
-													</div>
-												</div>
-												<div class="education_action">
-													<a class="editeducation" data-id="<?php echo @$edulist->id; ?>" href="javascript:;"><i class="fa fa-edit"></i></a>
-													<a href="javascript:;" data-id="<?php echo @$edulist->id; ?>" class="deleteeducation"><i class="fa fa-trash"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-											<?php
-										}
-										?>
-									</div>
+									{{-- Education Background section removed - education table dropped (January 2026) --}}
 									<div class="divider"></div>
 									<div class="card-header-action" style="padding-top:15px;padding-bottom:10px;">
 										<div class="float-left">
