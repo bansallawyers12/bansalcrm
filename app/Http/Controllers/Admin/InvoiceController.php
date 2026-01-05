@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Admin;
 use App\Models\Invoice;
@@ -294,25 +295,28 @@ class InvoiceController extends Controller
 		//echo "<pre>requestData==";print_r($requestData);die;
 	
 		
-		$subtotal = 0;
-		$total_value = 0;
-		/* Profile Image Upload Function Start */						  
-		$files = $request->file('attachfile');
-		if($request->hasfile('attachfile')) 
-		{	
-		    $attachfile = array();
-			foreach ($files as $file) {
-				$attachfile[] = $this->uploadFile($file, Config::get('constants.invoice'));
-			}
+	$subtotal = 0;
+	$total_value = 0;
+	/* Upload to S3 */						  
+	$files = $request->file('attachfile');
+	if($request->hasfile('attachfile')) 
+	{	
+	    $attachfile = array();
+		foreach ($files as $file) {
+			$fileName = time() . '_' . $file->getClientOriginalName();
+			$filePath = 'invoices/' . $fileName;
+			Storage::disk('s3')->put($filePath, file_get_contents($file));
+			$fileUrl = Storage::disk('s3')->url($filePath);
+			$attachfile[] = $fileUrl;
 		}
-		else
-		{
-			//$attachfile = NULL;
-			$attachfile = array();
-		}	
-		//echo "<pre>attachfile==";print_r($attachfile);die;
-		
-		/* Profile Image Upload Function End */	
+	}
+	else
+	{
+		$attachfile = array();
+	}	
+	//echo "<pre>attachfile==";print_r($attachfile);die;
+	
+	/* Upload to S3 End */
 		$profiledetail = \App\Models\Profile::where('id', @$requestData['profile'])->first();
 		$pdetail = '';
 		if($profiledetail){
@@ -481,32 +485,35 @@ class InvoiceController extends Controller
 		
 		$requestData 		= 	$request->all();
 		//echo '<pre>'; print_r($requestData); die;
-		$subtotal = 0;
-		$total_value = 0;
-		//echo Config::get('constants.invoice'); die;
-		/* Profile Image Upload Function Start */	
-			$files = $request->file('attachfile');
-			if($request->hasfile('attachfile')) 
-			{	
-				foreach ($files as $file) {
-					$attachfile[] = $this->uploadFile($file, Config::get('constants.invoice'));
-				}
-
-				$old_images=explode(",",$requestData['old_attachments']);
-
-				foreach($old_images as $image){
-					$image_path = public_path("/img/invoice/{$image}");
-					if (File::exists($image_path)) {
-						File::delete($image_path);
-						// unlink($image_path);
-					}
-				}
-				
+	$subtotal = 0;
+	$total_value = 0;
+	//echo Config::get('constants.invoice'); die;
+	/* Upload to S3 */	
+		$files = $request->file('attachfile');
+		if($request->hasfile('attachfile')) 
+		{	
+			foreach ($files as $file) {
+				$fileName = time() . '_' . $file->getClientOriginalName();
+				$filePath = 'invoices/' . $fileName;
+				Storage::disk('s3')->put($filePath, file_get_contents($file));
+				$fileUrl = Storage::disk('s3')->url($filePath);
+				$attachfile[] = $fileUrl;
 			}
-			else
-			{
-				$attachfile[] = @$requestData['old_attachments'];
+
+			// Old local files cleanup - keep for backward compatibility
+			$old_images=explode(",",$requestData['old_attachments']);
+			foreach($old_images as $image){
+				$image_path = public_path("/img/invoice/{$image}");
+				if (File::exists($image_path)) {
+					File::delete($image_path);
+				}
 			}
+			
+		}
+		else
+		{
+			$attachfile[] = @$requestData['old_attachments'];
+		}
 		
 		$profiledetail = \App\Models\Profile::where('id', @$requestData['profile'])->first();
 		$pdetail = '';
@@ -653,21 +660,25 @@ class InvoiceController extends Controller
 		
 		$requestData 		= 	$request->all();
 		//echo '<pre>'; print_r($requestData); die;
-		$subtotal = 0;
-		$total_value = 0;
-		/* Profile Image Upload Function Start */						  
-		$files = $request->file('attachfile');
-		if($request->hasfile('attachfile')) 
-		{	
-			foreach ($files as $file) {
-				$attachfile[] = $this->uploadFile($file, Config::get('constants.invoice'));
-			}
+	$subtotal = 0;
+	$total_value = 0;
+	/* Upload to S3 */						  
+	$files = $request->file('attachfile');
+	if($request->hasfile('attachfile')) 
+	{	
+		foreach ($files as $file) {
+			$fileName = time() . '_' . $file->getClientOriginalName();
+			$filePath = 'invoices/' . $fileName;
+			Storage::disk('s3')->put($filePath, file_get_contents($file));
+			$fileUrl = Storage::disk('s3')->url($filePath);
+			$attachfile[] = $fileUrl;
 		}
-		else
-		{
-			$attachfile = NULL;
-		}		
-		/* Profile Image Upload Function End */	
+	}
+	else
+	{
+		$attachfile = NULL;
+	}		
+	/* Upload to S3 End */
 		$profiledetail = \App\Models\Profile::where('id', @$requestData['profile'])->first();
 		$pdetail = '';
 		if($profiledetail){
@@ -750,18 +761,22 @@ class InvoiceController extends Controller
 		
 		$requestData 		= 	$request->all();
 		//echo '<pre>'; print_r($requestData); die;
-		$subtotal = 0;
-		$total_value = 0;
-		/* Profile Image Upload Function Start */						  
-			if($request->hasfile('attachfile')) 
-			{	
-				$attachfile = $this->uploadFile($request->file('attachfile'), Config::get('constants.invoice'));
-			}
-			else
-			{
-				$attachfile = @$requestData['old_attachments'];
-			}		
-		/* Profile Image Upload Function End */
+	$subtotal = 0;
+	$total_value = 0;
+	/* Upload to S3 */						  
+		if($request->hasfile('attachfile')) 
+		{	
+			$file = $request->file('attachfile');
+			$fileName = time() . '_' . $file->getClientOriginalName();
+			$filePath = 'invoices/' . $fileName;
+			Storage::disk('s3')->put($filePath, file_get_contents($file));
+			$attachfile = Storage::disk('s3')->url($filePath);
+		}
+		else
+		{
+			$attachfile = @$requestData['old_attachments'];
+		}		
+	/* Upload to S3 End */
 		$profiledetail = \App\Models\Profile::where('id', @$requestData['profile'])->first();
 		$pdetail = '';
 		if($profiledetail){
