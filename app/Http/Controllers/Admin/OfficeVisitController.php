@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
 use App\Models\CheckinLog;
-use App\Models\CheckinHistory;
+use App\Models\ActivitiesLog;
  
 use Auth;
 use Config;
@@ -57,10 +57,12 @@ class OfficeVisitController extends Controller
 	    	$o->notification_type = 'officevisit';
 	    	$o->message = 'Office visit Assigned by '.Auth::user()->first_name.' '.Auth::user()->last_name;
 	    	$o->save();
-			$objs = new CheckinHistory;
+			$objs = new ActivitiesLog;
+			$objs->client_id = $obj->client_id;
 			$objs->subject = 'has created check-in';
 			$objs->created_by = Auth::user()->id;
-			$objs->checkin_id = $obj->id;
+			$objs->task_group = 'checkin';
+			$objs->description = '<!--CHECKIN_ID:'.$obj->id.'-->';
 			$objs->save();
 			return redirect()->back()->with('success', 'Checkin updated successfully');
 		}	
@@ -231,9 +233,14 @@ class OfficeVisitController extends Controller
 						<h4>Logs</h4>
 						<div class="logsdata">
 						<?php
-						$logslist = CheckinHistory::where('checkin_id',$CheckinLog->id)->orderby('created_at', 'DESC')->get();						
+						$logslist = ActivitiesLog::where('client_id', $CheckinLog->client_id)
+							->where('task_group', 'checkin')
+							->where('description', 'like', '%<!--CHECKIN_ID:'.$CheckinLog->id.'-->%')
+							->orderby('created_at', 'DESC')->get();						
 						foreach($logslist as $llist){
 							$admin = \App\Models\Admin::where('id', $llist->created_by)->first();
+							// Remove the checkin_id marker from description for display
+							$displayDescription = str_replace('<!--CHECKIN_ID:'.$CheckinLog->id.'-->', '', $llist->description);
 						?>
 							<div class="logsitem">
 								<div class="row">
@@ -244,9 +251,9 @@ class OfficeVisitController extends Controller
 									<div class="col-md-5">
 										<span class="logs_date"><?php echo date('d M Y h:i A', strtotime($llist->created_at)); ?></span>
 									</div>
-									<?php if($llist->description != ''){ ?>
+									<?php if(trim($displayDescription) != ''){ ?>
 									<div class="col-md-12 logs_comment">
-										<p><?php echo $llist->description; ?></p>
+										<p><?php echo $displayDescription; ?></p>
 									</div>
 									<?php } ?>
 								</div>
@@ -328,11 +335,13 @@ class OfficeVisitController extends Controller
 	}
 	
 	public function update_visit_comment(Request $request){
-		$objs = new CheckinHistory;
+		$checkinLog = CheckinLog::find($request->id);
+		$objs = new ActivitiesLog;
+		$objs->client_id = $checkinLog->client_id;
 		$objs->subject = 'has commented';
 		$objs->created_by = Auth::user()->id;
-		$objs->checkin_id = $request->id;
-		$objs->description = $request->visit_comment;
+		$objs->task_group = 'checkin';
+		$objs->description = '<!--CHECKIN_ID:'.$request->id.'-->'.$request->visit_comment;
 		$saved = $objs->save();
 		if($saved){
 			$response['status'] 	= 	true;
@@ -381,10 +390,12 @@ class OfficeVisitController extends Controller
 		$obj->status = 2;
 		$saved = $obj->save();
 		
-		$objs = new CheckinHistory;
+		$objs = new ActivitiesLog;
+		$objs->client_id = $obj->client_id;
 		$objs->subject = 'has started session';
 		$objs->created_by = Auth::user()->id;
-		$objs->checkin_id = $request->id;
+		$objs->task_group = 'checkin';
+		$objs->description = '<!--CHECKIN_ID:'.$request->id.'-->';
 		$saved = $objs->save();
 		if($saved){
 			$response['status'] 	= 	true;
@@ -427,10 +438,13 @@ class OfficeVisitController extends Controller
 			//$response['message']	=	'Updated successfully';
 		}
 
-		$objs = new CheckinHistory;
+		$checkinLog = CheckinLog::find($request->id);
+		$objs = new ActivitiesLog;
+		$objs->client_id = $checkinLog->client_id;
 		$objs->subject = 'has started session';
 		$objs->created_by = Auth::user()->id;
-		$objs->checkin_id = $request->id;
+		$objs->task_group = 'checkin';
+		$objs->description = '<!--CHECKIN_ID:'.$request->id.'-->';
 		$saved = $objs->save();
 		if($saved){
 			$response['status'] 	= 	true;
@@ -449,10 +463,13 @@ class OfficeVisitController extends Controller
 		$obj->status = 1;
 		$saved = $obj->save();
 		
-		$objs = new CheckinHistory;
+		$checkinLog = CheckinLog::find($request->id);
+		$objs = new ActivitiesLog;
+		$objs->client_id = $checkinLog->client_id;
 		$objs->subject = 'has completed session';
 		$objs->created_by = Auth::user()->id;
-		$objs->checkin_id = $request->id;
+		$objs->task_group = 'checkin';
+		$objs->description = '<!--CHECKIN_ID:'.$request->id.'-->';
 		$saved = $objs->save();
 		if($saved){
 			$response['status'] 	= 	true;
