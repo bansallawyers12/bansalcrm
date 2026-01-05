@@ -216,9 +216,9 @@
 			<?php
 				// if(array_key_exists('5',  $module_access)) {
 			?>			
-			<!--<li class="dropdown {{@$serviceclasstype}}">
+			{{-- <li class="dropdown {{@$serviceclasstype}}">
 				<a href="{{route('admin.services.index')}}" class="nav-link"><i class="fa fa-cogs"></i><span>Services</span></a>  
-			</li>-->
+			</li> --}}
 			<?php
 				// }
 			if(Route::currentRouteName() == 'admin.products.index' || Route::currentRouteName() == 'admin.products.create' || Route::currentRouteName() == 'admin.products.edit' || Route::currentRouteName() == 'admin.products.detail'){
@@ -351,13 +351,13 @@
 			// 	$servclasstype = 'active';
 			// }
 			?> 
-			<!--<li class="dropdown {{@$servclasstype}}">
+			{{-- <li class="dropdown {{@$servclasstype}}">
 				<a href="#" class="menu-toggle nav-link has-dropdown"><i
 				data-feather="user"></i><span>Services</span></a>
 				<ul class="dropdown-menu"> 
 					<li class="{{(Route::currentRouteName() == 'admin.services.index' || Route::currentRouteName() == 'admin.services.create' || Route::currentRouteName() == 'admin.services.edit') ? 'active' : ''}}"><a class="nav-link" href="{{route('admin.services.index')}}">Services List</a></li>
 				</ul>
-			</li>-->
+			</li> --}}
 			<?php
 			// Providers menu section removed - route does not exist
 			/* if(Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.providers.edit'){
