@@ -105,7 +105,15 @@
 				</table>
 			</div>
 			<div style="clear:both;"></div>
-			<?php $currencydata = \App\Models\Currency::where('id',$invoicedetail->currency_id)->first(); ?>
+			<?php 
+			// Currency table dropped (January 2026) - using default currency values
+			$currencydata = (object)[
+				'currency_symbol' => '$',
+				'decimal' => 2,
+				'currency_code' => 'USD',
+				'name' => 'US Dollar'
+			];
+			?>
 			<table style="width: 100%;table-layout:fixed;clear: both;" class="inv-itemtable" id="itemTable" cellspacing="0" cellpadding="0" border="1">
 				<thead>
 					<tr>
