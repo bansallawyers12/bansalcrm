@@ -40,10 +40,11 @@ class Admin extends Authenticatable
         return $this->belongsTo('App\Models\Country','country');
     }
 	
-	public function stateData()
-    {
-        return $this->belongsTo('App\Models\State','state');
-    }
+	// stateData relationship removed - State model deleted (January 2026)
+	// public function stateData()
+    // {
+    //     return $this->belongsTo('App\Models\State','state');
+    // }
 	public function usertype()
     {
         return $this->belongsTo('App\Models\UserRole', 'role', 'id');

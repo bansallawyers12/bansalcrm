@@ -4646,18 +4646,7 @@ class ClientsController extends Controller
             }
 
 
-            //quotations
-            $quotations = DB::table('quotations')->where('client_id', $request->merge_from)->get(); //dd($quotations);
-            if(!empty($quotations)){
-                foreach($quotations as $quotekey=>$quoteval){
-                    DB::table('quotations')
-                    ->where('client_id', $request->merge_from)
-                    ->update([
-                        'client_id' => $request->merge_into,
-                        'updated_at' => now()
-                    ]);
-                }
-            }
+            //quotations - Removed (quotations table dropped January 2026)
 
             //accounts
             $accounts = DB::table('invoices')->where('client_id', $request->merge_from)->get(); //dd($accounts);

@@ -433,9 +433,11 @@
 					<label for="currency" class="col-sm-2 col-form-label">Currency</label>
 					<div class="col-sm-10">
 					<select name="currency" data-valid="required" class="form-control">
-							@foreach(\App\Models\Currency::where('is_base','=','1' )->orwhere('user_id',Auth::user()->id)->orderby('currency_code','ASC')->get() as $cclist)
+							{{-- Currency table dropped (January 2026) - using default currency --}}
+							<option value="1" selected>USD-US Dollar</option>
+							{{-- @foreach(\App\Models\Currency::where('is_base','=','1' )->orwhere('user_id',Auth::user()->id)->orderby('currency_code','ASC')->get() as $cclist)
 								<option value="{{$cclist->id}}" @if($cclist->is_base == 1) selected @endif>{{$cclist->currency_code}}-{{$cclist->name}}</option>
-							@endforeach
+							@endforeach --}}
 					</select>
 					</div>
 			</div> 
