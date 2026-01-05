@@ -935,24 +935,7 @@ Task Modal removed - Task Management System removed (January 2026) -->
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label for="subject_area">Subject Area</label> 	
-								<select data-valid="" class="form-control subject_area select2" id="subjectlist" name="subject_area">
-									<option value="">Please Select Subject Area</option>
-									<?php
-									foreach(\App\Models\SubjectArea::all() as $sublist){
-										?>
-										<option value="{{$sublist->id}}">{{$sublist->name}}</option>
-										<?php
-									}
-									?>
-								</select>
-								<span class="custom-error subject_area_error" role="alert">
-									<strong></strong>
-								</span> 
-							</div>
-						</div>
+						{{-- Subject Area field removed - subject_areas table dropped (January 2026) --}}
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="subject">Subject</label> 	

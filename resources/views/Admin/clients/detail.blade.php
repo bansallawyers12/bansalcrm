@@ -6357,52 +6357,47 @@ $(document).delegate('.opencreate_task', 'click', function () {
 	$('.ifselecttask select').attr('data-valid', '');
 
 });
-	 var eduid = '';
-    $(document).delegate('.deleteeducation', 'click', function(){
-		eduid = $(this).attr('data-id');
-		$('#confirmEducationModal').modal('show');
-
-	});
-
-	$(document).delegate('#confirmEducationModal .accepteducation', 'click', function(){
-
-		$('.popuploader').show();
-		$.ajax({
-			url: '{{URL::to('/admin/')}}/delete-education',
-			type:'GET',
-			datatype:'json',
-			data:{edu_id:eduid},
-			success:function(response){
-				$('.popuploader').hide();
-				var res = JSON.parse(response);
-				$('#confirmEducationModal').modal('hide');
-				if(res.status){
-					$('#edu_id_'+eduid).remove();
-				}else{
-					alert('Please try again')
-				}
-			}
-		});
-	});
-    $(document).delegate('#educationform #subjectlist', 'change', function(){
-
-				var v = $('#educationform #subjectlist option:selected').val();
-				if(v != ''){
-						$('.popuploader').show();
-		$.ajax({
-			url: '{{URL::to('/admin/getsubjects')}}',
-			type:'GET',
-			data:{cat_id:v},
-			success:function(response){
-				$('.popuploader').hide();
-				$('#educationform #subject').html(response);
-
-				$(".add_appliation #subject").val('').trigger('change');
-
-			}
-		});
-				}
-	});
+	{{-- Education JavaScript handlers removed - education table dropped (January 2026) --}}
+	// var eduid = '';
+    // $(document).delegate('.deleteeducation', 'click', function(){
+	// 	eduid = $(this).attr('data-id');
+	// 	$('#confirmEducationModal').modal('show');
+	// });
+	// $(document).delegate('#confirmEducationModal .accepteducation', 'click', function(){
+	// 	$('.popuploader').show();
+	// 	$.ajax({
+	// 		url: '{{URL::to('/admin/')}}/delete-education',
+	// 		type:'GET',
+	// 		datatype:'json',
+	// 		data:{edu_id:eduid},
+	// 		success:function(response){
+	// 			$('.popuploader').hide();
+	// 			var res = JSON.parse(response);
+	// 			$('#confirmEducationModal').modal('hide');
+	// 			if(res.status){
+	// 				$('#edu_id_'+eduid).remove();
+	// 			}else{
+	// 				alert('Please try again')
+	// 			}
+	// 		}
+	// 	});
+	// });
+    // $(document).delegate('#educationform #subjectlist', 'change', function(){
+	// 	var v = $('#educationform #subjectlist option:selected').val();
+	// 	if(v != ''){
+	// 		$('.popuploader').show();
+	// 		$.ajax({
+	// 			url: '{{URL::to('/admin/getsubjects')}}',
+	// 			type:'GET',
+	// 			data:{cat_id:v},
+	// 			success:function(response){
+	// 				$('.popuploader').hide();
+	// 				$('#educationform #subject').html(response);
+	// 				$(".add_appliation #subject").val('').trigger('change');
+	// 			}
+	// 		});
+	// 	}
+	// });
 
 	{{-- Appointment edit functionality removed - Appointment model deleted --}}
 	// $(document).delegate('.edit_appointment', 'click', function(){
@@ -6458,26 +6453,25 @@ $(document).delegate('.opencreate_task', 'click', function () {
   $(".branchselect2").select2({
     dropdownParent: $(".add_interested_service")
   });
-	$(document).delegate('.editeducation', 'click', function(){
-		var v = $(this).attr('data-id');
-		$('.popuploader').show();
-		$('#edit_education').modal('show');
-		$.ajax({
-			url: '{{URL::to('/admin/getEducationdetail')}}',
-			type:'GET',
-			data:{id:v},
-			success:function(response){
-				$('.popuploader').hide();
-				$('.showeducationdetail').html(response);
-				 $(".datepicker").daterangepicker({
-					locale: { format: "YYYY-MM-DD" },
-					singleDatePicker: true,
-					showDropdowns: true
-				  });
-
-			}
-		});
-	});
+	// $(document).delegate('.editeducation', 'click', function(){
+	// 	var v = $(this).attr('data-id');
+	// 	$('.popuploader').show();
+	// 	$('#edit_education').modal('show');
+	// 	$.ajax({
+	// 		url: '{{URL::to('/admin/getEducationdetail')}}',
+	// 		type:'GET',
+	// 		data:{id:v},
+	// 		success:function(response){
+	// 			$('.popuploader').hide();
+	// 			$('.showeducationdetail').html(response);
+	// 			 $(".datepicker").daterangepicker({
+	// 				locale: { format: "YYYY-MM-DD" },
+	// 				singleDatePicker: true,
+	// 				showDropdowns: true
+	// 			  });
+	// 		}
+	// 	});
+	// });
 
 	$(document).delegate('.interest_service_view', 'click', function(){
 		var v = $(this).attr('data-id');

@@ -304,8 +304,8 @@
 </div>
 
 
-<!-- Education Modal -->
-<div class="modal fade  custom_modal" id="edit_education" tabindex="-1" role="dialog" aria-labelledby="create_educationModalLabel" aria-hidden="true">
+{{-- Education Modal removed - education table dropped (January 2026) --}}
+<!--<div class="modal fade  custom_modal" id="edit_education" tabindex="-1" role="dialog" aria-labelledby="create_educationModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -319,7 +319,7 @@
 			</div>
 		</div>
 	</div>
-</div> 
+</div>--> 
 
 <!-- Interested Service Modal -->
 <div class="modal fade  custom_modal" id="eidt_interested_service" tabindex="-1" role="dialog" aria-labelledby="create_interestModalLabel" aria-hidden="true">

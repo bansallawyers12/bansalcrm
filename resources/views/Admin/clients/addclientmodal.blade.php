@@ -977,7 +977,8 @@
 Task Modal removed - Task Management System removed (January 2026) -->
 
 <!-- Education Modal -->
-<div class="modal fade create_education custom_modal" tabindex="-1" role="dialog" aria-labelledby="create_educationModalLabel" aria-hidden="true">
+{{-- Education modal removed - education table dropped (January 2026) --}}
+<!--<div class="modal fade create_education custom_modal" tabindex="-1" role="dialog" aria-labelledby="create_educationModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -1062,22 +1063,7 @@ Task Modal removed - Task Management System removed (January 2026) -->
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label for="subject_area">Subject Area</label>
-								<select data-valid="" class="form-control subject_area select2" id="subjectlist" name="subject_area">
-									<option value="">Please Select Subject Area</option>
-									<?php
-									foreach(\App\Models\SubjectArea::all() as $sublist){
-										?>
-										<option value="{{$sublist->id}}">{{$sublist->name}}</option>
-										<?php
-									}
-									?>
-								</select>
-								<span class="custom-error subject_area_error" role="alert">
-									<strong></strong>
-								</span>
-							</div>
+							{{-- Subject Area field removed - subject_areas table dropped (January 2026) --}}
 						</div>
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
@@ -1116,7 +1102,7 @@ Task Modal removed - Task Management System removed (January 2026) -->
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 
 
 <!-- Note & Terms Modal -->
