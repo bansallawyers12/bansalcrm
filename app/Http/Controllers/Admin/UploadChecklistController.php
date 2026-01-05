@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Admin;
 use App\Models\UploadChecklist; 
@@ -63,19 +64,23 @@ class UploadChecklistController extends Controller
 			
 			$requestData 		= 	$request->all();
 			
-			$obj				= 	new UploadChecklist; 
-			$obj->name	=	@$requestData['name'];
-			/* Profile Image Upload Function Start */						  
-					if($request->hasfile('checklists')) 
-					{	
-						$checklists = $this->uploadFile($request->file('checklists'), Config::get('constants.checklists'));
-					}
-					else
-					{
-						$checklists = NULL;
-					}		
-				/* Profile Image Upload Function End */	
-			$obj->file			=	@$checklists;
+		$obj				= 	new UploadChecklist; 
+		$obj->name	=	@$requestData['name'];
+		/* Upload to S3 */						  
+				if($request->hasfile('checklists')) 
+				{	
+					$file = $request->file('checklists');
+					$fileName = time() . '_' . $file->getClientOriginalName();
+					$filePath = 'checklists/' . $fileName;
+					Storage::disk('s3')->put($filePath, file_get_contents($file));
+					$checklists = Storage::disk('s3')->url($filePath);
+				}
+				else
+				{
+					$checklists = NULL;
+				}		
+			/* Upload to S3 End */	
+		$obj->file			=	@$checklists;
 			$saved				=	$obj->save();  
 			
 			if(!$saved)
