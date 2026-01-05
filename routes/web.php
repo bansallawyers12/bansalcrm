@@ -108,8 +108,6 @@ Route::get('thankyou', 'HomeController@thankyou')->name('thankyou');
 Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('login');
 Route::post('/', 'Auth\AdminLoginController@login');
 
-/*---------------Agent Route-------------------*/
-require __DIR__ . '/agent.php';
 /*********************Admin Panel Start ***********************/
 Route::prefix('admin')->group(function() {
 	
@@ -136,6 +134,7 @@ Route::prefix('admin')->group(function() {
 		Route::post('/delete_action', 'Admin\AdminController@deleteAction');
          Route::post('/delete_slot_action', 'Admin\AdminController@deleteSlotAction');
 		Route::post('/move_action', 'Admin\AdminController@moveAction');
+		Route::post('/complete-action', 'Admin\AdminController@completeAction')->name('admin.complete-action');
 		
 		
 		Route::post('/add_ckeditior_image', 'Admin\AdminController@addCkeditiorImage')->name('add_ckeditior_image');
