@@ -109,7 +109,9 @@ Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('login');
 Route::post('/', 'Auth\AdminLoginController@login');
 
 /*---------------Agent Route-------------------*/
-require __DIR__ . '/agent.php';
+if (file_exists(__DIR__ . '/agent.php')) {
+    require __DIR__ . '/agent.php';
+}
 /*********************Admin Panel Start ***********************/
 Route::prefix('admin')->group(function() {
 	
