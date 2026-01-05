@@ -569,12 +569,12 @@ Route::prefix('admin')->group(function() {
 		Route::get('/lead-service/edit/{id}', 'Admin\LeadServiceController@edit')->name('admin.feature.leadservice.edit');
 		Route::post('/lead-service/edit', 'Admin\LeadServiceController@edit');
 		
-		//Tax Start  
-		Route::get('/tax', 'Admin\TaxController@index')->name('admin.feature.tax.index');  
-		Route::get('/tax/create', 'Admin\TaxController@create')->name('admin.feature.tax.create');  
-		Route::post('/tax/store', 'Admin\TaxController@store')->name('admin.feature.tax.store');  
-		Route::get('/tax/edit/{id}', 'Admin\TaxController@edit')->name('admin.feature.tax.edit');
-		Route::post('/tax/edit', 'Admin\TaxController@edit');
+		//Tax routes removed - taxes table dropped (January 2026)
+		// Route::get('/tax', 'Admin\TaxController@index')->name('admin.feature.tax.index');  
+		// Route::get('/tax/create', 'Admin\TaxController@create')->name('admin.feature.tax.create');  
+		// Route::post('/tax/store', 'Admin\TaxController@store')->name('admin.feature.tax.store');  
+		// Route::get('/tax/edit/{id}', 'Admin\TaxController@edit')->name('admin.feature.tax.edit');
+		// Route::post('/tax/edit', 'Admin\TaxController@edit');
 		
 		//Subject Area Start  	
 		Route::get('/subjectarea', 'Admin\SubjectAreaController@index')->name('admin.feature.subjectarea.index');  
@@ -697,10 +697,11 @@ Route::prefix('admin')->group(function() {
 		//Route::post('/agents/store', 'Admin\AgentController@store')->name('admin.agents.store'); 
 		//Route::get('/agent/detail/{id}', 'Admin\AgentController@detail')->name('admin.agents.detail'); 
 		
-		Route::get('/enquiries', 'Admin\EnquireController@index')->name('admin.enquiries.index'); 
-		Route::get('/enquiries/archived-enquiries', 'Admin\EnquireController@Archived')->name('admin.enquiries.archived'); 
-		Route::get('/enquiries/covertenquiry/{id}', 'Admin\EnquireController@covertenquiry'); 
-		Route::get('/enquiries/archived/{id}', 'Admin\EnquireController@archivedenquiry'); 
+		// Enquiries routes removed - enquiries table dropped (January 2026)
+		// Route::get('/enquiries', 'Admin\EnquireController@index')->name('admin.enquiries.index'); 
+		// Route::get('/enquiries/archived-enquiries', 'Admin\EnquireController@Archived')->name('admin.enquiries.archived'); 
+		// Route::get('/enquiries/covertenquiry/{id}', 'Admin\EnquireController@covertenquiry'); 
+		// Route::get('/enquiries/archived/{id}', 'Admin\EnquireController@archivedenquiry'); 
 	
 		//Audit Logs Start   
 		Route::get('/audit-logs', 'Admin\AuditLogController@index')->name('admin.auditlogs.index');

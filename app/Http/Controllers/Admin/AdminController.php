@@ -13,7 +13,7 @@ use App\Models\Lead;
 use App\Models\Admin;
 // WebsiteSetting model import removed - Website Settings Feature removed (January 2026)
 use App\Models\SeoPage;
-use App\Models\City;
+// City model removed - cities table dropped (January 2026)
 use App\Models\Contact;
 // TaxRate model removed - Tax Management System removed (January 2026)
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
@@ -910,39 +910,9 @@ class AdminController extends Controller
 								}
 							*/
 							}
+							// currencies table removed - dropped (January 2026)
+							// invoice_schedules table removed - dropped (January 2026)
 							else
-							if($requestData['table'] == 'currencies'){
-								$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
-								if($isexist){
-									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-
-									if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = Config::get('constants.server_error');
-									}
-								}else{
-									$message = 'ID does not exist, please check it once again.';
-								}
-							}else
-							if($requestData['table'] == 'invoice_schedules'){
-								$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-								DB::table('schedule_items')->where('schedule_id', @$requestData['id'])->delete();
-
-								if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = Config::get('constants.server_error');
-									}
-							}else
 							if($requestData['table'] == 'agents'){
 								$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->update(['is_acrchived' => 1]);
 
