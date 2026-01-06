@@ -76,3 +76,5 @@ The application should function normally without these tables:
 The following file can be deleted (not critical):
 - `resources/views/Admin/gensettings/index.blade.php`
 
+
+
