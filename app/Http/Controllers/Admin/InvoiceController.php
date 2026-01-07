@@ -14,7 +14,6 @@ use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\InvoicePayment;
 // ScheduleItem model removed - Invoice Schedule System removed (January 2026)
-use App\Models\InvoiceFollowup;
 use App\Models\EmailTemplate;
 use App\Models\ShareInvoice;
 // InvoiceSchedule and TaxRate models removed (January 2026)
