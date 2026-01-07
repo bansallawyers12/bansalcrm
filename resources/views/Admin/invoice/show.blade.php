@@ -533,7 +533,18 @@
 											<h4>Attachments</h4>
 											<div class="invoice_attach_file">
 											@if(@$invoicedetail->attachments != '')
-												<span><a download href="{{asset('img/invoice')}}/{{@$invoicedetail->attachments}}">{{@$invoicedetail->attachments}}</a></span>
+												@php
+													$attachments = explode(",", $invoicedetail->attachments);
+												@endphp
+												@foreach($attachments as $attachment)
+													@if(trim($attachment) != '')
+														@if(filter_var(trim($attachment), FILTER_VALIDATE_URL))
+															<span><a download href="{{trim($attachment)}}" target="_blank">{{basename(trim($attachment))}}</a></span><br/>
+														@else
+															<span><a download href="{{asset('img/invoice')}}/{{trim($attachment)}}" target="_blank">{{trim($attachment)}}</a></span><br/>
+														@endif
+													@endif
+												@endforeach
 												@else
 												No Attachment Found
 											@endif
